@@ -1,0 +1,13 @@
+{
+  "name": "homeremote-stream-player-server",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1",
+    "got": "^10.6.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  }
+}
