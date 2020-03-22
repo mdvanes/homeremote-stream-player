@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 import Elm from 'react-elm-components';
-import Buttons from './Elm/Buttons.elm';
+// import Buttons from './Elm/Buttons.elm';
+import Audio from './Elm/Audio.elm';
 
 // function App() {
 //   return (
@@ -25,7 +26,8 @@ import Buttons from './Elm/Buttons.elm';
 // }
 
 const App = () =>(
-  <Elm src={Buttons.Elm.Elm.Buttons} />
+  // <Elm src={Buttons.Elm.Elm.Buttons} />
+  <Elm src={Audio.Elm.Elm.Audio} />
 );
 
 export default App;

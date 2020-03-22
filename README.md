@@ -38,8 +38,12 @@ See also mdvanes/elmstars, https://codeburst.io/using-elm-in-react-from-the-grou
 
 ## TODO
 
-* Elm
-* React wrapper
-* Storybook
+See https://vincent.jousse.org/en/tech/interacting-with-dom-element-using-elm-audio-video/
+
+* Switch to other radio streams
+* Show logo for each radio stream
+* Custom stream player controls
+* Lerna
 * Back-end for "now playing"
+* Deliverable that can be published as NPM module
 * prettier, eslint, tests
