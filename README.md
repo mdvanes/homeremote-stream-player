@@ -14,11 +14,11 @@ See also mdvanes/elmstars, https://codeburst.io/using-elm-in-react-from-the-grou
 * add .nvmrc with contents: 12
 * yarn eject (because the webpack-elm-loader must be added to the webpack config)
 * yarn add react-elm-components
-* add `import Elm from 'react-elm-components'; import Buttons from './elm/Buttons.elm';` to App.jsx
+* add Buttons.elm in /src/Elm
+* add `import Elm from 'react-elm-components'; import Buttons from './Elm/Buttons.elm';` to App.jsx
 * in App.jsx, replace `function App() { ... }` by `const App = () =>(
-                                                     <Elm src={Buttons.Elm.Main} />
+                                                     <Elm src={Buttons.Elm.Elm.Buttons} />
                                                    );`
-* add Buttons.elm in /src/elm
 * If elm does not exists in this nvm node instance, install it: npm i -g elm
 * Make the elm.json: elm init
 * Test if properly installed: elm make src/elm/Buttons.elm
@@ -29,10 +29,11 @@ See also mdvanes/elmstars, https://codeburst.io/using-elm-in-react-from-the-grou
 * add /stories/index.js 
 * add /.storybook/*
 * add /webpack.config.js and /webpack.elmloader.js
+* start storybook for development with `yarn storybook`
 
 ## Running
 
-* dev: `yarn start`
+* dev: `yarn storybook`
 
 ## TODO
 
