@@ -12,12 +12,23 @@ See also mdvanes/elmstars, https://codeburst.io/using-elm-in-react-from-the-grou
 * npx create-react-app homeremote-streams-player
 * push to git repo
 * add .nvmrc with contents: 12
+* yarn eject (because the webpack-elm-loader must be added to the webpack config)
 * yarn add react-elm-components
 * add `import Elm from 'react-elm-components'; import Buttons from './elm/Buttons.elm';` to App.jsx
 * in App.jsx, replace `function App() { ... }` by `const App = () =>(
                                                      <Elm src={Buttons.Elm.Main} />
                                                    );`
-* 
+* add Buttons.elm in /src/elm
+* If elm does not exists in this nvm node instance, install it: npm i -g elm
+* Make the elm.json: elm init
+* Test if properly installed: elm make src/elm/Buttons.elm
+* Replace the contents of index.js by `export { default as App } from './App.jsx';`
+* `yarn add @storybook/react elm-webpack-loader`
+* add these scripts to package.json:       "storybook": "start-storybook",
+    "build-storybook": "build-storybook -c .storybook -o docs"
+* add /stories/index.js 
+* add /.storybook/*
+* add /webpack.config.js and /webpack.elmloader.js
 
 ## Running
 
