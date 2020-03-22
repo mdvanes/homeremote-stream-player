@@ -34,6 +34,7 @@ See also mdvanes/elmstars, https://codeburst.io/using-elm-in-react-from-the-grou
 ## Running
 
 * dev: `yarn storybook`
+* build only the Elm module (useful for debugging): `elm make src/Elm/Buttons.elm` 
 
 ## TODO
 
