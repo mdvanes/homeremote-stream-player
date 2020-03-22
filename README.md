@@ -38,10 +38,10 @@ See also mdvanes/elmstars, https://codeburst.io/using-elm-in-react-from-the-grou
 
 ## TODO
 
-See https://vincent.jousse.org/en/tech/interacting-with-dom-element-using-elm-audio-video/
+Audio element in Elm, see: https://vincent.jousse.org/en/tech/interacting-with-dom-element-using-elm-audio-video/
 
 * Switch to other radio streams
-* Show logo for each radio stream
+* Show logo for each radio stream, design like this https://material-ui.com/components/cards/#ui-controls
 * Custom stream player controls
 * Lerna
 * Back-end for "now playing"

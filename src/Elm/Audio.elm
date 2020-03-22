@@ -2,7 +2,7 @@ module Elm.Audio exposing (main)
 
 import Browser
 import Html exposing (Html, button, div, text, audio)
-import Html.Attributes exposing (class, controls, type_, src, id)
+import Html.Attributes exposing (class, controls, type_, src, title)
 import Html.Events exposing (onClick)
 
 
@@ -37,14 +37,21 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div []
+  div
+    []
     [ button [ onClick Decrement ] [ text "-" ]
     , div [] [ text (String.fromInt model) ]
     , button [ onClick Increment ] [ text "+" ]
-    , audio
-        [ src "https://icecast.omroep.nl/radio2-bb-mp3"
-        , type_ "audio/mpeg"
-        , controls True]
-        [ text "Your browser does not support the audio element."
+    , div
+        [ class "card" ]
+        [ div [] [ text "NYI Now Playing" ]
+        , div [] [ text "NYI Programme" ]
+        , button [ onClick Increment , title "Refresh ~ do this onclick on logo" ] [ text "R" ]
+        , audio
+            [ src "https://icecast.omroep.nl/radio2-bb-mp3"
+            , type_ "audio/mpeg"
+            , controls True]
+            [ text "Your browser does not support the audio element."
+            ]
         ]
     ]
