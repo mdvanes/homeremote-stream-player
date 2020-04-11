@@ -20,13 +20,14 @@ main =
 
 -- MODEL
 
-type alias Model = { count: Int, channel: String }
+type alias Model = { count: Int, channel: String, nowplaying: String }
 
 init : () -> (Model, Cmd Msg)
 init _ =
   (
     { count = 0
-    , channel = "NPO Radio 2" }
+    , channel = "NPO Radio 2"
+    , nowplaying = "" }
     , Http.get
         { url = "http://localhost:3100/api/nowplaying/radio2"
         , expect = Http.expectString GotNowPlaying
@@ -54,7 +55,12 @@ update msg model =
     SetChannel val ->
       ({ model | channel = val }, Cmd.none)
     GotNowPlaying result ->
-      ({ model | count = model.count - 1 }, Cmd.none)
+        case result of
+            Ok fullText ->
+                ({ model | nowplaying = fullText }, Cmd.none)
+            Err _ ->
+                ({ model | nowplaying = "FAILED" }, Cmd.none)
+
 
 
 -- SUBSCRIPTIONS
@@ -75,7 +81,7 @@ view model =
     , div
         [ class "card" ]
         [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channelOptions)
-        , div [] [ text "NYI Now Playing" ]
+        , div [] [ text ("Now Playing:" ++ model.nowplaying) ]
         , div [] [ text "NYI Programme" ]
         , div [] [ text model.channel ]
         , button [ onClick GetNowPlaying , title "Refresh ~ do this onclick on logo" ] [ text "R" ]
