@@ -1,5 +1,5 @@
 {
-  "name": "homeremote-stream-player-server",
+  "name": "@mdworld/homeremote-stream-player-server",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

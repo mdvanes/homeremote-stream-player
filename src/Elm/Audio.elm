@@ -5,6 +5,7 @@ import Html exposing (Html, button, div, text, audio)
 import Html.Attributes exposing (class, controls, type_, src, title)
 import Html.Events exposing (onClick)
 
+--TODO cache busting, switch stations, get now playing
 
 main =
   Browser.sandbox { init = init, update = update, view = view }

@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 const got = require('got');
 
-app.get('/', (req, res) => res.send('Hello World!'));
+// TODO ts-node
 
 // Export for use by other apps
 const getNowPlaying = async () => {
