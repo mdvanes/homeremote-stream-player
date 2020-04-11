@@ -138,3 +138,4 @@ yarn-error.log*
 .idea
 
 packages/client/docs
+packages/client/build
