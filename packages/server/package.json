@@ -9,5 +9,8 @@
   "scripts": {
     "start": "node index.js"
   },
-  "gitHead": "12896fb85adfad5cae2c0a05adba11c979c42e39"
+  "gitHead": "1c79d816ed2921cfe7c8a6a64fd84a339984f774",
+  "publishConfig": {
+    "access": "public"
+  }
 }
