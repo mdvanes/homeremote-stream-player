@@ -136,3 +136,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
+
+packages/client/docs
