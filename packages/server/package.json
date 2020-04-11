@@ -1,7 +1,6 @@
 {
   "name": "@mdworld/homeremote-stream-player-server",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1-alpha.0",
   "dependencies": {
     "express": "^4.17.1",
     "got": "^10.6.0"
