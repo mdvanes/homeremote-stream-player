@@ -8,5 +8,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
-  }
+  },
+  "gitHead": "12896fb85adfad5cae2c0a05adba11c979c42e39"
 }
