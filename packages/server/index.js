@@ -18,6 +18,9 @@ const startServer = () => {
   app.get('/', (req, res) => res.sendStatus(404));
 
   app.get('/api/nowplaying/radio2', async (req, res) => {
+      // TODO only if localhost or debug mode
+      res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       try {
         const response = await getNowPlaying();
         res.send(response);
