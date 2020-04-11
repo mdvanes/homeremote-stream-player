@@ -5,21 +5,33 @@ import Html exposing (Html, button, div, text, audio, select, option)
 import Html.Attributes exposing (class, controls, type_, src, title, value)
 import Html.Events exposing (onClick, on, targetValue)
 import Json.Decode as Json
+import Http
 
 --TODO cache busting, switch stations, get now playing, remove count/+1/-1 examples
 
 main =
-  Browser.sandbox { init = init, update = update, view = view }
+  Browser.element
+    { init = init
+    , update = update
+    , subscriptions = subscriptions
+    , view = view
+    }
 
 
 -- MODEL
 
 type alias Model = { count: Int, channel: String }
 
-init : Model
-init =
-  { count = 0
-  , channel = "NPO Radio 2" }
+init : () -> (Model, Cmd Msg)
+init _ =
+  (
+    { count = 0
+    , channel = "NPO Radio 2" }
+    , Http.get
+        { url = "http://localhost:3100/api/nowplaying/radio2"
+        , expect = Http.expectString GotNowPlaying
+        }
+  )
 
 channelOptions = ["NPO Radio 2", "Sky Radio"]
 
@@ -28,20 +40,28 @@ channelOption channel =
 
 -- UPDATE
 
-type Msg = Increment | Decrement | GetNowPlaying | SetChannel String
+type Msg = Increment | Decrement | GetNowPlaying | SetChannel String | GotNowPlaying (Result Http.Error String)
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     Increment ->
-      { model | count = model.count + 1 }
+      ({ model | count = model.count + 1 }, Cmd.none)
     Decrement ->
-      { model | count = model.count - 1 }
+      ({ model | count = model.count - 1 }, Cmd.none)
     GetNowPlaying ->
-      { model | count = model.count - 1 }
+      ({ model | count = model.count - 1 }, Cmd.none)
     SetChannel val ->
-      { model | channel = val }
+      ({ model | channel = val }, Cmd.none)
+    GotNowPlaying result ->
+      ({ model | count = model.count - 1 }, Cmd.none)
 
+
+-- SUBSCRIPTIONS
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.none
 
 -- VIEW
 
