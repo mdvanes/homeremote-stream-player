@@ -96,7 +96,7 @@ update msg model =
     Decrement ->
       ({ model | count = model.count - 1 }, Cmd.none)
     GetNowPlaying ->
-      ({ model | count = model.count - 1 }, Cmd.none)
+      (model, getNowPlaying)
     SetChannel val ->
       ({ model | channel = val }, Cmd.none)
     GotNowPlaying result ->
@@ -132,13 +132,16 @@ view model =
         , div [] [ text (model.nowplaying) ]
         --, div [] [ text (model.name ++ " on " ++ model.channel) ]
         , div [] [ text ( log "my debug statement:" (model.name ++ " on " ++ model.channel) ) ]
-        , button [ onClick GetNowPlaying , title "Refresh ~ do this onclick on logo" ] [ text "R" ]
+        , button
+            [ onClick GetNowPlaying
+            , title "Get Now Playing"
+            , class "get-now-playing" ]
+            [ img [ src model.imageUrl ] [] ]
         , audio
             [ src "https://icecast.omroep.nl/radio2-bb-mp3"
             , type_ "audio/mpeg"
             , controls True]
             [ text "Your browser does not support the audio element."
             ]
-        , img [ src model.imageUrl ] []
         ]
     ]

@@ -10,6 +10,11 @@ body {
   max-width: 400px;
 }
 
-.card img {
+.get-now-playing {
+  border: none;
+  padding: 0;
+}
+
+.get-now-playing img {
   width: 100px;
 }
