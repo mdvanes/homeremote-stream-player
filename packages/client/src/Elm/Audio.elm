@@ -48,17 +48,19 @@ getNowPlaying =
 type alias NowPlaying =
     { artist : String
     , title: String
-    , imageUrl: String
+    , songImageUrl: String
     }
 
-nowPlayingDecoder : Json.Decoder String
+nowPlayingDecoder : Json.Decoder NowPlaying
 nowPlayingDecoder =
-    Json.field "title" Json.string
-
+    Json.map3 NowPlaying
+        (Json.field "artist" Json.string)
+        (Json.field "title" Json.string)
+        (Json.field "songImageUrl" Json.string)
 
 -- UPDATE
 
-type Msg = Increment | Decrement | GetNowPlaying | SetChannel String | GotNowPlaying (Result Http.Error String)
+type Msg = Increment | Decrement | GetNowPlaying | SetChannel String | GotNowPlaying (Result Http.Error NowPlaying)
 
 -- TODO instead of map4 use https://package.elm-lang.org/packages/NoRedInk/elm-decode-pipeline/latest/
 --  also see https://stackoverflow.com/questions/46993855/elm-decoding-a-nested-array-of-objects-with-elm-decode-pipeline
@@ -78,8 +80,8 @@ update msg model =
       ({ model | channel = val }, Cmd.none)
     GotNowPlaying result ->
         case result of
-            Ok fullText ->
-                ({ model | nowplaying = fullText }, Cmd.none)
+            Ok data ->
+                ({ model | nowplaying = (data.artist ++ " - " ++ data.title) }, Cmd.none)
             Err _ ->
                 ({ model | nowplaying = "FAILED" }, Cmd.none)
 
@@ -103,7 +105,7 @@ view model =
     , div
         [ class "card" ]
         [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channelOptions)
-        , div [] [ text ("Now Playing:" ++ model.nowplaying) ]
+        , div [] [ text ("Now Playing: " ++ model.nowplaying) ]
         , div [] [ text "NYI Programme" ]
         , div [] [ text model.channel ]
         , button [ onClick GetNowPlaying , title "Refresh ~ do this onclick on logo" ] [ text "R" ]
