@@ -8,10 +8,13 @@ const got = require('got');
 // Export for use by other apps
 const getNowPlaying = async () => {
   const nowonairResponse = await got('https://radiobox2.omroep.nl/data/radiobox2/nowonair/2.json').json();
-  const { artist, title, last_updated } = nowonairResponse.results[0].songfile;
+  const { artist, title, last_updated, songversion } = nowonairResponse.results[0].songfile;
+  const songImageUrl = songversion && songversion.image && songversion.image[0].url ? songversion.image[0].url : '';
   const broadcastResponse = await got('https://radiobox2.omroep.nl/data/radiobox2/currentbroadcast/2.json').json();
-  const { name } = broadcastResponse.results[0];
-  return { artist, title, last_updated, name };
+  const { name, image } = broadcastResponse.results[0];
+  const imageUrl = image && image.url ? image.url : '';
+  console.log(songImageUrl, imageUrl);
+  return { artist, title, last_updated, songImageUrl, name, imageUrl };
 }
 
 const startServer = () => {

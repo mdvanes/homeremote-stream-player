@@ -7,7 +7,7 @@ import Html.Events exposing (onClick, on, targetValue)
 import Json.Decode as Json
 import Http
 
---TODO cache busting, switch stations, get now playing, remove count/+1/-1 examples
+--TODO cache busting, switch stations (also endpoint url), get now playing, remove count/+1/-1 examples
 
 main =
   Browser.element
@@ -28,10 +28,7 @@ init _ =
     { count = 0
     , channel = "NPO Radio 2"
     , nowplaying = "" }
-    , Http.get
-        { url = "http://localhost:3100/api/nowplaying/radio2"
-        , expect = Http.expectString GotNowPlaying
-        }
+    , getNowPlaying
   )
 
 channelOptions = ["NPO Radio 2", "Sky Radio"]
@@ -39,9 +36,34 @@ channelOptions = ["NPO Radio 2", "Sky Radio"]
 channelOption channel =
     option [ value channel] [text channel]
 
+-- HTTP
+
+getNowPlaying : Cmd Msg
+getNowPlaying =
+    Http.get
+        { url = "http://localhost:3100/api/nowplaying/radio2"
+        , expect = Http.expectJson GotNowPlaying nowPlayingDecoder
+        }
+
+type alias NowPlaying =
+    { artist : String
+    , title: String
+    , imageUrl: String
+    }
+
+nowPlayingDecoder : Json.Decoder String
+nowPlayingDecoder =
+    Json.field "title" Json.string
+
+
 -- UPDATE
 
 type Msg = Increment | Decrement | GetNowPlaying | SetChannel String | GotNowPlaying (Result Http.Error String)
+
+-- TODO instead of map4 use https://package.elm-lang.org/packages/NoRedInk/elm-decode-pipeline/latest/
+--  also see https://stackoverflow.com/questions/46993855/elm-decoding-a-nested-array-of-objects-with-elm-decode-pipeline
+--  can't use elm-decode-pipeline, because it does not yet support Elm 0.19
+--  install with: elm install NoRedInk/elm-decode-pipeline
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
