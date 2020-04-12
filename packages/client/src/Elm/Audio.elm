@@ -21,6 +21,13 @@ main =
 
 -- MODEL
 
+type alias Channel =
+    { name: String
+    , streamUrl: String
+    , nowPlayingUrl: String
+    }
+-- TODO add ChannelList, ChannelList.pickBy(name)
+
 type alias Model =
     { count: Int
     , channel: String
@@ -40,10 +47,19 @@ init _ =
     , getNowPlaying
   )
 
-channelOptions = ["NPO Radio 2", "Sky Radio"]
+channels : List Channel
+channels =
+    [ { name = "NPO Radio 2"
+        , streamUrl = "https://icecast.omroep.nl/radio2-bb-mp3"
+        , nowPlayingUrl = "http://localhost:3100/api/nowplaying/radio2"}
+    , { name = "Sky Radio"
+        , streamUrl = ""
+        , nowPlayingUrl = ""
+    }]
 
+channelOption : Channel -> Html msg
 channelOption channel =
-    option [ value channel] [text channel]
+    option [ value channel.name] [text channel.name]
 
 -- HTTP
 
@@ -128,7 +144,7 @@ view model =
     , button [ onClick Increment ] [ text "+" ]
     , div
         [ class "card" ]
-        [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channelOptions)
+        [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channels)
         , div [] [ text (model.nowplaying) ]
         --, div [] [ text (model.name ++ " on " ++ model.channel) ]
         , div [] [ text ( log "my debug statement:" (model.name ++ " on " ++ model.channel) ) ]
