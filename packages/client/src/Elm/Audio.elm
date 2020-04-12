@@ -7,6 +7,8 @@ import Html.Attributes exposing (class, controls, type_, src, title, value)
 import Html.Events exposing (onClick, on, targetValue)
 import Json.Decode as Json
 import Http
+import List exposing (head)
+import Maybe exposing (withDefault)
 
 --TODO cache busting, switch stations (also endpoint url), remove count/+1/-1 examples, styling
 
@@ -30,28 +32,33 @@ type alias Channel =
 
 type alias Model =
     { count: Int
-    , channel: String
+    , channel: Channel
     , nowplaying: String
     , imageUrl: String
     , name: String
     }
 
+--  (withDefault defaultChannel (head channels)) bit overengineerd, could do defaultChannel directly but good example of Maybe
+
 init : () -> (Model, Cmd Msg)
 init _ =
   (
     { count = 0
-    , channel = "NPO Radio 2"
+    , channel = (withDefault defaultChannel (head channels))
     , nowplaying = ""
     , imageUrl = ""
     , name = "" }
     , getNowPlaying
   )
 
+defaultChannel: Channel
+defaultChannel = { name = "NPO Radio 2"
+                         , streamUrl = "https://icecast.omroep.nl/radio2-bb-mp3"
+                         , nowPlayingUrl = "http://localhost:3100/api/nowplaying/radio2"}
+
 channels : List Channel
 channels =
-    [ { name = "NPO Radio 2"
-        , streamUrl = "https://icecast.omroep.nl/radio2-bb-mp3"
-        , nowPlayingUrl = "http://localhost:3100/api/nowplaying/radio2"}
+    [ defaultChannel
     , { name = "Sky Radio"
         , streamUrl = ""
         , nowPlayingUrl = ""
@@ -147,7 +154,7 @@ view model =
         [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channels)
         , div [] [ text (model.nowplaying) ]
         --, div [] [ text (model.name ++ " on " ++ model.channel) ]
-        , div [] [ text ( log "my debug statement:" (model.name ++ " on " ++ model.channel) ) ]
+        , div [] [ text ( log "my debug statement:" (model.name ++ " on " ++ model.channel.name) ) ]
         , button
             [ onClick GetNowPlaying
             , title "Get Now Playing"
