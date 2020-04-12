@@ -1,6 +1,7 @@
 module Elm.Audio exposing (main)
 
 import Browser
+import Debug exposing (log)
 import Html exposing (Html, button, div, text, audio, select, option, img)
 import Html.Attributes exposing (class, controls, type_, src, title, value)
 import Html.Events exposing (onClick, on, targetValue)
@@ -129,7 +130,8 @@ view model =
         [ class "card" ]
         [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channelOptions)
         , div [] [ text (model.nowplaying) ]
-        , div [] [ text (model.name ++ " on " ++ model.channel) ]
+        --, div [] [ text (model.name ++ " on " ++ model.channel) ]
+        , div [] [ text ( log "my debug statement:" (model.name ++ " on " ++ model.channel) ) ]
         , button [ onClick GetNowPlaying , title "Refresh ~ do this onclick on logo" ] [ text "R" ]
         , audio
             [ src "https://icecast.omroep.nl/radio2-bb-mp3"
