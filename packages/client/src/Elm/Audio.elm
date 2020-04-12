@@ -1,13 +1,13 @@
 module Elm.Audio exposing (main)
 
 import Browser
-import Html exposing (Html, button, div, text, audio, select, option)
+import Html exposing (Html, button, div, text, audio, select, option, img)
 import Html.Attributes exposing (class, controls, type_, src, title, value)
 import Html.Events exposing (onClick, on, targetValue)
 import Json.Decode as Json
 import Http
 
---TODO cache busting, switch stations (also endpoint url), get now playing, remove count/+1/-1 examples
+--TODO cache busting, switch stations (also endpoint url), remove count/+1/-1 examples, styling
 
 main =
   Browser.element
@@ -20,14 +20,22 @@ main =
 
 -- MODEL
 
-type alias Model = { count: Int, channel: String, nowplaying: String }
+type alias Model =
+    { count: Int
+    , channel: String
+    , nowplaying: String
+    , imageUrl: String
+    , name: String
+    }
 
 init : () -> (Model, Cmd Msg)
 init _ =
   (
     { count = 0
     , channel = "NPO Radio 2"
-    , nowplaying = "" }
+    , nowplaying = ""
+    , imageUrl = ""
+    , name = "" }
     , getNowPlaying
   )
 
@@ -49,14 +57,26 @@ type alias NowPlaying =
     { artist : String
     , title: String
     , songImageUrl: String
+    , imageUrl: String
+    , name: String
     }
 
 nowPlayingDecoder : Json.Decoder NowPlaying
 nowPlayingDecoder =
-    Json.map3 NowPlaying
+    Json.map5 NowPlaying
         (Json.field "artist" Json.string)
         (Json.field "title" Json.string)
         (Json.field "songImageUrl" Json.string)
+        (Json.field "imageUrl" Json.string)
+        (Json.field "name" Json.string)
+
+getImageUrl : NowPlaying -> String
+getImageUrl data =
+    if data.songImageUrl /= "" then
+        data.songImageUrl
+    else
+        data.imageUrl
+
 
 -- UPDATE
 
@@ -81,7 +101,10 @@ update msg model =
     GotNowPlaying result ->
         case result of
             Ok data ->
-                ({ model | nowplaying = (data.artist ++ " - " ++ data.title) }, Cmd.none)
+                ({ model
+                    | nowplaying = (data.artist ++ " - " ++ data.title)
+                    , name = data.name
+                    , imageUrl = (getImageUrl data) }, Cmd.none)
             Err _ ->
                 ({ model | nowplaying = "FAILED" }, Cmd.none)
 
@@ -105,9 +128,8 @@ view model =
     , div
         [ class "card" ]
         [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channelOptions)
-        , div [] [ text ("Now Playing: " ++ model.nowplaying) ]
-        , div [] [ text "NYI Programme" ]
-        , div [] [ text model.channel ]
+        , div [] [ text (model.nowplaying) ]
+        , div [] [ text (model.name ++ " on " ++ model.channel) ]
         , button [ onClick GetNowPlaying , title "Refresh ~ do this onclick on logo" ] [ text "R" ]
         , audio
             [ src "https://icecast.omroep.nl/radio2-bb-mp3"
@@ -115,5 +137,6 @@ view model =
             , controls True]
             [ text "Your browser does not support the audio element."
             ]
+        , img [ src model.imageUrl ] []
         ]
     ]
