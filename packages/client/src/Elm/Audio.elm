@@ -1,7 +1,7 @@
 module Elm.Audio exposing (main)
 
 import Browser
-import Debug exposing (log)
+import Debug exposing (log, toString)
 import Html exposing (Html, button, div, text, audio, select, option, img)
 import Html.Attributes exposing (class, controls, type_, src, title, value)
 import Html.Events exposing (onClick, on, targetValue)
@@ -9,6 +9,8 @@ import Json.Decode as Json
 import Http
 import List exposing (head, filter)
 import Maybe exposing (withDefault)
+import Time
+import Task
 
 --TODO cache busting, switch stations (also endpoint url), remove count/+1/-1 examples, styling
 
@@ -35,19 +37,19 @@ type alias Model =
     , nowplaying: String
     , imageUrl: String
     , name: String
+    , timestamp: String
     }
-
---  (withDefault defaultChannel (head channels)) bit overengineerd, could do defaultChannel directly but good example of Maybe
 
 init : () -> (Model, Cmd Msg)
 init _ =
   (
     { count = 0
-    , channel = (withDefault defaultChannel (head channels))
+    , channel = defaultChannel
     , nowplaying = ""
     , imageUrl = ""
-    , name = "" }
-    , getNowPlaying defaultChannel.nowPlayingUrl
+    , name = ""
+    , timestamp = "" }
+    , Cmd.batch[Task.perform UpdateTimestamp Time.now, getNowPlaying defaultChannel.nowPlayingUrl]
   )
 
 defaultChannel: Channel
@@ -111,7 +113,7 @@ getImageUrl data =
 
 -- UPDATE
 
-type Msg = Increment | Decrement | GetNowPlaying | SetChannel String | GotNowPlaying (Result Http.Error NowPlaying)
+type Msg = Increment | Decrement | GetNowPlaying | SetChannel String | GotNowPlaying (Result Http.Error NowPlaying) | UpdateTimestamp Time.Posix
 
 -- TODO instead of map4 use https://package.elm-lang.org/packages/NoRedInk/elm-decode-pipeline/latest/
 --  also see https://stackoverflow.com/questions/46993855/elm-decoding-a-nested-array-of-objects-with-elm-decode-pipeline
@@ -120,27 +122,29 @@ type Msg = Increment | Decrement | GetNowPlaying | SetChannel String | GotNowPla
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-  case msg of
-    Increment ->
-      ({ model | count = model.count + 1 }, Cmd.none)
-    Decrement ->
-      ({ model | count = model.count - 1 }, Cmd.none)
-    GetNowPlaying ->
-      (model, getNowPlaying model.channel.nowPlayingUrl)
-    SetChannel val ->
-      let
-          targetChannel = pickChannel val channels
-      in
-      ({ model | channel = targetChannel }, getNowPlaying targetChannel.nowPlayingUrl)
-    GotNowPlaying result ->
-        case result of
-            Ok data ->
-                ({ model
-                    | nowplaying = (data.artist ++ " - " ++ data.title)
-                    , name = data.name
-                    , imageUrl = (getImageUrl data) }, Cmd.none)
-            Err _ ->
-                ({ model | nowplaying = "FAILED", name = "FAILED" }, Cmd.none)
+    case msg of
+        Increment ->
+            ({ model | count = model.count + 1 }, Cmd.none)
+        Decrement ->
+            ({ model | count = model.count - 1 }, Cmd.none)
+        GetNowPlaying ->
+            (model, getNowPlaying model.channel.nowPlayingUrl)
+        SetChannel val ->
+            let
+                targetChannel = pickChannel val channels
+            in
+            ({ model | channel = targetChannel }, Cmd.batch[Task.perform UpdateTimestamp Time.now, getNowPlaying targetChannel.nowPlayingUrl])
+        UpdateTimestamp time ->
+            ({ model | timestamp = toString (Time.posixToMillis time)}, Cmd.none)
+        GotNowPlaying result ->
+            case result of
+                Ok data ->
+                    ({ model
+                        | nowplaying = (data.artist ++ " - " ++ data.title)
+                        , name = data.name
+                        , imageUrl = (getImageUrl data) }, Cmd.none)
+                Err _ ->
+                    ({ model | nowplaying = "FAILED", name = "FAILED" }, Cmd.none)
 
 
 
@@ -171,9 +175,11 @@ view model =
             , class "get-now-playing" ]
             [ img [ src model.imageUrl ] [] ]
         , audio
-            [ src model.channel.streamUrl
+            [ src (model.channel.streamUrl ++ "?" ++ model.timestamp )
             , type_ "audio/mpeg"
-            , controls True]
+            , controls True
+            -- TODO onPlay does not work , on "play" (Json.map GetTime targetValue)] -- (log "now" "test")
+            ]
             [ text "Your browser does not support the audio element."
             ]
         ]
