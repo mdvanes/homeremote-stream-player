@@ -12,7 +12,7 @@ import Maybe exposing (withDefault)
 import Time
 import Task
 
---TODO cache busting, switch stations (also endpoint url), remove count/+1/-1 examples, styling
+--TODO remove count/+1/-1 examples, styling
 
 main =
   Browser.element
@@ -113,7 +113,13 @@ getImageUrl data =
 
 -- UPDATE
 
-type Msg = Increment | Decrement | GetNowPlaying | SetChannel String | GotNowPlaying (Result Http.Error NowPlaying) | UpdateTimestamp Time.Posix
+type Msg
+    = Increment
+    | Decrement
+    | SetChannel String
+    | UpdateTimestamp Time.Posix
+    | GetNowPlaying
+    | GotNowPlaying (Result Http.Error NowPlaying)
 
 -- TODO instead of map4 use https://package.elm-lang.org/packages/NoRedInk/elm-decode-pipeline/latest/
 --  also see https://stackoverflow.com/questions/46993855/elm-decoding-a-nested-array-of-objects-with-elm-decode-pipeline
@@ -127,8 +133,6 @@ update msg model =
             ({ model | count = model.count + 1 }, Cmd.none)
         Decrement ->
             ({ model | count = model.count - 1 }, Cmd.none)
-        GetNowPlaying ->
-            (model, getNowPlaying model.channel.nowPlayingUrl)
         SetChannel val ->
             let
                 targetChannel = pickChannel val channels
@@ -136,6 +140,8 @@ update msg model =
             ({ model | channel = targetChannel }, Cmd.batch[Task.perform UpdateTimestamp Time.now, getNowPlaying targetChannel.nowPlayingUrl])
         UpdateTimestamp time ->
             ({ model | timestamp = toString (Time.posixToMillis time)}, Cmd.none)
+        GetNowPlaying ->
+            (model, getNowPlaying model.channel.nowPlayingUrl)
         GotNowPlaying result ->
             case result of
                 Ok data ->
