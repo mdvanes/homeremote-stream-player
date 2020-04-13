@@ -2,7 +2,7 @@ module Elm.Audio exposing (main)
 
 import Browser
 import Debug exposing (log, toString)
-import Html exposing (Html, button, div, text, audio, select, option, img)
+import Html exposing (Html, button, div, text, audio, select, option, img, p)
 import Html.Attributes exposing (class, controls, type_, src, title, value)
 import Html.Events exposing (onClick, on, targetValue)
 import Json.Decode as Json
@@ -33,7 +33,8 @@ type alias Channel =
 
 type alias Model =
     { channel: Channel
-    , nowplaying: String
+    , title: String
+    , artist: String
     , imageUrl: String
     , name: String
     , timestamp: String
@@ -43,7 +44,8 @@ init : () -> (Model, Cmd Msg)
 init _ =
   (
     { channel = defaultChannel
-    , nowplaying = ""
+    , title = ""
+    , artist = ""
     , imageUrl = ""
     , name = ""
     , timestamp = "" }
@@ -138,11 +140,14 @@ update msg model =
             case result of
                 Ok data ->
                     ({ model
-                        | nowplaying = (data.artist ++ " - " ++ data.title)
+                        | title = data.title
+                        , artist = data.artist
                         , name = data.name
                         , imageUrl = (getImageUrl data) }, Cmd.none)
                 Err _ ->
-                    ({ model | nowplaying = "FAILED", name = "FAILED" }, Cmd.none)
+                    ({ model
+                        | title = "FAILED"
+                        , name = "FAILED" }, Cmd.none)
 
 
 
@@ -162,10 +167,14 @@ view model =
         [ class "card" ]
         [ div
             [ class "music-info" ]
-            [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channels)
-            , div [] [ text (model.nowplaying) ]
+            [ div
+                [ class "channel" ]
+                [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channels)
+                , p [ class "channel-info" ] [ text ( log "my debug statement:" model.name ) ]
+                ]
+            , p [ class "title" ] [ text (model.title) ]
+            , p [ class "artist" ] [ text (model.artist) ]
             --, div [] [ text (model.name ++ " on " ++ model.channel) ]
-            , div [] [ text ( log "my debug statement:" (model.name ++ " on " ++ model.channel.name) ) ]
             , audio
                 [ src (model.channel.streamUrl ++ "?" ++ model.timestamp )
                 , type_ "audio/mpeg"

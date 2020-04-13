@@ -1,5 +1,6 @@
 /* Global styles that should not be in the packaged component */
 
 html, body {
+    background-color: rgb(224, 224, 224);
     font-family: sans-serif;
 }
