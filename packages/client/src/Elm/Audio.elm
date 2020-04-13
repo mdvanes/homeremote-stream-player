@@ -12,7 +12,7 @@ import Maybe exposing (withDefault)
 import Time
 import Task
 
---TODO remove count/+1/-1 examples, styling
+--TODO styling
 
 main =
   Browser.element
@@ -32,8 +32,7 @@ type alias Channel =
     }
 
 type alias Model =
-    { count: Int
-    , channel: Channel
+    { channel: Channel
     , nowplaying: String
     , imageUrl: String
     , name: String
@@ -43,8 +42,7 @@ type alias Model =
 init : () -> (Model, Cmd Msg)
 init _ =
   (
-    { count = 0
-    , channel = defaultChannel
+    { channel = defaultChannel
     , nowplaying = ""
     , imageUrl = ""
     , name = ""
@@ -114,9 +112,7 @@ getImageUrl data =
 -- UPDATE
 
 type Msg
-    = Increment
-    | Decrement
-    | SetChannel String
+    = SetChannel String
     | UpdateTimestamp Time.Posix
     | GetNowPlaying
     | GotNowPlaying (Result Http.Error NowPlaying)
@@ -129,10 +125,6 @@ type Msg
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        Increment ->
-            ({ model | count = model.count + 1 }, Cmd.none)
-        Decrement ->
-            ({ model | count = model.count - 1 }, Cmd.none)
         SetChannel val ->
             let
                 targetChannel = pickChannel val channels
@@ -166,10 +158,7 @@ view : Model -> Html Msg
 view model =
   div
     []
-    [ button [ onClick Decrement ] [ text "-" ]
-    , div [] [ text (String.fromInt model.count) ]
-    , button [ onClick Increment ] [ text "+" ]
-    , div
+    [ div
         [ class "card" ]
         [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channels)
         , div [] [ text (model.nowplaying) ]
