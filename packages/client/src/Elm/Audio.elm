@@ -7,7 +7,7 @@ import Html.Attributes exposing (class, controls, type_, src, title, value)
 import Html.Events exposing (onClick, on, targetValue)
 import Json.Decode as Json
 import Http
-import List exposing (head)
+import List exposing (head, filter)
 import Maybe exposing (withDefault)
 
 --TODO cache busting, switch stations (also endpoint url), remove count/+1/-1 examples, styling
@@ -28,7 +28,6 @@ type alias Channel =
     , streamUrl: String
     , nowPlayingUrl: String
     }
--- TODO add ChannelList, ChannelList.pickBy(name)
 
 type alias Model =
     { count: Int
@@ -48,7 +47,7 @@ init _ =
     , nowplaying = ""
     , imageUrl = ""
     , name = "" }
-    , getNowPlaying
+    , getNowPlaying defaultChannel.nowPlayingUrl
   )
 
 defaultChannel: Channel
@@ -60,7 +59,7 @@ channels : List Channel
 channels =
     [ defaultChannel
     , { name = "Sky Radio"
-        , streamUrl = ""
+        , streamUrl = "https://19993.live.streamtheworld.com/SKYRADIO.mp3"
         , nowPlayingUrl = ""
     }]
 
@@ -68,12 +67,20 @@ channelOption : Channel -> Html msg
 channelOption channel =
     option [ value channel.name] [text channel.name]
 
+-- equivalent to: pickChannel channelName channelList = withDefault defaultChannel (head (filter (\x -> x.name == channelName) channelList))
+pickChannel : String -> List Channel -> Channel
+pickChannel channelName channelList =
+    channelList
+        |> filter (\x -> x.name == channelName)
+        |> head
+        |> withDefault defaultChannel
+
 -- HTTP
 
-getNowPlaying : Cmd Msg
-getNowPlaying =
+getNowPlaying : String -> Cmd Msg
+getNowPlaying nowPlayingUrl =
     Http.get
-        { url = "http://localhost:3100/api/nowplaying/radio2"
+        { url = nowPlayingUrl
         , expect = Http.expectJson GotNowPlaying nowPlayingDecoder
         }
 
@@ -119,9 +126,12 @@ update msg model =
     Decrement ->
       ({ model | count = model.count - 1 }, Cmd.none)
     GetNowPlaying ->
-      (model, getNowPlaying)
+      (model, getNowPlaying model.channel.nowPlayingUrl)
     SetChannel val ->
-      ({ model | channel = val }, Cmd.none)
+      let
+          targetChannel = pickChannel val channels
+      in
+      ({ model | channel = targetChannel }, getNowPlaying targetChannel.nowPlayingUrl)
     GotNowPlaying result ->
         case result of
             Ok data ->
@@ -130,7 +140,7 @@ update msg model =
                     , name = data.name
                     , imageUrl = (getImageUrl data) }, Cmd.none)
             Err _ ->
-                ({ model | nowplaying = "FAILED" }, Cmd.none)
+                ({ model | nowplaying = "FAILED", name = "FAILED" }, Cmd.none)
 
 
 
@@ -161,7 +171,7 @@ view model =
             , class "get-now-playing" ]
             [ img [ src model.imageUrl ] [] ]
         , audio
-            [ src "https://icecast.omroep.nl/radio2-bb-mp3"
+            [ src model.channel.streamUrl
             , type_ "audio/mpeg"
             , controls True]
             [ text "Your browser does not support the audio element."
