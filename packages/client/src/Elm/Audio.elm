@@ -160,22 +160,25 @@ view model =
     []
     [ div
         [ class "card" ]
-        [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channels)
-        , div [] [ text (model.nowplaying) ]
-        --, div [] [ text (model.name ++ " on " ++ model.channel) ]
-        , div [] [ text ( log "my debug statement:" (model.name ++ " on " ++ model.channel.name) ) ]
+        [ div
+            [ class "music-info" ]
+            [ select [ on "change" (Json.map SetChannel targetValue)] (List.map channelOption channels)
+            , div [] [ text (model.nowplaying) ]
+            --, div [] [ text (model.name ++ " on " ++ model.channel) ]
+            , div [] [ text ( log "my debug statement:" (model.name ++ " on " ++ model.channel.name) ) ]
+            , audio
+                [ src (model.channel.streamUrl ++ "?" ++ model.timestamp )
+                , type_ "audio/mpeg"
+                , controls True
+                -- TODO onPlay does not work , on "play" (Json.map GetTime targetValue)] -- (log "now" "test")
+                ]
+                [ text "Your browser does not support the audio element."
+                ]
+            ]
         , button
             [ onClick GetNowPlaying
             , title "Get Now Playing"
             , class "get-now-playing" ]
             [ img [ src model.imageUrl ] [] ]
-        , audio
-            [ src (model.channel.streamUrl ++ "?" ++ model.timestamp )
-            , type_ "audio/mpeg"
-            , controls True
-            -- TODO onPlay does not work , on "play" (Json.map GetTime targetValue)] -- (log "now" "test")
-            ]
-            [ text "Your browser does not support the audio element."
-            ]
         ]
     ]

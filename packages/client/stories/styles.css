@@ -1,0 +1,5 @@
+/* Global styles that should not be in the packaged component */
+
+html, body {
+    font-family: sans-serif;
+}
