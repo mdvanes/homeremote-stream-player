@@ -49,6 +49,7 @@ select {
   padding: 0;
   display: flex;
   flex-direction: column;
+  background: transparent; /* needed for firefox border clipping */
 }
 
 .card > .get-now-playing img {
