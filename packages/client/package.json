@@ -3,6 +3,8 @@
   "version": "0.0.4-alpha.0",
   "dependencies": {
     "@babel/core": "7.9.0",
+    "@storybook/addons": "^5.3.18",
+    "@storybook/core-events": "^5.3.18",
     "@storybook/react": "^5.3.17",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",
