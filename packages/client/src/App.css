@@ -7,14 +7,7 @@
   background-color: white;
   border-radius: var(--border-radius);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-  max-width: 500px; /*remove*/
   display: flex;
-  /*align-items: stretch;*/
-}
-
-.card > .music-info,
-.card > .get-now-playing {
-
 }
 
 .card > .music-info {
@@ -47,7 +40,7 @@ select {
 
 .card .artist {
   color: var(--secondary-text-color);
-  margin: 0;
+  margin: 0 0 0.5rem 0;
 }
 
 .card > .get-now-playing {
