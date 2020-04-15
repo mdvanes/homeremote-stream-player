@@ -14,7 +14,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node index.ts --CORS=debug",
+    "start": "ts-node example.ts --CORS=debug",
     "build": "tsc index.ts"
   },
   "gitHead": "1c79d816ed2921cfe7c8a6a64fd84a339984f774",

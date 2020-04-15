@@ -35,9 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-var express = require('express');
-var app = express();
-var port = 3100;
 var got = require('got');
 // Export for use by other apps
 var getNowPlaying = function () { return __awaiter(_this, void 0, void 0, function () {
@@ -58,44 +55,6 @@ var getNowPlaying = function () { return __awaiter(_this, void 0, void 0, functi
         }
     });
 }); };
-var startServer = function (corsMode) {
-    app.get('/', function (req, res) { return res.sendStatus(404); });
-    app.get('/api/nowplaying/radio2', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-        var response, error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (corsMode === CORS_MODE.DEBUG) {
-                        console.log('CORS DEBUG MODE');
-                        res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-                        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-                    }
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, getNowPlaying()];
-                case 2:
-                    response = _a.sent();
-                    res.send(response);
-                    return [3 /*break*/, 4];
-                case 3:
-                    error_1 = _a.sent();
-                    console.log(error_1);
-                    res.sendStatus(500);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
-            }
-        });
-    }); });
-    app.listen(port, function () { return console.log("App listening on port " + port + "!"); });
-};
-var CORS_MODE;
-(function (CORS_MODE) {
-    CORS_MODE[CORS_MODE["NONE"] = 0] = "NONE";
-    CORS_MODE[CORS_MODE["DEBUG"] = 1] = "DEBUG";
-})(CORS_MODE || (CORS_MODE = {}));
-var corsMode = process.argv.length > 2 && process.argv[2] === '--CORS=debug' ? CORS_MODE.DEBUG : CORS_MODE.NONE;
-startServer(corsMode);
 module.exports = {
     getNowPlaying: getNowPlaying
 };
