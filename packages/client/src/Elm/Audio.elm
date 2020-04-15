@@ -7,6 +7,7 @@ import Html.Attributes exposing (class, controls, src, title, type_, value)
 import Html.Events exposing (on, onClick, targetValue)
 import Http
 import Json.Decode as Json
+import Json.Encode
 import List exposing (filter, head)
 import Maybe exposing (withDefault)
 import Task
@@ -40,29 +41,53 @@ type alias Model =
     , imageUrl : String
     , name : String
     , timestamp : String
+    , url : String
     }
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( { channel = defaultChannel
-      , title = ""
-      , artist = ""
-      , imageUrl = ""
-      , name = ""
-      , timestamp = ""
-      }
-    , Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying defaultChannel.nowPlayingUrl ]
-    )
+type alias FlagModel =
+    { url : String }
+
+
+flagDecoder : Json.Decoder FlagModel
+flagDecoder =
+    Json.map FlagModel
+        (Json.field "url" Json.string)
+
+
+init : Json.Encode.Value -> ( Model, Cmd Msg )
+init flags =
+    case Json.decodeValue flagDecoder flags of
+        Ok flagModel ->
+            ( { channel = defaultChannel
+              , title = ""
+              , artist = ""
+              , imageUrl = ""
+              , name = ""
+              , timestamp = ""
+              , url = flagModel.url
+              }
+            , Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying (flagModel.url ++ defaultChannel.nowPlayingUrl) ]
+            )
+
+        Err _ ->
+            ( { channel = defaultChannel
+              , title = ""
+              , artist = ""
+              , imageUrl = ""
+              , name = ""
+              , timestamp = ""
+              , url = ""
+              }
+            , Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying defaultChannel.nowPlayingUrl ]
+            )
 
 
 defaultChannel : Channel
 defaultChannel =
     { name = "NPO Radio 2"
     , streamUrl = "https://icecast.omroep.nl/radio2-bb-mp3"
-
-    -- TODO root URL for nowPlayingUrl should come from React prop
-    , nowPlayingUrl = "http://localhost:3100/api/nowplaying/radio2"
+    , nowPlayingUrl = "/api/nowplaying/radio2"
     }
 
 
@@ -103,6 +128,7 @@ pickChannel channelName channelList =
 
 
 -- HTTP
+-- TODO nowPlayingUrl could be prefixed with url from flag, but the suffix can be "". Split into 2 arguments and test if the suffix is "" before calling Http.get
 
 
 getNowPlaying : String -> Cmd Msg
@@ -167,13 +193,13 @@ update msg model =
                 targetChannel =
                     pickChannel val channels
             in
-            ( { model | channel = targetChannel }, Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying targetChannel.nowPlayingUrl ] )
+            ( { model | channel = targetChannel }, Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying (model.url ++ targetChannel.nowPlayingUrl) ] )
 
         UpdateTimestamp time ->
             ( { model | timestamp = toString (Time.posixToMillis time) }, Cmd.none )
 
         GetNowPlaying ->
-            ( model, getNowPlaying model.channel.nowPlayingUrl )
+            ( model, getNowPlaying (model.url ++ model.channel.nowPlayingUrl) )
 
         GotNowPlaying result ->
             case result of

@@ -27,7 +27,7 @@ import Audio from './Elm/Audio.elm';
 
 const App = () =>(
   // <Elm src={Buttons.Elm.Elm.Buttons} />
-  <Elm src={Audio.Elm.Elm.Audio} />
+  <Elm src={Audio.Elm.Elm.Audio} flags={{ url: "http://localhost:3100" } } />
 );
 
 export default App;
