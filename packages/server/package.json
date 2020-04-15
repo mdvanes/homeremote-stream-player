@@ -1,6 +1,6 @@
 {
   "name": "@mdworld/homeremote-stream-player-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "express": "^4.17.1",
     "got": "^10.6.0",
@@ -8,8 +8,8 @@
     "typescript": "^3.8.3"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/mdvanes/homeremote-stream-player.git"
+    "type": "git",
+    "url": "https://github.com/mdvanes/homeremote-stream-player.git"
   },
   "main": "index.js",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "name": "@mdworld/homeremote-stream-player",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "@babel/core": "7.9.0",
     "@storybook/addons": "^5.3.18",
@@ -67,8 +67,8 @@
   },
   "main": "./lib/HomeremoteStreamPlayer.js",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/mdvanes/homeremote-stream-player.git"
+    "type": "git",
+    "url": "https://github.com/mdvanes/homeremote-stream-player.git"
   },
   "scripts": {
     "start": "npm run storybook",
