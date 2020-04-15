@@ -60,6 +60,8 @@ defaultChannel : Channel
 defaultChannel =
     { name = "NPO Radio 2"
     , streamUrl = "https://icecast.omroep.nl/radio2-bb-mp3"
+
+    -- TODO root URL for nowPlayingUrl should come from React prop
     , nowPlayingUrl = "http://localhost:3100/api/nowplaying/radio2"
     }
 
@@ -67,8 +69,16 @@ defaultChannel =
 channels : List Channel
 channels =
     [ defaultChannel
+    , { name = "3FM"
+      , streamUrl = "https://icecast.omroep.nl/3fm-bb-mp3"
+      , nowPlayingUrl = ""
+      }
     , { name = "Sky Radio"
       , streamUrl = "https://19993.live.streamtheworld.com/SKYRADIO.mp3"
+      , nowPlayingUrl = ""
+      }
+    , { name = "Pinguin Radio"
+      , streamUrl = "http://streams.pinguinradio.com/PinguinRadio320.mp3"
       , nowPlayingUrl = ""
       }
     ]
@@ -179,8 +189,9 @@ update msg model =
 
                 Err _ ->
                     ( { model
-                        | title = "FAILED"
-                        , name = "FAILED"
+                        | title = "UNKNOWN"
+                        , artist = "UNKNOWN"
+                        , name = model.channel.name
                       }
                     , Cmd.none
                     )
