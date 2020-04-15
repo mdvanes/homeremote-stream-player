@@ -25,7 +25,7 @@ module.exports = {
           }
         }
       },
-      { test: /\.css$/, use: 'css-loader' },
+      { test: /\.css$/, loader: "style-loader!css-loader" },
       // loader for elm files
       elmloader
     ]
