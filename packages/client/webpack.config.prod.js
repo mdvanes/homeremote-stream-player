@@ -1,8 +1,6 @@
 const path = require('path');
 const elmloader = require('./webpack.elmloader.js');
 
-// TODO remove /config /scripts and clean up scripts in package.json
-
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 
