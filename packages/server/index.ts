@@ -3,9 +3,6 @@ const app = express();
 const port = 3100;
 const got = require('got');
 
-// TODO ts-node, typed response JSON
-// TODO publish
-
 interface NowPlayingResponse {
     artist: string;
     title: string;
@@ -26,13 +23,15 @@ const getNowPlaying = async (): Promise<NowPlayingResponse> => {
   return { artist, title, last_updated, songImageUrl, name, imageUrl };
 }
 
-const startServer = () => {
+const startServer = (corsMode: CORS_MODE) => {
   app.get('/', (req, res) => res.sendStatus(404));
 
   app.get('/api/nowplaying/radio2', async (req, res) => {
-      // TODO only if localhost or debug mode_
-      res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      if(corsMode === CORS_MODE.DEBUG) {
+          console.log('CORS DEBUG MODE');
+          res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      }
       try {
         const response = await getNowPlaying();
         res.send(response);
@@ -46,7 +45,14 @@ const startServer = () => {
   app.listen(port, () => console.log(`App listening on port ${port}!`));
 }
 
-startServer();
+enum CORS_MODE {
+    NONE,
+    DEBUG
+}
+
+const corsMode: CORS_MODE = process.argv.length > 2 && process.argv[2] === '--CORS=debug' ? CORS_MODE.DEBUG : CORS_MODE.NONE;
+
+startServer(corsMode);
 
 module.exports = {
   getNowPlaying
