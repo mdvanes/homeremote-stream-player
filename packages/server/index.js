@@ -58,16 +58,18 @@ var getNowPlaying = function () { return __awaiter(_this, void 0, void 0, functi
         }
     });
 }); };
-var startServer = function () {
+var startServer = function (corsMode) {
     app.get('/', function (req, res) { return res.sendStatus(404); });
     app.get('/api/nowplaying/radio2', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
         var response, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    // TODO only if localhost or debug mode_
-                    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-                    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                    if (corsMode === CORS_MODE.DEBUG) {
+                        console.log('CORS DEBUG MODE');
+                        res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+                        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                    }
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -87,7 +89,13 @@ var startServer = function () {
     }); });
     app.listen(port, function () { return console.log("App listening on port " + port + "!"); });
 };
-startServer();
+var CORS_MODE;
+(function (CORS_MODE) {
+    CORS_MODE[CORS_MODE["NONE"] = 0] = "NONE";
+    CORS_MODE[CORS_MODE["DEBUG"] = 1] = "DEBUG";
+})(CORS_MODE || (CORS_MODE = {}));
+var corsMode = process.argv.length > 2 && process.argv[2] === '--CORS=debug' ? CORS_MODE.DEBUG : CORS_MODE.NONE;
+startServer(corsMode);
 module.exports = {
     getNowPlaying: getNowPlaying
 };
