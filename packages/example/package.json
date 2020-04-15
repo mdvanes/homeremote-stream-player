@@ -1,9 +1,9 @@
 {
   "name": "example",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "dependencies": {
-    "@mdworld/homeremote-stream-player": "^0.2.1",
+    "@mdworld/homeremote-stream-player": "^0.2.2",
     "@mdworld/homeremote-stream-player-server": "^0.2.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
