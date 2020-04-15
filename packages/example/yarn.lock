@@ -1297,10 +1297,10 @@
     ts-node "^8.8.2"
     typescript "^3.8.3"
 
-"@mdworld/homeremote-stream-player@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@mdworld/homeremote-stream-player/-/homeremote-stream-player-0.2.0.tgz#0f6b1c291bfa2ec1203862893352ed457286e55d"
-  integrity sha512-MK1agvlYCwwFFOR/qM1AaidVmCNfXcU+0wt/Vl7oZF+LiucCWLbRZC7JFz3kVETindIj6kzy0WeoqYueJ7KyIw==
+"@mdworld/homeremote-stream-player@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@mdworld/homeremote-stream-player/-/homeremote-stream-player-0.2.1.tgz#7568f016ed8508a14d726b18c1c510809e6b96ac"
+  integrity sha512-1QoXckcF4LLk8gvERSN0D0I8yfBPRORYg7pK/3GjnlQVRE8sr8s6BDUR3ORXKnnEf2M9JI0Ytspunob61WXKFw==
   dependencies:
     "@babel/core" "7.9.0"
     "@storybook/addons" "^5.3.18"
