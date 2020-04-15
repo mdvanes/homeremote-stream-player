@@ -1,11 +1,17 @@
 const path = require('path');
 const elmloader = require('./webpack.elmloader.js');
 
+// TODO remove /config /scripts and clean up scripts in package.json
+
+process.env.BABEL_ENV = 'production';
+process.env.NODE_ENV = 'production';
+
 module.exports = {
-  entry: './src/index.js',
+  mode: 'production',
+  entry: './src/App.jsx',
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'index.js',
+    path: path.resolve(__dirname, 'lib'),
+    filename: 'HomeremoteStreamPlayer.js',
     libraryTarget: 'commonjs2'
   },
   module: {
@@ -21,6 +27,7 @@ module.exports = {
           }
         }
       },
+      { test: /\.css$/, use: 'css-loader' },
       // loader for elm files
       elmloader
     ]
