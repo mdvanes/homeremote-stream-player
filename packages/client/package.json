@@ -66,6 +66,10 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "main": "./lib/HomeremoteStreamPlayer.js",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/mdvanes/homeremote-stream-player.git"
+  },
   "scripts": {
     "start": "npm run storybook",
     "build": "webpack-cli --config webpack.config.prod.js",
