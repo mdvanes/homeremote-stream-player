@@ -1,6 +1,6 @@
 {
   "name": "@mdworld/homeremote-stream-player",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "dependencies": {
     "@babel/core": "7.9.0",
     "@storybook/addons": "^5.3.18",
