@@ -1,5 +1,7 @@
 # Monorepo for homeremote-stream-player
 
+![Screenshot](screenshot.jpg)
+
 More details:
 
 Client: [/packages/client](/packages/client)
