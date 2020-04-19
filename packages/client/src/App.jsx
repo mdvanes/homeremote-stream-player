@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import './App.css';
 import Elm from 'react-elm-components';
 // import Buttons from './Elm/Buttons.elm';
@@ -25,9 +25,15 @@ import Audio from './Elm/Audio.elm';
 //   );
 // }
 
+const setupPorts = (ports) => {
+  ports.setPlayPauseStatusPort.subscribe(x => {
+    console.log('play!', x);
+  })
+}
+
 const App = ({ url }) =>(
   // <Elm src={Buttons.Elm.Elm.Buttons} />
-  <Elm src={Audio.Elm.Elm.Audio} flags={{ url } } />
+  <Elm src={Audio.Elm.Elm.Audio} flags={{ url } } ports={setupPorts} />
 );
 
 export default App;

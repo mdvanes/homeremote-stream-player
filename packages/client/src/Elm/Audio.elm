@@ -1,4 +1,4 @@
-module Elm.Audio exposing (main)
+port module Elm.Audio exposing (main)
 
 import Browser
 import Debug exposing (log, toString)
@@ -13,10 +13,13 @@ import Maybe exposing (withDefault)
 import Task
 import Time
 
+
+
 -- TODO split into multiple files, Elm architecture
 -- TODO custom pause/play buttons
 -- TODO emit an event to a port each time GetNowPlaying is called and the values are different
 -- Audio events based on https://vincent.jousse.org/en/tech/interacting-with-dom-element-using-elm-audio-video/
+
 
 main =
     Browser.element
@@ -161,6 +164,7 @@ nowPlayingDecoder =
         (Json.field "imageUrl" Json.string)
         (Json.field "name" Json.string)
 
+
 getImageUrl : NowPlaying -> String
 getImageUrl data =
     if data.songImageUrl /= "" then
@@ -179,6 +183,13 @@ type Msg
     | UpdateTimestamp Time.Posix
     | GetNowPlaying
     | GotNowPlaying (Result Http.Error NowPlaying)
+    | SetPlayPauseStatus PlayPauseStatus
+
+
+type PlayPauseStatus
+    = Play
+    | Pause
+
 
 
 -- TODO instead of map4 use https://package.elm-lang.org/packages/NoRedInk/elm-decode-pipeline/latest/
@@ -224,6 +235,21 @@ update msg model =
                     , Cmd.none
                     )
 
+        SetPlayPauseStatus status ->
+            let
+                foo =
+                    log "SetPlayPauseStatus" status
+            in
+            ( model, setPlayPauseStatusPort (toString status) )
+
+
+
+-- PORT
+
+
+port setPlayPauseStatusPort : String -> Cmd msg
+
+
 
 -- SUBSCRIPTIONS
 
@@ -258,6 +284,7 @@ view model =
                     [ src (model.channel.streamUrl ++ "?" ++ model.timestamp)
                     , type_ "audio/mpeg"
                     , controls True
+
                     --`, on "play" (Json.map TimeUpdate timeDecoder)` can also be written as `onPlay TimeUpdate` with functions defined elsewhere:
                     -- onPlay : (Float -> msg) -> Html.Attribute msg
                     -- onPlay msg =
@@ -278,4 +305,10 @@ view model =
                 ]
                 [ img [ src model.imageUrl ] [] ]
             ]
+        , button
+            [ onClick (SetPlayPauseStatus Play) ]
+            [ text "custom play" ]
+        , button
+            [ onClick (SetPlayPauseStatus Pause) ]
+            [ text "custom pause" ]
         ]
