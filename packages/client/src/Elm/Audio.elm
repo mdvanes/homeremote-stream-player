@@ -13,6 +13,7 @@ import Maybe exposing (withDefault)
 import Task
 import Time
 
+-- TODO split into multiple files, Elm architecture
 -- TODO custom pause/play buttons
 -- TODO emit an event to a port each time GetNowPlaying is called and the values are different
 -- Audio events based on https://vincent.jousse.org/en/tech/interacting-with-dom-element-using-elm-audio-video/
@@ -160,14 +161,6 @@ nowPlayingDecoder =
         (Json.field "imageUrl" Json.string)
         (Json.field "name" Json.string)
 
-onPlay : (Float -> msg) -> Html.Attribute msg
-onPlay msg =
-    on "play" (Json.map msg timeDecoder)
-
-timeDecoder : Json.Decoder Float
-timeDecoder =
-    Json.at [ "target", "currentTime" ] Json.float
-
 getImageUrl : NowPlaying -> String
 getImageUrl data =
     if data.songImageUrl /= "" then
@@ -186,8 +179,6 @@ type Msg
     | UpdateTimestamp Time.Posix
     | GetNowPlaying
     | GotNowPlaying (Result Http.Error NowPlaying)
-    | TimeUpdate Float
-
 
 
 -- TODO instead of map4 use https://package.elm-lang.org/packages/NoRedInk/elm-decode-pipeline/latest/
@@ -195,7 +186,6 @@ type Msg
 --  can't use elm-decode-pipeline, because it does not yet support Elm 0.19
 --  install with: elm install NoRedInk/elm-decode-pipeline
 
--- TODO split into multiple files, Elm architecture
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -233,9 +223,6 @@ update msg model =
                       }
                     , Cmd.none
                     )
-        TimeUpdate time ->
-            ( { model | title = "foo" }, getNowPlaying (model.url ++ model.channel.nowPlayingUrl))
-
 
 
 -- SUBSCRIPTIONS
@@ -279,7 +266,7 @@ view model =
                     -- timeDecoder : Json.Decoder Float
                     -- timeDecoder =
                     --     Json.at [ "target", "currentTime" ] Json.float
-                    , on "play" (Json.map TimeUpdate timeDecoder)
+                    , on "play" (Json.succeed GetNowPlaying)
                     ]
                     [ text "Your browser does not support the audio element."
                     ]
