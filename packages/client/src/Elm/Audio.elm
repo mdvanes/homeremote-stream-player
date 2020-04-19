@@ -2,6 +2,7 @@ module Elm.Audio exposing (main)
 
 import Browser
 import Debug exposing (log, toString)
+import Elm.Controls
 import Html exposing (Html, audio, button, div, img, option, p, select, text)
 import Html.Attributes exposing (class, controls, id, src, title, type_, value)
 import Html.Events exposing (on, onClick, targetValue)
@@ -12,7 +13,7 @@ import List exposing (filter, head)
 import Maybe exposing (withDefault)
 import Task
 import Time
-import Elm.Controls
+
 
 
 -- TODO split into multiple files, Elm architecture
@@ -49,7 +50,7 @@ type alias Model =
     , name : String
     , timestamp : String
     , url : String
-    , controls: Elm.Controls.Model
+    , controls : Elm.Controls.Model
     }
 
 
@@ -66,8 +67,8 @@ flagDecoder =
 init : Json.Encode.Value -> ( Model, Cmd Msg )
 init flags =
     let
-      ( controlsInit, controlsCmds ) =
-        Elm.Controls.init
+        ( controlsInit, controlsCmds ) =
+            Elm.Controls.init
     in
     case Json.decodeValue flagDecoder flags of
         Ok flagModel ->
@@ -244,14 +245,15 @@ update msg model =
                       }
                     , Cmd.none
                     )
+
         MsgControls msg_ ->
             let
                 ( controlsModel, controlsCmds ) =
                     Elm.Controls.update msg_ model.controls
             in
-                ( { model | controls = controlsModel }
-                , Cmd.map MsgControls controlsCmds
-                )
+            ( { model | controls = controlsModel }
+            , Cmd.map MsgControls controlsCmds
+            )
 
 
 

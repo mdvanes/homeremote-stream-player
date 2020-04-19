@@ -1,4 +1,4 @@
-module Elm.Controls exposing (Model, view, Msg(..), update, init)
+module Elm.Controls exposing (Model, Msg(..), init, update, view)
 
 import Debug exposing (toString)
 import Elm.Ports exposing (setPlayPauseStatusPort)
