@@ -1,4 +1,4 @@
-port module Elm.Audio exposing (main)
+module Elm.Audio exposing (main)
 
 import Browser
 import Debug exposing (log, toString)
@@ -12,7 +12,7 @@ import List exposing (filter, head)
 import Maybe exposing (withDefault)
 import Task
 import Time
-
+import Elm.Controls
 
 
 -- TODO split into multiple files, Elm architecture
@@ -49,6 +49,7 @@ type alias Model =
     , name : String
     , timestamp : String
     , url : String
+    , controls: Elm.Controls.Model
     }
 
 
@@ -64,6 +65,10 @@ flagDecoder =
 
 init : Json.Encode.Value -> ( Model, Cmd Msg )
 init flags =
+    let
+      ( controlsInit, controlsCmds ) =
+        Elm.Controls.init
+    in
     case Json.decodeValue flagDecoder flags of
         Ok flagModel ->
             ( { channel = defaultChannel
@@ -73,8 +78,13 @@ init flags =
               , name = ""
               , timestamp = ""
               , url = flagModel.url
+              , controls = controlsInit
               }
-            , Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying (flagModel.url ++ defaultChannel.nowPlayingUrl) ]
+            , Cmd.batch
+                [ Task.perform UpdateTimestamp Time.now
+                , getNowPlaying (flagModel.url ++ defaultChannel.nowPlayingUrl)
+                , Cmd.map MsgControls controlsCmds
+                ]
             )
 
         Err _ ->
@@ -85,8 +95,13 @@ init flags =
               , name = ""
               , timestamp = ""
               , url = ""
+              , controls = controlsInit
               }
-            , Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying defaultChannel.nowPlayingUrl ]
+            , Cmd.batch
+                [ Task.perform UpdateTimestamp Time.now
+                , getNowPlaying defaultChannel.nowPlayingUrl
+                , Cmd.map MsgControls controlsCmds
+                ]
             )
 
 
@@ -183,12 +198,7 @@ type Msg
     | UpdateTimestamp Time.Posix
     | GetNowPlaying
     | GotNowPlaying (Result Http.Error NowPlaying)
-    | SetPlayPauseStatus PlayPauseStatus
-
-
-type PlayPauseStatus
-    = Play
-    | Pause
+    | MsgControls Elm.Controls.Msg
 
 
 
@@ -234,16 +244,14 @@ update msg model =
                       }
                     , Cmd.none
                     )
-
-        SetPlayPauseStatus status ->
-            ( model, setPlayPauseStatusPort (toString status) )
-
-
-
--- PORT
-
-
-port setPlayPauseStatusPort : String -> Cmd msg
+        MsgControls msg_ ->
+            let
+                ( controlsModel, controlsCmds ) =
+                    Elm.Controls.update msg_ model.controls
+            in
+                ( { model | controls = controlsModel }
+                , Cmd.map MsgControls controlsCmds
+                )
 
 
 
@@ -294,12 +302,7 @@ view model =
                     ]
                     [ text "Your browser does not support the audio element."
                     ]
-                , button
-                    [ onClick (SetPlayPauseStatus Play) ]
-                    [ text "play" ]
-                , button
-                    [ onClick (SetPlayPauseStatus Pause) ]
-                    [ text "pause" ]
+                , Html.map MsgControls (Elm.Controls.view model.controls)
                 ]
             , button
                 [ onClick GetNowPlaying
