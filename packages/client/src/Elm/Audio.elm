@@ -13,6 +13,9 @@ import Maybe exposing (withDefault)
 import Task
 import Time
 
+-- TODO custom pause/play buttons
+-- TODO emit an event to a port each time GetNowPlaying is called and the values are different
+-- Audio events based on https://vincent.jousse.org/en/tech/interacting-with-dom-element-using-elm-audio-video/
 
 main =
     Browser.element
@@ -157,6 +160,13 @@ nowPlayingDecoder =
         (Json.field "imageUrl" Json.string)
         (Json.field "name" Json.string)
 
+onPlay : (Float -> msg) -> Html.Attribute msg
+onPlay msg =
+    on "play" (Json.map msg timeDecoder)
+
+timeDecoder : Json.Decoder Float
+timeDecoder =
+    Json.at [ "target", "currentTime" ] Json.float
 
 getImageUrl : NowPlaying -> String
 getImageUrl data =
@@ -176,6 +186,7 @@ type Msg
     | UpdateTimestamp Time.Posix
     | GetNowPlaying
     | GotNowPlaying (Result Http.Error NowPlaying)
+    | TimeUpdate Float
 
 
 
@@ -184,6 +195,7 @@ type Msg
 --  can't use elm-decode-pipeline, because it does not yet support Elm 0.19
 --  install with: elm install NoRedInk/elm-decode-pipeline
 
+-- TODO split into multiple files, Elm architecture
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -221,6 +233,8 @@ update msg model =
                       }
                     , Cmd.none
                     )
+        TimeUpdate time ->
+            ( { model | title = "foo" }, getNowPlaying (model.url ++ model.channel.nowPlayingUrl))
 
 
 
@@ -257,8 +271,15 @@ view model =
                     [ src (model.channel.streamUrl ++ "?" ++ model.timestamp)
                     , type_ "audio/mpeg"
                     , controls True
-
-                    -- TODO onPlay does not work , on "play" (Json.map GetTime targetValue)] -- (log "now" "test")
+                    --`, on "play" (Json.map TimeUpdate timeDecoder)` can also be written as `onPlay TimeUpdate` with functions defined elsewhere:
+                    -- onPlay : (Float -> msg) -> Html.Attribute msg
+                    -- onPlay msg =
+                    --     on "play" (Json.map msg timeDecoder)
+                    --
+                    -- timeDecoder : Json.Decoder Float
+                    -- timeDecoder =
+                    --     Json.at [ "target", "currentTime" ] Json.float
+                    , on "play" (Json.map TimeUpdate timeDecoder)
                     ]
                     [ text "Your browser does not support the audio element."
                     ]
