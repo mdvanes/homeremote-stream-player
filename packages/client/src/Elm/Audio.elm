@@ -3,7 +3,7 @@ port module Elm.Audio exposing (main)
 import Browser
 import Debug exposing (log, toString)
 import Html exposing (Html, audio, button, div, img, option, p, select, text)
-import Html.Attributes exposing (class, controls, src, title, type_, value)
+import Html.Attributes exposing (class, controls, id, src, title, type_, value)
 import Html.Events exposing (on, onClick, targetValue)
 import Http
 import Json.Decode as Json
@@ -16,7 +16,7 @@ import Time
 
 
 -- TODO split into multiple files, Elm architecture
--- TODO custom pause/play buttons
+-- TODO style custom pause/play buttons
 -- TODO emit an event to a port each time GetNowPlaying is called and the values are different
 -- Audio events based on https://vincent.jousse.org/en/tech/interacting-with-dom-element-using-elm-audio-video/
 
@@ -281,7 +281,8 @@ view model =
 
                 --, div [] [ text (model.name ++ " on " ++ model.channel) ]
                 , audio
-                    [ src (model.channel.streamUrl ++ "?" ++ model.timestamp)
+                    [ id "homeremote-stream-player-audio-elem"
+                    , src (model.channel.streamUrl ++ "?" ++ model.timestamp)
                     , type_ "audio/mpeg"
                     , controls True
 
@@ -297,6 +298,12 @@ view model =
                     ]
                     [ text "Your browser does not support the audio element."
                     ]
+                , button
+                    [ onClick (SetPlayPauseStatus Play) ]
+                    [ text "play" ]
+                , button
+                    [ onClick (SetPlayPauseStatus Pause) ]
+                    [ text "pause" ]
                 ]
             , button
                 [ onClick GetNowPlaying
@@ -305,10 +312,4 @@ view model =
                 ]
                 [ img [ src model.imageUrl ] [] ]
             ]
-        , button
-            [ onClick (SetPlayPauseStatus Play) ]
-            [ text "custom play" ]
-        , button
-            [ onClick (SetPlayPauseStatus Pause) ]
-            [ text "custom pause" ]
         ]

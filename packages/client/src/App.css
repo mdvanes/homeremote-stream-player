@@ -15,6 +15,10 @@
   padding: 1rem;
 }
 
+.card > .music-info audio {
+  display: none;
+}
+
 .card .channel {
   display: flex;
   align-items: center;

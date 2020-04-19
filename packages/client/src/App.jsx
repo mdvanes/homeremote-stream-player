@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import './App.css';
 import Elm from 'react-elm-components';
 // import Buttons from './Elm/Buttons.elm';
@@ -26,14 +26,20 @@ import Audio from './Elm/Audio.elm';
 // }
 
 const setupPorts = (ports) => {
-  ports.setPlayPauseStatusPort.subscribe(x => {
-    console.log('play!', x);
+  ports.setPlayPauseStatusPort.subscribe(newStatus => {
+    // TODO use ref instead of getElementById
+    const audioElem = document.getElementById("homeremote-stream-player-audio-elem");
+    if(newStatus === 'Play') {
+      audioElem.play();
+    } else {
+      audioElem.pause();
+    }
   })
 }
 
 const App = ({ url }) =>(
   // <Elm src={Buttons.Elm.Elm.Buttons} />
-  <Elm src={Audio.Elm.Elm.Audio} flags={{ url } } ports={setupPorts} />
+  <Elm id="elm" src={Audio.Elm.Elm.Audio} flags={{ url } } ports={setupPorts} />
 );
 
 export default App;
