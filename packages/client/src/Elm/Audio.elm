@@ -236,10 +236,6 @@ update msg model =
                     )
 
         SetPlayPauseStatus status ->
-            let
-                foo =
-                    log "SetPlayPauseStatus" status
-            in
             ( model, setPlayPauseStatusPort (toString status) )
 
 
