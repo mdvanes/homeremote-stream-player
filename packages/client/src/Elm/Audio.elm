@@ -17,7 +17,6 @@ import Time
 
 
 -- TODO split into multiple files, Elm architecture
--- TODO style custom pause/play buttons
 -- TODO emit an event to a port each time GetNowPlaying is called and the values are different
 -- Audio events based on https://vincent.jousse.org/en/tech/interacting-with-dom-element-using-elm-audio-video/
 

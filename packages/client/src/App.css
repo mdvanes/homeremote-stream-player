@@ -33,18 +33,12 @@
 }
 
 .card .controls > .play {
-  background: transparent url("play.svg") no-repeat;
-  background-size: 135%;
-  background-repeat: no-repeat;
-  background-position: center;
+  background: transparent url("play.svg") no-repeat center/135%;
   opacity: 0.8;
 }
 
 .card .controls > .pause {
-  background-image: url("pause.svg");
-  background-size: 40%;
-  background-repeat: no-repeat;
-  background-position: center;
+  background: transparent url("pause.svg") no-repeat center/40%;
   margin-left: 1rem;
   opacity: 0.3;
 }
