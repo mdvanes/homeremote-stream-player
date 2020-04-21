@@ -4,7 +4,7 @@ import Debug exposing (toString)
 import Elm.Ports exposing (setPlayPauseStatusPort)
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
-
+import Html.Attributes exposing (class)
 
 type alias Model =
     {}
@@ -34,11 +34,13 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div
-        []
+        [ class "controls" ]
         [ button
-            [ onClick (SetPlayPauseStatus Play) ]
-            [ text "play" ]
+            [ class "play"
+            , onClick (SetPlayPauseStatus Play) ]
+            []
         , button
-            [ onClick (SetPlayPauseStatus Pause) ]
-            [ text "pause" ]
+            [ class "pause"
+            , onClick (SetPlayPauseStatus Pause) ]
+            []
         ]

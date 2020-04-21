@@ -19,6 +19,36 @@
   display: none;
 }
 
+.card .controls {
+  display: flex;
+  margin: 0 3rem;
+}
+
+.card .controls > .play,
+.card .controls > .pause {
+  border: none;
+  background: transparent;
+  flex: 1;
+  height: 7rem;
+}
+
+.card .controls > .play {
+  background: transparent url("play.svg") no-repeat;
+  background-size: 135%;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.8;
+}
+
+.card .controls > .pause {
+  background-image: url("pause.svg");
+  background-size: 40%;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left: 1rem;
+  opacity: 0.3;
+}
+
 .card .channel {
   display: flex;
   align-items: center;
