@@ -1,4 +1,4 @@
-module Elm.Channels exposing (..)
+module Elm.Channels exposing (Model, Msg(..), init, update, view, defaultChannel)
 
 import Html exposing (Html, audio, button, div, img, option, p, select, text)
 import Html.Attributes exposing (class, controls, id, src, title, type_, value)
@@ -21,9 +21,8 @@ type alias Channel =
     }
 
 type alias Model =
-    {
-        channel: Channel
-        , timestamp : String
+    { channel: Channel
+    , timestamp : String
     }
 
 defaultChannel : Channel
@@ -74,11 +73,12 @@ update msg model =
                 targetChannel =
                     pickChannel val channels
             in
-            ( { model | channel = targetChannel }, Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying (model.url ++ targetChannel.nowPlayingUrl) ] )
+            -- TODO fix getNowPlaying
+            --( { model | channel = targetChannel }, Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying (model.url ++ targetChannel.nowPlayingUrl) ] )
+            ( { model | channel = targetChannel }, Cmd.batch [ Task.perform UpdateTimestamp Time.now ] )
 
         UpdateTimestamp time ->
             ( { model | timestamp = toString (Time.posixToMillis time) }, Cmd.none )
-
 
 
 -- VIEW

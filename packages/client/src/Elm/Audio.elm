@@ -13,6 +13,7 @@ import List exposing (filter, head)
 import Maybe exposing (withDefault)
 import Task
 import Time
+import Elm.Channels exposing (defaultChannel)
 
 
 
@@ -42,14 +43,13 @@ type alias Channel =
 
 
 type alias Model =
-    { channel : Channel
-    , title : String
+    { title : String
     , artist : String
     , imageUrl : String
     , name : String
-    , timestamp : String
     , url : String
     , controls : Elm.Controls.Model
+    , channels : Elm.Channels.Model
     }
 
 
@@ -63,89 +63,44 @@ flagDecoder =
         (Json.field "url" Json.string)
 
 
+createModelInit : String -> Elm.Controls.Model -> Elm.Channels.Model -> Model
+createModelInit url controlsInit channelsInit =
+    { title = ""
+    , artist = ""
+    , imageUrl = ""
+    , name = ""
+    , url = url
+    , controls = controlsInit
+    , channels = channelsInit
+    }
+
+createCmdInit : String -> Cmd Elm.Controls.Msg -> Cmd Elm.Channels.Msg -> Cmd Msg
+createCmdInit url controlsCmds channelsCmds =
+    Cmd.batch
+        [ Cmd.map MsgControls controlsCmds
+        , Cmd.map MsgChannels channelsCmds
+        , getNowPlaying (url ++ defaultChannel.nowPlayingUrl)
+        ]
+
 init : Json.Encode.Value -> ( Model, Cmd Msg )
 init flags =
     let
         ( controlsInit, controlsCmds ) =
             Elm.Controls.init
+        ( channelsInit, channelsCmds ) =
+            Elm.Channels.init
     in
     case Json.decodeValue flagDecoder flags of
         Ok flagModel ->
-            ( { channel = defaultChannel
-              , title = ""
-              , artist = ""
-              , imageUrl = ""
-              , name = ""
-              , timestamp = ""
-              , url = flagModel.url
-              , controls = controlsInit
-              }
-            , Cmd.batch
-                [ Task.perform UpdateTimestamp Time.now
-                , getNowPlaying (flagModel.url ++ defaultChannel.nowPlayingUrl)
-                , Cmd.map MsgControls controlsCmds
-                ]
+            ( createModelInit flagModel.url controlsInit channelsInit
+            , createCmdInit flagModel.url controlsCmds channelsCmds
             )
-
         Err _ ->
-            ( { channel = defaultChannel
-              , title = ""
-              , artist = ""
-              , imageUrl = ""
-              , name = ""
-              , timestamp = ""
-              , url = ""
-              , controls = controlsInit
-              }
-            , Cmd.batch
-                [ Task.perform UpdateTimestamp Time.now
-                , getNowPlaying defaultChannel.nowPlayingUrl
-                , Cmd.map MsgControls controlsCmds
-                ]
+            ( createModelInit "" controlsInit channelsInit
+            , createCmdInit "" controlsCmds channelsCmds
             )
 
 
-defaultChannel : Channel
-defaultChannel =
-    { name = "NPO Radio 2"
-    , streamUrl = "https://icecast.omroep.nl/radio2-bb-mp3"
-    , nowPlayingUrl = "/api/nowplaying/radio2"
-    }
-
-
-channels : List Channel
-channels =
-    [ defaultChannel
-    , { name = "3FM"
-      , streamUrl = "https://icecast.omroep.nl/3fm-bb-mp3"
-      , nowPlayingUrl = ""
-      }
-    , { name = "Sky Radio"
-      , streamUrl = "https://19993.live.streamtheworld.com/SKYRADIO.mp3"
-      , nowPlayingUrl = ""
-      }
-    , { name = "Pinguin Radio"
-      , streamUrl = "http://streams.pinguinradio.com/PinguinRadio320.mp3"
-      , nowPlayingUrl = ""
-      }
-    ]
-
-
-channelOption : Channel -> Html msg
-channelOption channel =
-    option [ value channel.name ] [ text channel.name ]
-
-
-
--- equivalent to: pickChannel channelName channelList = withDefault defaultChannel (head (filter (\x -> x.name == channelName) channelList))
-
-
-pickChannel : String -> List Channel -> Channel
-pickChannel channelName channelList =
-    channelList
-        |> filter (\x -> x.name == channelName)
-        |> head
-        |> withDefault defaultChannel
 
 
 
@@ -194,11 +149,10 @@ getImageUrl data =
 
 
 type Msg
-    = SetChannel String
-    | UpdateTimestamp Time.Posix
-    | GetNowPlaying
+    = GetNowPlaying
     | GotNowPlaying (Result Http.Error NowPlaying)
     | MsgControls Elm.Controls.Msg
+    | MsgChannels Elm.Channels.Msg
 
 
 
@@ -211,18 +165,8 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SetChannel val ->
-            let
-                targetChannel =
-                    pickChannel val channels
-            in
-            ( { model | channel = targetChannel }, Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying (model.url ++ targetChannel.nowPlayingUrl) ] )
-
-        UpdateTimestamp time ->
-            ( { model | timestamp = toString (Time.posixToMillis time) }, Cmd.none )
-
         GetNowPlaying ->
-            ( model, getNowPlaying (model.url ++ model.channel.nowPlayingUrl) )
+            ( model, getNowPlaying (model.url ++ model.channels.channel.nowPlayingUrl) )
 
         GotNowPlaying result ->
             case result of
@@ -240,7 +184,7 @@ update msg model =
                     ( { model
                         | title = "UNKNOWN"
                         , artist = "UNKNOWN"
-                        , name = model.channel.name
+                        , name = model.channels.channel.name
                       }
                     , Cmd.none
                     )
@@ -252,6 +196,15 @@ update msg model =
             in
             ( { model | controls = controlsModel }
             , Cmd.map MsgControls controlsCmds
+            )
+
+        MsgChannels msg_ ->
+            let
+                ( channelsModel, channelsCmds ) =
+                    Elm.Channels.update msg_ model.channels
+            in
+            ( { model | channels = channelsModel }
+            , Cmd.map MsgChannels channelsCmds
             )
 
 
@@ -278,7 +231,7 @@ view model =
                 [ class "music-info" ]
                 [ div
                     [ class "channel" ]
-                    [ select [ on "change" (Json.map SetChannel targetValue) ] (List.map channelOption channels)
+                    [ Html.map MsgChannels (Elm.Channels.view model.channels)
                     , p [ class "channel-info" ] [ text (log "my debug statement:" model.name) ]
                     ]
                 , p [ class "title" ] [ text model.title ]
@@ -287,7 +240,7 @@ view model =
                 --, div [] [ text (model.name ++ " on " ++ model.channel) ]
                 , audio
                     [ id "homeremote-stream-player-audio-elem"
-                    , src (model.channel.streamUrl ++ "?" ++ model.timestamp)
+                    , src (model.channels.channel.streamUrl ++ "?" ++ model.channels.timestamp)
                     , type_ "audio/mpeg"
                     , controls True
 
