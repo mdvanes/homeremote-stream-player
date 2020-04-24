@@ -47,39 +47,39 @@ type alias Model =
     , artist : String
     , imageUrl : String
     , name : String
-    , url : String
+    , serviceUrlRoot : String
     , controls : Elm.Controls.Model
     , channels : Elm.Channels.Model
     }
 
 
 type alias FlagModel =
-    { url : String }
+    { serviceUrlRoot : String }
 
 
 flagDecoder : Json.Decoder FlagModel
 flagDecoder =
     Json.map FlagModel
-        (Json.field "url" Json.string)
+        (Json.field "serviceUrlRoot" Json.string)
 
 
 createModelInit : String -> Elm.Controls.Model -> Elm.Channels.Model -> Model
-createModelInit url controlsInit channelsInit =
+createModelInit serviceUrlRoot controlsInit channelsInit =
     { title = ""
     , artist = ""
     , imageUrl = ""
     , name = ""
-    , url = url
+    , serviceUrlRoot = serviceUrlRoot
     , controls = controlsInit
     , channels = channelsInit
     }
 
 createCmdInit : String -> Cmd Elm.Controls.Msg -> Cmd Elm.Channels.Msg -> Cmd Msg
-createCmdInit url controlsCmds channelsCmds =
+createCmdInit serviceUrlRoot controlsCmds channelsCmds =
     Cmd.batch
         [ Cmd.map MsgControls controlsCmds
         , Cmd.map MsgChannels channelsCmds
-        , getNowPlaying (url ++ defaultChannel.nowPlayingUrl)
+        , getNowPlaying (serviceUrlRoot ++ defaultChannel.nowPlayingUrl)
         ]
 
 init : Json.Encode.Value -> ( Model, Cmd Msg )
@@ -92,8 +92,8 @@ init flags =
     in
     case Json.decodeValue flagDecoder flags of
         Ok flagModel ->
-            ( createModelInit flagModel.url controlsInit channelsInit
-            , createCmdInit flagModel.url controlsCmds channelsCmds
+            ( createModelInit flagModel.serviceUrlRoot controlsInit channelsInit
+            , createCmdInit flagModel.serviceUrlRoot controlsCmds channelsCmds
             )
         Err _ ->
             ( createModelInit "" controlsInit channelsInit
@@ -105,7 +105,7 @@ init flags =
 
 
 -- HTTP
--- TODO nowPlayingUrl could be prefixed with url from flag, but the suffix can be "". Split into 2 arguments and test if the suffix is "" before calling Http.get
+-- TODO nowPlayingUrl could be prefixed with serviceUrlRoot from flag, but the suffix can be "". Split into 2 arguments and test if the suffix is "" before calling Http.get
 
 
 getNowPlaying : String -> Cmd Msg
@@ -166,7 +166,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetNowPlaying ->
-            ( model, getNowPlaying (model.url ++ model.channels.channel.nowPlayingUrl) )
+            ( model, getNowPlaying (model.serviceUrlRoot ++ model.channels.channel.nowPlayingUrl) )
 
         GotNowPlaying result ->
             case result of

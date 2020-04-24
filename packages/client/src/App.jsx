@@ -37,11 +37,11 @@ const setupPorts = (elmElem) => (ports) => {
   })
 }
 
-const App = ({ url }) => {
+const App = ({ serviceUrlRoot }) => {
   const elmElem = useRef(null);
   return (
     // <Elm src={Buttons.Elm.Elm.Buttons} />
-    <Elm ref={elmElem} src={Audio.Elm.Elm.Audio} flags={{ url } } ports={setupPorts(elmElem)} />
+    <Elm ref={elmElem} src={Audio.Elm.Elm.Audio} flags={{ serviceUrlRoot } } ports={setupPorts(elmElem)} />
   );
 }
 

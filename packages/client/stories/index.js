@@ -6,7 +6,7 @@ import "./styles.css";
 
 storiesOf('homeremote-stream-player', module)
   .add('default', () => (
-    <App url="http://localhost:3100" />
+    <App serviceUrlRoot="http://localhost:3100" />
   ));
   // .add('test', () => (
   //   <TestElem/>
