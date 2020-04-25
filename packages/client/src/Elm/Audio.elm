@@ -13,8 +13,8 @@ import List exposing (filter, head)
 import Maybe exposing (withDefault)
 import Task
 import Time
-import Elm.Channels exposing (defaultChannel)
-
+import Elm.SelectedChannel exposing (defaultChannel)
+import Elm.Channels
 
 
 -- TODO split into multiple files, Elm architecture
@@ -166,7 +166,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetNowPlaying ->
-            ( model, getNowPlaying (model.serviceUrlRoot ++ model.channels.channel.nowPlayingUrl) )
+            ( model, getNowPlaying (model.serviceUrlRoot ++ model.channels.selectedChannel.channel.nowPlayingUrl) )
 
         GotNowPlaying result ->
             case result of
@@ -184,7 +184,7 @@ update msg model =
                     ( { model
                         | title = "UNKNOWN"
                         , artist = "UNKNOWN"
-                        , name = model.channels.channel.name
+                        , name = model.channels.selectedChannel.channel.name
                       }
                     , Cmd.none
                     )
@@ -238,9 +238,10 @@ view model =
                 , p [ class "artist" ] [ text model.artist ]
 
                 --, div [] [ text (model.name ++ " on " ++ model.channel) ]
+                , div [] [ text (model.channels.selectedChannel.channel.streamUrl ++ "?" ++ model.channels.timestamp) ]
                 , audio
                     [ id "homeremote-stream-player-audio-elem"
-                    , src (model.channels.channel.streamUrl ++ "?" ++ model.channels.timestamp)
+                    , src (model.channels.selectedChannel.channel.streamUrl ++ "?" ++ model.channels.timestamp)
                     , type_ "audio/mpeg"
                     , controls True
 
