@@ -1,4 +1,4 @@
-module Elm.Channels exposing (Model, Msg(..), init, update, view)
+module Elm.ChannelSelector exposing (Model, Msg(..), init, update, view)
 
 import Html exposing (Html, audio, button, div, img, option, p, select, text)
 import Html.Attributes exposing (class, controls, id, src, title, type_, value)
@@ -15,42 +15,11 @@ import Elm.SelectedChannel exposing (Channel, Msg(..), channels, defaultChannel)
 
 -- MODEL
 
--- TODO rename file to ChannelSelector
-
---type alias Channel =
---    { name : String
---    , streamUrl : String
---    , nowPlayingUrl : String
---    }
-
 type alias Model =
     { selectedChannel: Elm.SelectedChannel.Model
     , timestamp : String
     }
 
---defaultChannel : Channel
---defaultChannel =
---    { name = "NPO Radio 2"
---    , streamUrl = "https://icecast.omroep.nl/radio2-bb-mp3"
---    , nowPlayingUrl = "/api/nowplaying/radio2"
---    }
---
---channels : List Channel
---channels =
---    [ defaultChannel
---    , { name = "3FM"
---      , streamUrl = "https://icecast.omroep.nl/3fm-bb-mp3"
---      , nowPlayingUrl = ""
---      }
---    , { name = "Sky Radio"
---      , streamUrl = "https://19993.live.streamtheworld.com/SKYRADIO.mp3"
---      , nowPlayingUrl = ""
---      }
---    , { name = "Pinguin Radio"
---      , streamUrl = "http://streams.pinguinradio.com/PinguinRadio320.mp3"
---      , nowPlayingUrl = ""
---      }
---    ]
 
 -- INIT
 
@@ -71,7 +40,6 @@ init =
 type Msg
     = SelectChannel String
     | UpdateTimestamp Time.Posix
-    -- | SetChannel Elm.SelectedChannel.Channel
     | MsgSelectedChannel Elm.SelectedChannel.Msg
 
 send : msg -> Cmd msg
@@ -97,27 +65,13 @@ update msg model =
         UpdateTimestamp time ->
             ( { model | timestamp = toString (Time.posixToMillis time) }, Cmd.none )
 
-        -- WARNING INFINITE RECURSION
-        --SetChannel msg_ ->
-        --    ( model, send (SetChannel msg_)) -- magic? How does this end up in SelectedChannel?
-        --SetChannel msg_ ->
-        --    (model, log "dead end" Cmd.none) -- TODO how to run Elm.SelectedChannel.update ?
-
-        --MsgSelectedChannel msg_ ->
-        --    let
-        --        ( channelsModel, channelsCmds ) =
-        --            Elm.SelectedChannel.update msg_ model.selectedChannel
-        --    in
-        --    ( { model | selectedChannel = channelsModel }
-        --    , Cmd.map MsgSelectedChannel channelsCmds
-        --    )
         MsgSelectedChannel msg_ ->
             let
-                ( channelsModel, channelsCmds ) =
+                ( selectedChannelModel, selectedChannelCmds ) =
                     Elm.SelectedChannel.update msg_ model.selectedChannel
             in
-            ( { model | selectedChannel = channelsModel }
-            , Cmd.map MsgSelectedChannel channelsCmds
+            ( { model | selectedChannel = selectedChannelModel }
+            , Cmd.map MsgSelectedChannel selectedChannelCmds
             )
 
 -- VIEW

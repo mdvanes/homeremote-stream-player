@@ -14,7 +14,7 @@ import Maybe exposing (withDefault)
 import Task
 import Time
 import Elm.SelectedChannel exposing (defaultChannel)
-import Elm.Channels
+import Elm.ChannelSelector
 
 
 -- TODO split into multiple files, Elm architecture
@@ -49,7 +49,7 @@ type alias Model =
     , name : String
     , serviceUrlRoot : String
     , controls : Elm.Controls.Model
-    , channels : Elm.Channels.Model
+    , channelSelector : Elm.ChannelSelector.Model
     }
 
 
@@ -63,22 +63,22 @@ flagDecoder =
         (Json.field "serviceUrlRoot" Json.string)
 
 
-createModelInit : String -> Elm.Controls.Model -> Elm.Channels.Model -> Model
-createModelInit serviceUrlRoot controlsInit channelsInit =
+createModelInit : String -> Elm.Controls.Model -> Elm.ChannelSelector.Model -> Model
+createModelInit serviceUrlRoot controlsInit channelSelectorInit =
     { title = ""
     , artist = ""
     , imageUrl = ""
     , name = ""
     , serviceUrlRoot = serviceUrlRoot
     , controls = controlsInit
-    , channels = channelsInit
+    , channelSelector = channelSelectorInit
     }
 
-createCmdInit : String -> Cmd Elm.Controls.Msg -> Cmd Elm.Channels.Msg -> Cmd Msg
-createCmdInit serviceUrlRoot controlsCmds channelsCmds =
+createCmdInit : String -> Cmd Elm.Controls.Msg -> Cmd Elm.ChannelSelector.Msg -> Cmd Msg
+createCmdInit serviceUrlRoot controlsCmds channelSelectorCmds =
     Cmd.batch
         [ Cmd.map MsgControls controlsCmds
-        , Cmd.map MsgChannels channelsCmds
+        , Cmd.map MsgChannelSelector channelSelectorCmds
         , getNowPlaying (serviceUrlRoot ++ defaultChannel.nowPlayingUrl)
         ]
 
@@ -87,17 +87,17 @@ init flags =
     let
         ( controlsInit, controlsCmds ) =
             Elm.Controls.init
-        ( channelsInit, channelsCmds ) =
-            Elm.Channels.init
+        ( channelSelectorInit, channelSelectorCmds ) =
+            Elm.ChannelSelector.init
     in
     case Json.decodeValue flagDecoder flags of
         Ok flagModel ->
-            ( createModelInit flagModel.serviceUrlRoot controlsInit channelsInit
-            , createCmdInit flagModel.serviceUrlRoot controlsCmds channelsCmds
+            ( createModelInit flagModel.serviceUrlRoot controlsInit channelSelectorInit
+            , createCmdInit flagModel.serviceUrlRoot controlsCmds channelSelectorCmds
             )
         Err _ ->
-            ( createModelInit "" controlsInit channelsInit
-            , createCmdInit "" controlsCmds channelsCmds
+            ( createModelInit "" controlsInit channelSelectorInit
+            , createCmdInit "" controlsCmds channelSelectorCmds
             )
 
 
@@ -152,7 +152,7 @@ type Msg
     = GetNowPlaying
     | GotNowPlaying (Result Http.Error NowPlaying)
     | MsgControls Elm.Controls.Msg
-    | MsgChannels Elm.Channels.Msg
+    | MsgChannelSelector Elm.ChannelSelector.Msg
 
 
 
@@ -166,7 +166,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetNowPlaying ->
-            ( model, getNowPlaying (model.serviceUrlRoot ++ model.channels.selectedChannel.channel.nowPlayingUrl) )
+            ( model, getNowPlaying (model.serviceUrlRoot ++ model.channelSelector.selectedChannel.channel.nowPlayingUrl) )
 
         GotNowPlaying result ->
             case result of
@@ -184,7 +184,7 @@ update msg model =
                     ( { model
                         | title = "UNKNOWN"
                         , artist = "UNKNOWN"
-                        , name = model.channels.selectedChannel.channel.name
+                        , name = model.channelSelector.selectedChannel.channel.name
                       }
                     , Cmd.none
                     )
@@ -198,13 +198,13 @@ update msg model =
             , Cmd.map MsgControls controlsCmds
             )
 
-        MsgChannels msg_ ->
+        MsgChannelSelector msg_ ->
             let
-                ( channelsModel, channelsCmds ) =
-                    Elm.Channels.update msg_ model.channels
+                ( channelSelectorModel, channelSelectorCmds ) =
+                    Elm.ChannelSelector.update msg_ model.channelSelector
             in
-            ( { model | channels = channelsModel }
-            , Cmd.map MsgChannels channelsCmds
+            ( { model | channelSelector = channelSelectorModel }
+            , Cmd.map MsgChannelSelector channelSelectorCmds
             )
 
 
@@ -231,17 +231,17 @@ view model =
                 [ class "music-info" ]
                 [ div
                     [ class "channel" ]
-                    [ Html.map MsgChannels (Elm.Channels.view model.channels)
+                    [ Html.map MsgChannelSelector (Elm.ChannelSelector.view model.channelSelector)
                     , p [ class "channel-info" ] [ text (log "my debug statement:" model.name) ]
                     ]
                 , p [ class "title" ] [ text model.title ]
                 , p [ class "artist" ] [ text model.artist ]
 
                 --, div [] [ text (model.name ++ " on " ++ model.channel) ]
-                , div [] [ text (model.channels.selectedChannel.channel.streamUrl ++ "?" ++ model.channels.timestamp) ]
+                , div [] [ text (model.channelSelector.selectedChannel.channel.streamUrl ++ "?" ++ model.channelSelector.timestamp) ]
                 , audio
                     [ id "homeremote-stream-player-audio-elem"
-                    , src (model.channels.selectedChannel.channel.streamUrl ++ "?" ++ model.channels.timestamp)
+                    , src (model.channelSelector.selectedChannel.channel.streamUrl ++ "?" ++ model.channelSelector.timestamp)
                     , type_ "audio/mpeg"
                     , controls True
 
