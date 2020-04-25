@@ -1,5 +1,6 @@
 module Elm.ChannelSelector exposing (Model, Msg(..), init, update, view)
 
+import Elm.NowPlaying
 import Html exposing (Html, audio, button, div, img, option, p, select, text)
 import Html.Attributes exposing (class, controls, id, src, title, type_, value)
 import Html.Events exposing (on, onClick, targetValue)
@@ -17,6 +18,7 @@ import Elm.SelectedChannel exposing (Channel, Msg(..), channels, defaultChannel)
 
 type alias Model =
     { selectedChannel: Elm.SelectedChannel.Model
+    , nowPlaying: Elm.NowPlaying.Model
     , timestamp : String
     }
 
@@ -28,11 +30,14 @@ init =
     let
         ( selectedChannelInit, selectedChannelCmds ) =
             Elm.SelectedChannel.init
+        ( nowPlayingInit, nowPlayingCmds ) =
+            Elm.NowPlaying.init "TODO_initialServiceRootUrl" -- TODO
     in
     ( {
     selectedChannel = selectedChannelInit
+    , nowPlaying = nowPlayingInit
     , timestamp = ""
-    }, Task.perform UpdateTimestamp Time.now )
+    }, Cmd.batch [Cmd.map MsgNowPlaying nowPlayingCmds, Task.perform UpdateTimestamp Time.now ] )
 
 -- UPDATE
 
@@ -41,6 +46,7 @@ type Msg
     = SelectChannel String
     | UpdateTimestamp Time.Posix
     | MsgSelectedChannel Elm.SelectedChannel.Msg
+    | MsgNowPlaying Elm.NowPlaying.Msg
 
 send : msg -> Cmd msg
 send msg =
@@ -73,6 +79,14 @@ update msg model =
             ( { model | selectedChannel = selectedChannelModel }
             , Cmd.map MsgSelectedChannel selectedChannelCmds
             )
+
+        MsgNowPlaying msg_ ->
+            let
+                ( nowPlayingModel, nowPlayingCmds ) =
+                    Elm.NowPlaying.update msg_ model.nowPlaying
+            in
+            ( { model | nowPlaying = nowPlayingModel }
+            , Cmd.map MsgNowPlaying nowPlayingCmds)
 
 -- VIEW
 

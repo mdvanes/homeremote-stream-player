@@ -1,4 +1,5 @@
 module Elm.NowPlaying exposing (..)
+import Elm.SelectedChannel exposing (defaultChannel)
 import Http
 import Json.Decode as Json
 import Html exposing (Html, audio, button, div, img, option, p, select, text)
@@ -14,6 +15,7 @@ type alias Model =
     , imageUrl : String
     , name : String
     , serviceUrlRoot: String
+    , selectedChannel: Elm.SelectedChannel.Model
     }
 
 type alias NowPlaying =
@@ -23,6 +25,22 @@ type alias NowPlaying =
     , imageUrl : String
     , name : String
     }
+
+-- INIT
+
+init : String -> ( Model, Cmd Msg )
+init initialServiceRootUrl =
+    let
+        ( selectedChannelInit, selectedChannelCmds ) =
+            Elm.SelectedChannel.init
+    in    (
+    { title = ""
+    , artist = ""
+    , imageUrl = ""
+    , name = ""
+    , serviceUrlRoot = initialServiceRootUrl
+    , selectedChannel = selectedChannelInit
+    }, getNowPlaying (initialServiceRootUrl ++ defaultChannel.nowPlayingUrl) )
 
 -- HTTP
 -- TODO nowPlayingUrl could be prefixed with url from flag, but the suffix can be "". Split into 2 arguments and test if the suffix is "" before calling Http.get
@@ -71,7 +89,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetNowPlaying ->
-            ( model, getNowPlaying (model.serviceUrlRoot ++ model.channels.channel.nowPlayingUrl) )
+            ( model, getNowPlaying (model.serviceUrlRoot ++ model.selectedChannel.channel.nowPlayingUrl) )
 
         GotNowPlaying result ->
             case result of
@@ -89,7 +107,7 @@ update msg model =
                     ( { model
                         | title = "UNKNOWN"
                         , artist = "UNKNOWN"
-                        , name = model.channels.channel.name
+                        , name = model.selectedChannel.channel.name
                       }
                     , Cmd.none
                     )
