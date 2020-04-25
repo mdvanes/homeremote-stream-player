@@ -241,7 +241,7 @@ view model =
                     -- timeDecoder : Json.Decoder Float
                     -- timeDecoder =
                     --     Json.at [ "target", "currentTime" ] Json.float
-                    , on "play" (Json.succeed GetNowPlaying)
+                    , Html.Attributes.map MsgNowPlaying (Elm.NowPlaying.onPlay model.nowPlaying)
                     ]
                     [ text "Your browser does not support the audio element."
                     ]

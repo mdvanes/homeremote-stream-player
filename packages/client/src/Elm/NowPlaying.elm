@@ -114,6 +114,10 @@ update msg model =
 
 -- VIEW
 
+onPlay : Model -> Html.Attribute Msg
+onPlay model =
+    on "play" (Json.succeed GetNowPlaying)
+
 viewImage : Model -> Html Msg
 viewImage model =
     button
