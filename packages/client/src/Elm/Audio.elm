@@ -3,6 +3,7 @@ module Elm.Audio exposing (main)
 import Browser
 import Debug exposing (log, toString)
 import Elm.Controls
+import Elm.NowPlaying
 import Html exposing (Html, audio, button, div, img, option, p, select, text)
 import Html.Attributes exposing (class, controls, id, src, title, type_, value)
 import Html.Events exposing (on, onClick, targetValue)
@@ -35,21 +36,22 @@ main =
 -- MODEL
 
 
-type alias Channel =
-    { name : String
-    , streamUrl : String
-    , nowPlayingUrl : String
-    }
+--type alias Channel =
+--    { name : String
+--    , streamUrl : String
+--    , nowPlayingUrl : String
+--    }
 
 
 type alias Model =
-    { title : String
-    , artist : String
-    , imageUrl : String
-    , name : String
-    , serviceUrlRoot : String
-    , controls : Elm.Controls.Model
+    --title : String
+    --, artist : String
+    --, imageUrl : String
+    --, name : String
+    --, serviceUrlRoot : String
+    { controls : Elm.Controls.Model
     , channelSelector : Elm.ChannelSelector.Model
+    , nowPlaying : Elm.NowPlaying.Model
     }
 
 
@@ -63,23 +65,20 @@ flagDecoder =
         (Json.field "serviceUrlRoot" Json.string)
 
 
-createModelInit : String -> Elm.Controls.Model -> Elm.ChannelSelector.Model -> Model
-createModelInit serviceUrlRoot controlsInit channelSelectorInit =
-    { title = ""
-    , artist = ""
-    , imageUrl = ""
-    , name = ""
-    , serviceUrlRoot = serviceUrlRoot
-    , controls = controlsInit
+createModelInit : String -> Elm.Controls.Model -> Elm.ChannelSelector.Model -> Elm.NowPlaying.Model -> Model
+createModelInit serviceUrlRoot controlsInit channelSelectorInit nowPlayingInit =
+    { controls = controlsInit
     , channelSelector = channelSelectorInit
+    , nowPlaying = nowPlayingInit
     }
 
-createCmdInit : String -> Cmd Elm.Controls.Msg -> Cmd Elm.ChannelSelector.Msg -> Cmd Msg
-createCmdInit serviceUrlRoot controlsCmds channelSelectorCmds =
+createCmdInit : String -> Cmd Elm.Controls.Msg -> Cmd Elm.ChannelSelector.Msg -> Cmd Elm.NowPlaying.Msg -> Cmd Msg
+createCmdInit serviceUrlRoot controlsCmds channelSelectorCmds nowPlayingCmds =
     Cmd.batch
         [ Cmd.map MsgControls controlsCmds
         , Cmd.map MsgChannelSelector channelSelectorCmds
-        , getNowPlaying (serviceUrlRoot ++ defaultChannel.nowPlayingUrl)
+        -- , getNowPlaying (serviceUrlRoot ++ defaultChannel.nowPlayingUrl)
+        , Cmd.map MsgNowPlaying nowPlayingCmds
         ]
 
 init : Json.Encode.Value -> ( Model, Cmd Msg )
@@ -92,56 +91,61 @@ init flags =
     in
     case Json.decodeValue flagDecoder flags of
         Ok flagModel ->
-            ( createModelInit flagModel.serviceUrlRoot controlsInit channelSelectorInit
-            , createCmdInit flagModel.serviceUrlRoot controlsCmds channelSelectorCmds
+            let
+                ( nowPlayingInit, nowPlayingCmds ) =
+                    Elm.NowPlaying.init flagModel.serviceUrlRoot
+            in
+            ( createModelInit flagModel.serviceUrlRoot controlsInit channelSelectorInit nowPlayingInit
+            , createCmdInit flagModel.serviceUrlRoot controlsCmds channelSelectorCmds nowPlayingCmds
             )
         Err _ ->
-            ( createModelInit "" controlsInit channelSelectorInit
-            , createCmdInit "" controlsCmds channelSelectorCmds
+            let
+                ( nowPlayingInit, nowPlayingCmds ) =
+                    Elm.NowPlaying.init ""
+            in
+            ( createModelInit "" controlsInit channelSelectorInit nowPlayingInit
+            , createCmdInit "" controlsCmds channelSelectorCmds nowPlayingCmds
             )
 
 
 
 
 
--- HTTP
--- TODO nowPlayingUrl could be prefixed with serviceUrlRoot from flag, but the suffix can be "". Split into 2 arguments and test if the suffix is "" before calling Http.get
+
+--getNowPlaying : String -> Cmd Msg
+--getNowPlaying nowPlayingUrl =
+--    Http.get
+--        { url = nowPlayingUrl
+--        , expect = Http.expectJson GotNowPlaying nowPlayingDecoder
+--        }
 
 
-getNowPlaying : String -> Cmd Msg
-getNowPlaying nowPlayingUrl =
-    Http.get
-        { url = nowPlayingUrl
-        , expect = Http.expectJson GotNowPlaying nowPlayingDecoder
-        }
+--type alias NowPlaying =
+--    { artist : String
+--    , title : String
+--    , songImageUrl : String
+--    , imageUrl : String
+--    , name : String
+--    }
+--
+--
+--nowPlayingDecoder : Json.Decoder NowPlaying
+--nowPlayingDecoder =
+--    Json.map5 NowPlaying
+--        (Json.field "artist" Json.string)
+--        (Json.field "title" Json.string)
+--        (Json.field "songImageUrl" Json.string)
+--        (Json.field "imageUrl" Json.string)
+--        (Json.field "name" Json.string)
 
 
-type alias NowPlaying =
-    { artist : String
-    , title : String
-    , songImageUrl : String
-    , imageUrl : String
-    , name : String
-    }
-
-
-nowPlayingDecoder : Json.Decoder NowPlaying
-nowPlayingDecoder =
-    Json.map5 NowPlaying
-        (Json.field "artist" Json.string)
-        (Json.field "title" Json.string)
-        (Json.field "songImageUrl" Json.string)
-        (Json.field "imageUrl" Json.string)
-        (Json.field "name" Json.string)
-
-
-getImageUrl : NowPlaying -> String
-getImageUrl data =
-    if data.songImageUrl /= "" then
-        data.songImageUrl
-
-    else
-        data.imageUrl
+--getImageUrl : NowPlaying -> String
+--getImageUrl data =
+--    if data.songImageUrl /= "" then
+--        data.songImageUrl
+--
+--    else
+--        data.imageUrl
 
 
 
@@ -149,10 +153,9 @@ getImageUrl data =
 
 
 type Msg
-    = GetNowPlaying
-    | GotNowPlaying (Result Http.Error NowPlaying)
-    | MsgControls Elm.Controls.Msg
+    = MsgControls Elm.Controls.Msg
     | MsgChannelSelector Elm.ChannelSelector.Msg
+    | MsgNowPlaying Elm.NowPlaying.Msg
 
 
 
@@ -165,29 +168,6 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetNowPlaying ->
-            ( model, getNowPlaying (model.serviceUrlRoot ++ model.channelSelector.selectedChannel.channel.nowPlayingUrl) )
-
-        GotNowPlaying result ->
-            case result of
-                Ok data ->
-                    ( { model
-                        | title = data.title
-                        , artist = data.artist
-                        , name = data.name
-                        , imageUrl = getImageUrl data
-                      }
-                    , Cmd.none
-                    )
-
-                Err _ ->
-                    ( { model
-                        | title = "UNKNOWN"
-                        , artist = "UNKNOWN"
-                        , name = model.channelSelector.selectedChannel.channel.name
-                      }
-                    , Cmd.none
-                    )
 
         MsgControls msg_ ->
             let
@@ -205,6 +185,15 @@ update msg model =
             in
             ( { model | channelSelector = channelSelectorModel }
             , Cmd.map MsgChannelSelector channelSelectorCmds
+            )
+
+        MsgNowPlaying msg_ ->
+            let
+                ( nowPlayingModel, nowPlayingCmds ) =
+                    Elm.NowPlaying.update msg_ model.nowPlaying
+            in
+            ( { model | nowPlaying = nowPlayingModel }
+            , Cmd.map MsgNowPlaying nowPlayingCmds
             )
 
 
@@ -232,10 +221,9 @@ view model =
                 [ div
                     [ class "channel" ]
                     [ Html.map MsgChannelSelector (Elm.ChannelSelector.view model.channelSelector)
-                    , p [ class "channel-info" ] [ text (log "my debug statement:" model.name) ]
+                    , p [ class "channel-info" ] [ text (log "my debug statement:" model.nowPlaying.name) ]
                     ]
-                , p [ class "title" ] [ text model.title ]
-                , p [ class "artist" ] [ text model.artist ]
+                , Html.map MsgNowPlaying (Elm.NowPlaying.viewTitleArtist model.nowPlaying)
 
                 --, div [] [ text (model.name ++ " on " ++ model.channel) ]
                 , div [] [ text (model.channelSelector.selectedChannel.channel.streamUrl ++ "?" ++ model.channelSelector.timestamp) ]
@@ -259,11 +247,12 @@ view model =
                     ]
                 , Html.map MsgControls (Elm.Controls.view model.controls)
                 ]
-            , button
-                [ onClick GetNowPlaying
-                , title "Get Now Playing"
-                , class "get-now-playing"
-                ]
-                [ img [ src model.imageUrl ] [] ]
+            , Html.map MsgNowPlaying (Elm.NowPlaying.viewImage model.nowPlaying)
+            --, button
+            --    [ onClick Elm.NowPlaying.GetNowPlaying
+            --    , title "Get Now Playing"
+            --    , class "get-now-playing"
+            --    ]
+            --    [ img [ src model.imageUrl ] [] ]
             ]
         ]

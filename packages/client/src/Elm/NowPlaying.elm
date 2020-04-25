@@ -114,7 +114,7 @@ update msg model =
 
 -- VIEW
 
-view : Model -> Html Msg
+viewImage : Model -> Html Msg
 viewImage model =
     button
         [ onClick GetNowPlaying
@@ -123,7 +123,7 @@ viewImage model =
         ]
         [ img [ src model.imageUrl ] [] ]
 
-view : Model -> Html Msg
+viewTitleArtist : Model -> Html Msg
 viewTitleArtist model =
     div
         []
