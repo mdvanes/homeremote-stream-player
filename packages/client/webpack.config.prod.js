@@ -26,7 +26,7 @@ module.exports = {
         }
       },
       { test: /\.css$/, loader: "style-loader!css-loader" },
-      { test: /\.svg$/, loader: "file-loader" },
+      { test: /\.svg$/, loader: "url-loader" },
       // loader for elm files
       elmloader
     ]
