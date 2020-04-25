@@ -54,6 +54,7 @@ type alias Model =
     , nowPlaying : Elm.NowPlaying.Model
     }
 
+-- TODO remove nowPlaying from Model?
 
 type alias FlagModel =
     { serviceUrlRoot : String }
@@ -64,6 +65,7 @@ flagDecoder =
     Json.map FlagModel
         (Json.field "serviceUrlRoot" Json.string)
 
+-- TODO remove serviceUrlRoot argument
 
 createModelInit : String -> Elm.Controls.Model -> Elm.ChannelSelector.Model -> Elm.NowPlaying.Model -> Model
 createModelInit serviceUrlRoot controlsInit channelSelectorInit nowPlayingInit =
@@ -86,12 +88,12 @@ init flags =
     let
         ( controlsInit, controlsCmds ) =
             Elm.Controls.init
-        ( channelSelectorInit, channelSelectorCmds ) =
-            Elm.ChannelSelector.init
     in
     case Json.decodeValue flagDecoder flags of
         Ok flagModel ->
             let
+                ( channelSelectorInit, channelSelectorCmds ) =
+                    Elm.ChannelSelector.init flagModel.serviceUrlRoot
                 ( nowPlayingInit, nowPlayingCmds ) =
                     Elm.NowPlaying.init flagModel.serviceUrlRoot
             in
@@ -100,6 +102,8 @@ init flags =
             )
         Err _ ->
             let
+                ( channelSelectorInit, channelSelectorCmds ) =
+                    Elm.ChannelSelector.init ""
                 ( nowPlayingInit, nowPlayingCmds ) =
                     Elm.NowPlaying.init ""
             in

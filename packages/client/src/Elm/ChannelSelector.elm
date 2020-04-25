@@ -25,8 +25,8 @@ type alias Model =
 
 -- INIT
 
-init : ( Model, Cmd Msg )
-init =
+init : String -> ( Model, Cmd Msg )
+init initialServiceRootUrl =
     let
         ( selectedChannelInit, selectedChannelCmds ) =
             Elm.SelectedChannel.init
@@ -63,10 +63,15 @@ update msg model =
                 --( channelsModel, channelsCmds ) =
                 --    Elm.SelectedChannel.update msg_ model.selectedChannel
             in
-            -- TODO fix getNowPlaying ***
+            -- TODO fix getNowPlaying
             --( { model | channel = targetChannel }, Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying (model.url ++ targetChannel.nowPlayingUrl) ] )
             -- ( model, Cmd.batch [ send (SetChannel targetChannel), Task.perform UpdateTimestamp Time.now ] )
-            ( model, Cmd.batch [ send (MsgSelectedChannel (Elm.SelectedChannel.SetChannel targetChannel)), Task.perform UpdateTimestamp Time.now ] )
+            ( model, Cmd.batch
+                [ send (MsgSelectedChannel (Elm.SelectedChannel.SetChannel targetChannel))
+                , Task.perform UpdateTimestamp Time.now
+                , send (MsgNowPlaying (Elm.NowPlaying.GetNowPlaying2 targetChannel.nowPlayingUrl))
+                --, send (MsgNowPlaying (Elm.NowPlaying.GetNowPlaying))
+                ] )
 
         UpdateTimestamp time ->
             ( { model | timestamp = toString (Time.posixToMillis time) }, Cmd.none )

@@ -76,6 +76,7 @@ update msg model =
             ( { model | channel = log "SetChannel" val }, Cmd.none )
 
 
+-- TODO remove comments
 
 -- VIEW
 

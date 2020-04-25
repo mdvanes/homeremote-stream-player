@@ -38,7 +38,7 @@ init initialServiceRootUrl =
     , artist = ""
     , imageUrl = ""
     , name = ""
-    , serviceUrlRoot = initialServiceRootUrl
+    , serviceUrlRoot = log "NowPlaying.init initialServiceRootUrl" initialServiceRootUrl
     , selectedChannel = selectedChannelInit
     }, getNowPlaying (initialServiceRootUrl ++ defaultChannel.nowPlayingUrl) )
 
@@ -76,6 +76,7 @@ getImageUrl data =
 
 type Msg
     = GetNowPlaying
+    | GetNowPlaying2 String
     | GotNowPlaying (Result Http.Error NowPlaying)
 
 
@@ -90,6 +91,9 @@ update msg model =
     case msg of
         GetNowPlaying ->
             ( model, getNowPlaying (model.serviceUrlRoot ++ model.selectedChannel.channel.nowPlayingUrl) )
+
+        GetNowPlaying2 nowPlayingUrl ->
+            ( model, getNowPlaying (model.serviceUrlRoot ++ nowPlayingUrl) )
 
         GotNowPlaying result ->
             case result of
