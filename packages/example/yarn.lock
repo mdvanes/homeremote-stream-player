@@ -1287,20 +1287,20 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@mdworld/homeremote-stream-player-server@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@mdworld/homeremote-stream-player-server/-/homeremote-stream-player-server-1.1.2.tgz#26cbd523b2085683687fb9fc9eeee9ceb0a1e891"
-  integrity sha512-GP8I2Z1hnRWDX259yefmRswTM/BbU1oKvSdzJA/P4tC1h7fOLHIFStEjl/zJphckOAr5SSjIxjROvJ+X3fKGUQ==
+"@mdworld/homeremote-stream-player-server@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@mdworld/homeremote-stream-player-server/-/homeremote-stream-player-server-1.2.0.tgz#31ce9d8f90d028e2a346ddbd3512815086c28e9b"
+  integrity sha512-hoKXK+zydqDJcOGEkPVJ0hh3kZ1fmOITpMve4okuacMY9UpnwKNEM3hXwIn4KlBicawyQTaBtP+g087PRnqDyA==
   dependencies:
     express "^4.17.1"
     got "^10.6.0"
     ts-node "^8.8.2"
     typescript "^3.8.3"
 
-"@mdworld/homeremote-stream-player@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@mdworld/homeremote-stream-player/-/homeremote-stream-player-1.1.2.tgz#45cdb92d4d4e9575e5b85ff212874787962f7980"
-  integrity sha512-NEmKbEnT+saSkbFZlDapXPs5CvkeFvjR3pqwC05GzfAOlsoPRSKDAxP8s0jmMngOwpEEtZ5dipwDNL0EuS5ttQ==
+"@mdworld/homeremote-stream-player@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@mdworld/homeremote-stream-player/-/homeremote-stream-player-1.2.0.tgz#8ccd2cd0050a5c7a229a703ccf42b9efb062df59"
+  integrity sha512-4UIDNXFE5swN1RssBzzuHmJ5wpgc2WG/8uVfFSmTa2/ZAD1f7cx53uDQ+73vJ1PSTmfZT/oRNUjGmB1oa6P5NQ==
   dependencies:
     "@babel/core" "7.9.0"
     "@storybook/addons" "^5.3.18"
