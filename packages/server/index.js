@@ -36,25 +36,52 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 var got = require('got');
+var ChannelName;
+(function (ChannelName) {
+    ChannelName[ChannelName["RADIO2"] = 0] = "RADIO2";
+    ChannelName[ChannelName["RADIO3"] = 1] = "RADIO3";
+})(ChannelName || (ChannelName = {}));
 // Export for use by other apps
-var getNowPlaying = function () { return __awaiter(_this, void 0, void 0, function () {
-    var nowonairResponse, _a, artist, title, last_updated, songversion, songImageUrl, broadcastResponse, _b, name, image, imageUrl;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0: return [4 /*yield*/, got('https://radiobox2.omroep.nl/data/radiobox2/nowonair/2.json').json()];
+var getNowPlaying = function (channelName) { return __awaiter(_this, void 0, void 0, function () {
+    var nowonairResponse, _a, artist, title, last_updated, songversion, songImageUrl, broadcastResponse, _b, name_1, image, imageUrl, nowonairResponse, _c, artist, title, image, enddatetime, broadcastResponse, _d, name_2, presenters, image_url;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
+            case 0:
+                if (!(channelName === ChannelName.RADIO2)) return [3 /*break*/, 3];
+                return [4 /*yield*/, got('https://radiobox2.omroep.nl/data/radiobox2/nowonair/2.json').json()];
             case 1:
-                nowonairResponse = _c.sent();
+                nowonairResponse = _e.sent();
                 _a = nowonairResponse.results[0].songfile, artist = _a.artist, title = _a.title, last_updated = _a.last_updated, songversion = _a.songversion;
                 songImageUrl = songversion && songversion.image && songversion.image[0].url ? songversion.image[0].url : '';
                 return [4 /*yield*/, got('https://radiobox2.omroep.nl/data/radiobox2/currentbroadcast/2.json').json()];
             case 2:
-                broadcastResponse = _c.sent();
-                _b = broadcastResponse.results[0], name = _b.name, image = _b.image;
+                broadcastResponse = _e.sent();
+                _b = broadcastResponse.results[0], name_1 = _b.name, image = _b.image;
                 imageUrl = image && image.url ? image.url : '';
-                return [2 /*return*/, { artist: artist, title: title, last_updated: last_updated, songImageUrl: songImageUrl, name: name, imageUrl: imageUrl }];
+                return [2 /*return*/, { artist: artist, title: title, last_updated: last_updated, songImageUrl: songImageUrl, name: name_1, imageUrl: imageUrl }];
+            case 3:
+                if (!(channelName === ChannelName.RADIO3)) return [3 /*break*/, 6];
+                return [4 /*yield*/, got('https://www.npo3fm.nl/api/tracks').json()];
+            case 4:
+                nowonairResponse = _e.sent();
+                _c = nowonairResponse.data[0], artist = _c.artist, title = _c.title, image = _c.image, enddatetime = _c.enddatetime;
+                return [4 /*yield*/, got('https://www.npo3fm.nl/api/broadcasts').json()];
+            case 5:
+                broadcastResponse = _e.sent();
+                _d = broadcastResponse.data[0], name_2 = _d.title, presenters = _d.presenters, image_url = _d.image_url;
+                return [2 /*return*/, {
+                        artist: artist,
+                        title: title,
+                        last_updated: enddatetime,
+                        songImageUrl: image,
+                        name: name_2 + " / " + presenters,
+                        imageUrl: image_url
+                    }];
+            case 6: return [2 /*return*/];
         }
     });
 }); };
 module.exports = {
-    getNowPlaying: getNowPlaying
+    getNowPlaying: getNowPlaying,
+    ChannelName: ChannelName
 };
