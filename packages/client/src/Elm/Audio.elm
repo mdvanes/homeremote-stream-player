@@ -118,7 +118,7 @@ channels =
     [ defaultChannel
     , { name = "3FM"
       , streamUrl = "https://icecast.omroep.nl/3fm-bb-mp3"
-      , nowPlayingUrl = ""
+      , nowPlayingUrl = "/api/nowplaying/radio3"
       }
     , { name = "Sky Radio"
       , streamUrl = "https://19993.live.streamtheworld.com/SKYRADIO.mp3"
@@ -251,7 +251,8 @@ update msg model =
                     Elm.Controls.update msg_ model.controls
             in
             ( { model | controls = controlsModel }
-            , Cmd.map MsgControls controlsCmds
+            -- Regardless of the type of Command from Controls, always update the timestamp too
+            , Cmd.batch [ Task.perform UpdateTimestamp Time.now, Cmd.map MsgControls controlsCmds ]
             )
 
 
@@ -279,7 +280,7 @@ view model =
                 [ div
                     [ class "channel" ]
                     [ select [ on "change" (Json.map SetChannel targetValue) ] (List.map channelOption channels)
-                    , p [ class "channel-info" ] [ text (log "my debug statement:" model.name) ]
+                    , p [ class "channel-info" ] [ text (log "programme name" model.name) ]
                     ]
                 , p [ class "title" ] [ text model.title ]
                 , p [ class "artist" ] [ text model.artist ]
@@ -287,7 +288,7 @@ view model =
                 --, div [] [ text (model.name ++ " on " ++ model.channel) ]
                 , audio
                     [ id "homeremote-stream-player-audio-elem"
-                    , src (model.channel.streamUrl ++ "?" ++ model.timestamp)
+                    , src (model.channel.streamUrl ++ "?" ++ (log "timestamp" model.timestamp))
                     , type_ "audio/mpeg"
                     , controls True
 

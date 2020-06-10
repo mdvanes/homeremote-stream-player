@@ -29,11 +29,14 @@ import Audio from './Elm/Audio.elm';
 const setupPorts = (elmElem) => (ports) => {
   ports.setPlayPauseStatusPort.subscribe(newStatus => {
     const audioElem = ReactDOM.findDOMNode(elmElem.current).querySelector('audio');
-    if(newStatus === 'Play') {
-      audioElem.play();
-    } else {
-      audioElem.pause();
-    }
+    // Wait 10ms to let the audio elem be updated with a new cachebusting timestamp in Audio.elm `Cmd.batch [ Task.perform UpdateTimestamp Time.now, Cmd.map MsgControls controlsCmds ]`
+    setTimeout(() => {
+      if(newStatus === 'Play') {
+        audioElem.play();
+      } else {
+        audioElem.pause();
+      }
+    }, 10);
   })
 }
 
