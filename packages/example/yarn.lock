@@ -1287,10 +1287,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@mdworld/homeremote-stream-player-server@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@mdworld/homeremote-stream-player-server/-/homeremote-stream-player-server-1.3.0.tgz#c78dc31fc6656bf3f489d7a4cee81a2866861fb7"
-  integrity sha512-/7sFS3vnRwPRey20C77hr/O25I4QiFcdWs+Th/N6L6cml5lnbdT2JzstxABGvh8+q9+CPVjNBjbCGCRJU+uC+Q==
+"@mdworld/homeremote-stream-player-server@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@mdworld/homeremote-stream-player-server/-/homeremote-stream-player-server-1.4.1.tgz#cb1b60392fc6a4088018c5afceef0766ef626217"
+  integrity sha512-HzrXm1Dk9aemxJ+a9uSGBBtpUc9MjMBGA5aJBzsTjG2F5zFSxzaywOGpMM8PZnRTnt38p09scTzYBbXlLFd5iw==
   dependencies:
     express "^4.17.1"
     got "^10.6.0"
