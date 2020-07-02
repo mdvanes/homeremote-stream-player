@@ -26,9 +26,9 @@ const getNowPlaying = async (channelName: ChannelName): Promise<NowPlayingRespon
             artist,
             title,
             last_updated: enddatetime,
-            songImageUrl: image,
+            songImageUrl: image ?? "",
             name: `${name}${presentersSuffix}`,
-            imageUrl: image_url
+            imageUrl: image_url ?? ""
         }
     }
     if (channelName === ChannelName.RADIO3) {
@@ -41,9 +41,9 @@ const getNowPlaying = async (channelName: ChannelName): Promise<NowPlayingRespon
             artist,
             title,
             last_updated: enddatetime,
-            songImageUrl: image,
+            songImageUrl: image ?? "",
             name: `${name}${presentersSuffix}`,
-            imageUrl: image_url
+            imageUrl: image_url ?? ""
         }
     }
 }
