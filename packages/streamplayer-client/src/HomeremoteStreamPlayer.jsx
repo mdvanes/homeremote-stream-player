@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import ReactDOM from 'react-dom';
-import './App.css';
+import './HomeremoteStreamPlayer.css';
 import Elm from 'react-elm-components';
 // import Buttons from './Elm/Buttons.elm';
 import Audio from './Elm/Audio.elm';
