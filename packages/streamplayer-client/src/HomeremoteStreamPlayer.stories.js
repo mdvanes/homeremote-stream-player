@@ -1,8 +1,7 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
+import React from "react";
+import { storiesOf } from "@storybook/react";
 import HomeremoteStreamPlayer from "./HomeremoteStreamPlayer";
-// import TestElem from '../src/TestElem';
-import "./styles.css";
+import "./storybookStyles.css";
 
 storiesOf('homeremote-stream-player', module)
   .add('default', () => (
@@ -11,3 +10,12 @@ storiesOf('homeremote-stream-player', module)
   // .add('test', () => (
   //   <TestElem/>
   // ));
+
+export default {
+  title: "Components/Button",
+  component: HomeremoteStreamPlayer,
+};
+
+export const Default = () => (
+  <HomeremoteStreamPlayer url="http://localhost:3100" />
+);

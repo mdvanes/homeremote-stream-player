@@ -42,3 +42,11 @@ Adding a (dev)dependency to the root project:
 
 `yarn add -W typescript` (not dev)
 
+## TODO
+
+* Fix Storybook
+* empty packages/*/package.json
+* refactor HomeremoteStreamplayer.stories.js
+* Fix type generation for streamplayer server
+* clean up streamplayer-client/stories/*.css
+* Use packages/example to include all the packages in one place, but resolve dependencies with `yarn lerna add @mdworld/bla --scope=@mdworld/homeremote-stream-player` instead of normal `yarn lerna add @mdworld/bla`
