@@ -28,6 +28,7 @@ lerna run start
 ## Development
 
 * clone the repo
+* `nvm use`
 * in the root: `yarn`
 * start storybook: `yarn storybook`
 * in another terminal, start the backend API for storybook: `yarn storybook:api`
@@ -36,6 +37,7 @@ lerna run start
 
 For Github Pages
 
+* `nvm use`
 * `yarn build-storybook`
 * PR to master
 * visit https://mdworld.nl/homeremote-plugins/
@@ -54,9 +56,9 @@ Adding a (dev)dependency to the root project:
 
 ## TODO
 
-* static storybook version for github pages
-
-* empty packages/*/package.json
-* Fix type generation for streamplayer server
+* Fix default size with Wrapper elem in /helpers/index.ts
+* Test and document production building of packages, especially streamplayer-server. (Streamplayer-client would be `lerna exec --scope @mdworld/homeremote-stream-player yarn build`)
+* Fix type generation for streamplayer-server
 * clean up streamplayer-client/stories/*.css
+* empty packages/*/package.json
 * Use packages/example to include all the packages in one place, but resolve dependencies with `yarn lerna add @mdworld/bla --scope=@mdworld/homeremote-stream-player` instead of normal `yarn lerna add @mdworld/bla`

@@ -3,7 +3,7 @@ import HomeremoteStreamPlayer from "./HomeremoteStreamPlayer";
 import "./storybookStyles.css";
 
 export default {
-  title: "Elm/HomeremoteStreamPlayer",
+  title: "Elm/StreamPlayer",
   component: HomeremoteStreamPlayer,
 };
 
