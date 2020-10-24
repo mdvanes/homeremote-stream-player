@@ -1,32 +1,22 @@
-const elmloader = require('../webpack.elmloader.js');
+const elmloader = require("../webpack.elmloader.js");
 
 module.exports = {
-  "stories": [
+  stories: [
     "../*.stories.@(js|jsx|ts|tsx|mdx)",
-    "../packages/**/*.stories.@(js|jsx|ts|tsx)"
+    "../packages/**/*.stories.@(js|jsx|ts|tsx)",
   ],
-  "addons": [
+  addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    {
-      name: "@storybook/preset-create-react-app",
-      options: {
-        craOverrides: {
-          fileLoaderExcludes: ["less"]
-        },
-      }
-    },
-    // {
-    //   name: "@storybook/preset-ant-design",
-    //   options: {
-    //     lessOptions: {
-    //       modifyVars: {
-    //         'primary-color': '#1DA57A',
-    //         'border-radius-base': '2px',
+    "@storybook/preset-create-react-app",
+    //   {
+    //     name: "@storybook/preset-create-react-app",
+    //     options: {
+    //       craOverrides: {
+    //         fileLoaderExcludes: ["less"]
     //       },
-    //     },
-    //   }
-    // }
+    //     }
+    //   },
   ],
   webpack: (webpackConfig, options) => {
     return {
@@ -35,28 +25,10 @@ module.exports = {
         ...webpackConfig.module,
         rules: [
           ...(webpackConfig.module.rules || []),
-          // TODO remove less rule?
-          {
-            test: "/\.less$/",
-            use: [
-              { loader: "style-loader", options: {} },
-              { loader: "css-loader", options: {} },
-              {
-                loader: "less-loader", options:{
-                  lessOptions: {
-                    javascriptEnabled: true,
-                    modules: {
-                      localIdentName: "[name]__[local]___[hash:base64:5]"
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          elmloader
-        ]
-      }
-    }
+          elmloader,
+        ],
+      },
+    };
   },
   webpackFinal: (config) => {
     const {
@@ -64,8 +36,9 @@ module.exports = {
         rules: [, , , , , , { oneOf }],
       },
     } = config;
-    const babelLoader = oneOf.find(({ test }) => new RegExp(test).test( ".ts"));
+    // const babelLoader = oneOf.find(({ test }) => new RegExp(test).test( ".ts"));
+    const babelLoader = oneOf.find(({ test }) => new RegExp(test).test( ".jsx"));
     babelLoader.include = [/packages\/(.*)\/src/, /src/];
     return config;
   }
-}
+};

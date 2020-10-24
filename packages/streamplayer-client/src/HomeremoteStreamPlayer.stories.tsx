@@ -12,14 +12,14 @@ import HomeremoteStreamPlayer from "./HomeremoteStreamPlayer";
 //   // ));
 
 export default {
-  title: "HomeremoteStreamPlayer",
+  title: "Elm/HomeremoteStreamPlayer",
   component: HomeremoteStreamPlayer,
 };
 
 // TODO fix Elm webpack loader!
-// export const Default1 = () => (
-//   <HomeremoteStreamPlayer url="http://localhost:3100" />
-// );
+export const Default1 = () => (
+  <HomeremoteStreamPlayer url="http://localhost:3100" />
+);
 
 export const Default = () => (
   <span>hallo wereld</span>

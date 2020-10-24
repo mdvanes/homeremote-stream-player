@@ -1,12 +1,12 @@
 const path = require('path');
-const elmloader = require('./webpack.elmloader.js');
+const elmloader = require('../../webpack.elmloader.js');
 
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 
 module.exports = {
   mode: 'production',
-  entry: './src/App.jsx',
+  entry: './src/HomeremoteStreamPlayer.jsx',
   output: {
     path: path.resolve(__dirname, 'lib'),
     filename: 'HomeremoteStreamPlayer.js',
