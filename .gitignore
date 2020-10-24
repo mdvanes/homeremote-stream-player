@@ -139,3 +139,6 @@ yarn-error.log*
 
 packages/client/docs
 packages/client/build
+
+/old
+/storybook-static

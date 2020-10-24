@@ -1,0 +1,89 @@
+:root {
+  --secondary-text-color: #909093;
+  --border-radius: 4px;
+}
+
+.card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  display: flex;
+}
+
+.card > .music-info {
+  flex: 1;
+  padding: 1rem;
+}
+
+.card > .music-info audio {
+  display: none;
+}
+
+.card .controls {
+  display: flex;
+  margin: 0 3rem;
+}
+
+.card .controls > .play,
+.card .controls > .pause {
+  border: none;
+  background: transparent;
+  flex: 1;
+  height: 7rem;
+}
+
+.card .controls > .play {
+  background: transparent url("play.svg") no-repeat center/135%;
+  opacity: 0.8;
+}
+
+.card .controls > .pause {
+  background: transparent url("pause.svg") no-repeat center/40%;
+  margin-left: 1rem;
+  opacity: 0.3;
+}
+
+.card .channel {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+select {
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid black;
+}
+
+.card .channel .channel-info {
+  color: var(--secondary-text-color);
+  font-size: 85%;
+  margin: 0 0 0 0.3rem;
+}
+
+.card .title {
+  font-size: 125%;
+  margin: 0;
+}
+
+.card .artist {
+  color: var(--secondary-text-color);
+  margin: 0 0 0.5rem 0;
+}
+
+.card > .get-now-playing {
+  flex: 1;
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background: transparent; /* needed for firefox border clipping */
+}
+
+.card > .get-now-playing img {
+  border-bottom-right-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
