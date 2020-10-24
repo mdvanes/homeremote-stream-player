@@ -37,6 +37,8 @@ lerna run start
 For Github Pages
 
 * `yarn build-storybook`
+* PR to master
+* visit https://mdworld.nl/homeremote-plugins/
 
 ## Add dependency to e.g. packages/streamplayer-client
 

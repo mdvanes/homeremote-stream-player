@@ -10,3 +10,7 @@ export default {
 export const Default = () => (
   <HomeremoteStreamPlayer url="http://localhost:3100" />
 );
+
+export const Static = () => (
+  <HomeremoteStreamPlayer url={`http://${window.location.host}`} />
+);
