@@ -12,5 +12,5 @@ export const Default = () => (
 );
 
 export const Static = () => (
-  <HomeremoteStreamPlayer url={`http://${window.location.host}`} />
+  <HomeremoteStreamPlayer url={`http://${window.location.host}/${window.top.location.pathname}`} />
 );
