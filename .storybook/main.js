@@ -32,7 +32,6 @@ module.exports = {
     };
   },
   webpackFinal: (config) => {
-    console.log(config.module.rules);
     const {
       module: {
         rules: [, , , , , , { oneOf }],
