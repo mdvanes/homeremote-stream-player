@@ -19,6 +19,7 @@ module.exports = {
     //   },
   ],
   webpack: (webpackConfig, options) => {
+    
     return {
       ...webpackConfig,
       module: {
@@ -31,14 +32,17 @@ module.exports = {
     };
   },
   webpackFinal: (config) => {
+    console.log(config.module.rules);
     const {
       module: {
         rules: [, , , , , , { oneOf }],
       },
     } = config;
-    // const babelLoader = oneOf.find(({ test }) => new RegExp(test).test( ".ts"));
-    const babelLoader = oneOf.find(({ test }) => new RegExp(test).test( ".jsx"));
+    const babelLoader = oneOf.find(({ test }) => new RegExp(test).test(".jsx"));
     babelLoader.include = [/packages\/(.*)\/src/, /src/];
+    babelLoader.exclude = [/(node_modules|bower_components|build)/];
+    const fileLoader = oneOf.find(({ test }) => new RegExp(test).test(".elm"));
+    fileLoader.exclude.push(/\.elm$/);
     return config;
-  }
+  },
 };
