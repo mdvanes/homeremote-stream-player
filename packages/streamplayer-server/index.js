@@ -61,9 +61,9 @@ var getNowPlaying = function (channelName) { return __awaiter(_this, void 0, voi
                         artist: artist,
                         title: title,
                         last_updated: enddatetime,
-                        songImageUrl: image,
+                        songImageUrl: image !== null && image !== void 0 ? image : "",
                         name: "" + name_1 + presentersSuffix,
-                        imageUrl: image_url
+                        imageUrl: image_url !== null && image_url !== void 0 ? image_url : ""
                     }];
             case 3:
                 if (!(channelName === ChannelName.RADIO3)) return [3 /*break*/, 6];
@@ -80,9 +80,9 @@ var getNowPlaying = function (channelName) { return __awaiter(_this, void 0, voi
                         artist: artist,
                         title: title,
                         last_updated: enddatetime,
-                        songImageUrl: image,
+                        songImageUrl: image !== null && image !== void 0 ? image : "",
                         name: "" + name_2 + presentersSuffix,
-                        imageUrl: image_url
+                        imageUrl: image_url !== null && image_url !== void 0 ? image_url : ""
                     }];
             case 6: return [2 /*return*/];
         }
