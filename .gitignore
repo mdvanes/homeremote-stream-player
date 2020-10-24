@@ -141,3 +141,4 @@ packages/client/docs
 packages/client/build
 
 /old
+/storybook-static

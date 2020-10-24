@@ -32,6 +32,12 @@ lerna run start
 * start storybook: `yarn storybook`
 * in another terminal, start the backend API for storybook: `yarn storybook:api`
 
+## Build Storybook
+
+For Github Pages
+
+* `yarn build-storybook`
+
 ## Add dependency to e.g. packages/streamplayer-client
 
 Adding local or an external dependency to one of the packages, run this in the *root*:
@@ -45,6 +51,8 @@ Adding a (dev)dependency to the root project:
 `yarn add -W typescript` (not dev)
 
 ## TODO
+
+* static storybook version for github pages
 
 * empty packages/*/package.json
 * Fix type generation for streamplayer server
