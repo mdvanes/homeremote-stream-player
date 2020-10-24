@@ -43,6 +43,7 @@
     "devserver": "lerna exec --scope @mdworld/homeremote-stream-player-server yarn devserver",
     "devserver1": "lerna exec yarn devserver",
     "storybook": "start-storybook -p 6006 --ci",
+    "storybook:api": "ts-node storybookMockServer.ts --CORS=debug",
     "build-storybook": "build-storybook",
     "build": "lerna exec --scope @mdworld/homeremote-stream-player yarn build",
     "test": "lerna exec --scope @mdworld/homeremote-stream-player yarn test"
