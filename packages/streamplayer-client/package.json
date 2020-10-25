@@ -11,14 +11,7 @@
     "url": "https://github.com/mdvanes/homeremote-stream-player.git"
   },
   "scripts": {
-    "start": "npm run storybook",
-    "build": "webpack-cli --config webpack.config.prod.js",
-    "test": "node scripts/test.js",
-    "storybook": "start-storybook -p 3000 --ci",
-    "build-storybook": "build-storybook -c .storybook -o docs"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "build": "webpack-cli --config webpack.config.prod.js"
   },
   "browserslist": {
     "production": [

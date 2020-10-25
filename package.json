@@ -19,11 +19,14 @@
     "babel-loader": "^8.1.0",
     "elm-webpack-loader": "^6.0.1",
     "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.14.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-loader": "3.0.3",
     "eslint-plugin-flowtype": "4.6.0",
     "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "^1.6.1",
     "jest": "24.9.0",
@@ -31,6 +34,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "lerna": "^3.20.2",
+    "prettier": "^2.1.2",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-dev-utils": "^10.2.1",
@@ -49,12 +53,18 @@
     "storybook:api": "ts-node storybookMockServer.ts --CORS=debug",
     "build-storybook": "STORYBOOK_MODE=PROD build-storybook -s mocks -o docs",
     "build": "lerna exec --scope @mdworld/homeremote-stream-player yarn build",
-    "test": "lerna exec --scope @mdworld/homeremote-stream-player yarn test"
+    "test": "lerna exec --scope @mdworld/homeremote-stream-player yarn test",
+    "lint": "eslint *.ts packages/**/src/**/*.{js,jsx,ts,tsx}",
+    "validate": "lint && typecheck && test"
   },
   "workspaces": {
     "packages": [
       "packages/*"
     ]
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4
   },
   "dependencies": {}
 }
