@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import "./HomeremoteStreamPlayer.css";

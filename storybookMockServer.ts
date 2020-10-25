@@ -4,7 +4,7 @@ const app = express();
 const {
     getNowPlaying,
     ChannelName,
-} = require("./packages/streamplayer-server/index");
+} = require("./packages/streamplayer-server/lib");
 
 const port = 3100;
 
