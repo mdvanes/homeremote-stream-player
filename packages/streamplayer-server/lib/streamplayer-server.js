@@ -35,13 +35,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/no-var-requires */
 var got = require("got");
 var ChannelName;
 (function (ChannelName) {
     ChannelName[ChannelName["RADIO2"] = 0] = "RADIO2";
     ChannelName[ChannelName["RADIO3"] = 1] = "RADIO3";
 })(ChannelName || (ChannelName = {}));
-// TODO not caught by `yarn lint`, because not in src dir. Fix build. Clean up package.json
 // Export for use by other apps
 var getNowPlaying = function (channelName) { return __awaiter(_this, void 0, void 0, function () {
     var nowonairResponse, _a, artist, title, image, enddatetime, broadcastResponse, _b, name_1, presenters, image_url, presentersSuffix, nowonairResponse, _c, artist, title, image, enddatetime, broadcastResponse, _d, name_2, presenters, image_url, presentersSuffix;

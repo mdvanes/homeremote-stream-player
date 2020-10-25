@@ -15,7 +15,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build": "react-scripts build"
+    "build": "echo '\n\nBUILD DISABLED FOR PACKAGE \"Example\"\n\n'",
+    "build1": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const got = require("got");
 
 interface NowPlayingResponse {
@@ -13,8 +15,6 @@ enum ChannelName {
     RADIO2,
     RADIO3,
 }
-
-// TODO not caught by `yarn lint`, because not in src dir. Fix build. Clean up package.json
 
 // Export for use by other apps
 const getNowPlaying = async (
