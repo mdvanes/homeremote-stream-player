@@ -1,7 +1,7 @@
 module Elm.Audio exposing (main)
 
 import Browser
-import Debug exposing (log, toString)
+import Debug exposing (log)
 import Elm.Controls
 import Html exposing (Html, audio, button, div, img, option, p, select, text)
 import Html.Attributes exposing (class, controls, id, src, title, type_, value)
@@ -224,7 +224,8 @@ update msg model =
             ( { model | channel = targetChannel }, Cmd.batch [ Task.perform UpdateTimestamp Time.now, getNowPlaying (model.url ++ targetChannel.nowPlayingUrl) ] )
 
         UpdateTimestamp time ->
-            ( { model | timestamp = toString (Time.posixToMillis time) }, Cmd.none )
+            -- ( { model | timestamp = Debug.toString (Time.posixToMillis time) }, Cmd.none )
+            ( { model | timestamp = String.fromInt (Time.posixToMillis time) }, Cmd.none )
 
         GetNowPlaying ->
             ( model, getNowPlaying (model.url ++ model.channel.nowPlayingUrl) )

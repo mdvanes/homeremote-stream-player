@@ -1,6 +1,5 @@
 module Elm.Controls exposing (Model, Msg(..), init, update, view)
 
-import Debug exposing (toString)
 import Elm.Ports exposing (setPlayPauseStatusPort)
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
@@ -20,6 +19,13 @@ type PlayPauseStatus
     = Play
     | Pause
 
+statusToString : PlayPauseStatus -> String
+statusToString status =
+    case status of  
+        Play ->
+            "Play"
+        Pause ->
+            "Pause"
 
 init : ( Model, Cmd Msg )
 init =
@@ -31,7 +37,7 @@ update msg model =
     case msg of
         SetPlayPauseStatus status ->
             let
-                statusStr = (toString status)
+                statusStr = (statusToString status)
             in
             ( { model | currentStatus = statusStr }, setPlayPauseStatusPort statusStr )
 
