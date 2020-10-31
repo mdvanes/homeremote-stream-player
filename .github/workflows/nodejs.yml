@@ -1,6 +1,9 @@
 name: Build Storybook and deploy to Github Pages
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -30,10 +33,6 @@ jobs:
         run: yarn build-storybook
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
-        on:
-          push:
-            branches:
-              - main
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
