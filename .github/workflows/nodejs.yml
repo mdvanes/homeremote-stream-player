@@ -23,7 +23,7 @@ jobs:
           yarn install
           yarn build
       - name: Validate ☑️
-          run: yarn validate
+        run: yarn validate
         env:
           CI: false # true -> fails on warning
       - name: Build Storybook 📚
