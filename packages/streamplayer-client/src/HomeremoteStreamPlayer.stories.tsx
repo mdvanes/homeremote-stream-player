@@ -8,13 +8,16 @@ export default {
     component: HomeremoteStreamPlayer,
 };
 
+// TODO keep square even if picture is landscape
+
+// TODO use Box
 const Wrapper: FC = ({ children }) => {
     return (
         <div
             style={{
                 border: "1px solid red;",
                 minWidth: "500px",
-                maxWidth: "800px",
+                maxWidth: "600px",
             }}
         >
             {children}
@@ -22,14 +25,25 @@ const Wrapper: FC = ({ children }) => {
     );
 };
 
-export const Default = (): ReactNode => {
-    const url =
-        process.env.STORYBOOK_MODE === "PROD"
-            ? `https://${window.location.host}/${window.top.location.pathname}`
-            : "http://localhost:3100";
-    return (
-        <Wrapper>
-            <HomeremoteStreamPlayer url={url} />
-        </Wrapper>
-    );
-};
+const url =
+    process.env.STORYBOOK_MODE === "PROD"
+        ? `https://${window.location.host}/${window.top.location.pathname}`
+        : "http://localhost:3100";
+
+export const Default = (): ReactNode => (
+    <Wrapper>
+        <HomeremoteStreamPlayer url={url} />
+    </Wrapper>
+);
+
+export const WithSquarePicture = (): ReactNode => (
+    <Wrapper>
+        <HomeremoteStreamPlayer url={`${url}/mock/square`} />
+    </Wrapper>
+);
+
+export const WithLandscapePicture = (): ReactNode => (
+    <Wrapper>
+        <HomeremoteStreamPlayer url={`${url}/mock/landscape`} />
+    </Wrapper>
+);
