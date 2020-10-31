@@ -59,7 +59,7 @@
     "typecheck": "echo 'Typecheck NYI'",
     "test": "jest --watch",
     "test:ci": "jest --collectCoverage",
-    "validate": "lint && typecheck && test:ci"
+    "validate": "yarn lint && yarn typecheck && yarn test:ci"
   },
   "workspaces": {
     "packages": [
