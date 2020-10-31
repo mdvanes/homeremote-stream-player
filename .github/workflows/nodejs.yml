@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Build Storybook and deploy to Github Pages
 
 on: [push]
 
@@ -18,14 +18,16 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install and Build 🔧
+      - name: Install and Build components 🔧
         run: |
           yarn install
           yarn build
-        run: yarn validate
+      - name: Validate ☑️
+          run: yarn validate
         env:
           CI: false # true -> fails on warning
-        run: yarn build-storybook
+      - name: Build Storybook 📚
+          run: yarn build-storybook
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         on:
