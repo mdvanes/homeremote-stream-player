@@ -1,0 +1,120 @@
+:root {
+    --secondary-text-color: #909093;
+    --border-radius: 4px;
+}
+
+.aspect-ratio-outer {
+    position: relative;
+}
+
+.aspect-ratio-outer:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: 50%; /* aspect ratio (1 / 2) * 100%; */
+}
+
+.aspect-ratio-outer > .aspect-ratio-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.card {
+    background-color: white;
+    border-radius: 4px;
+    border-radius: var(--border-radius);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    display: flex;
+    font-family: sans-serif;
+}
+
+.card > .music-info {
+    flex: 1 1;
+}
+
+.card > .music-info .music-info-content {
+    padding: 1rem;
+}
+
+.card > .music-info audio {
+    display: none;
+}
+
+.card .controls {
+    display: flex;
+    margin: 0 3rem;
+}
+
+.card .controls > .play,
+.card .controls > .pause {
+    border: none;
+    background: transparent;
+    flex: 1 1;
+    height: 7rem;
+}
+
+.card .controls > .play {
+    background: transparent url(../../static/media/play.c1e2bd20.svg) no-repeat center/135%;
+    opacity: 0.8;
+}
+
+.card .controls > .pause {
+    background: transparent url(../../static/media/pause.bddd0db3.svg) no-repeat center/40%;
+    margin-left: 1rem;
+    opacity: 0.3;
+}
+
+.card .channel {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+select {
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid black;
+}
+
+.card .channel .channel-info {
+    color: #909093;
+    color: var(--secondary-text-color);
+    font-size: 85%;
+    margin: 0 0 0 0.3rem;
+}
+
+.card .title {
+    font-size: 125%;
+    margin: 0;
+}
+
+.card .artist {
+    color: #909093;
+    color: var(--secondary-text-color);
+    margin: 0 0 0.5rem 0;
+}
+
+.card > .get-now-playing {
+    flex: 1 1;
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background: transparent; /* needed for firefox border clipping */
+}
+
+.card > .get-now-playing img {
+    border-bottom-right-radius: 4px;
+    border-bottom-right-radius: var(--border-radius);
+    border-top-right-radius: 4px;
+    border-top-right-radius: var(--border-radius);
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+
+/*# sourceMappingURL=main.2150623b.chunk.css.map*/
