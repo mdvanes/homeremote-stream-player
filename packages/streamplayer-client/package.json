@@ -1,9 +1,6 @@
 {
   "name": "@mdworld/homeremote-stream-player",
-  "version": "1.5.0",
-  "devDependencies": {
-    
-  },
+  "version": "1.6.0",
   "main": "./lib/HomeremoteStreamPlayer.js",
   "types": "./lib/HomeremoteStreamPlayer.d.ts",
   "repository": {
