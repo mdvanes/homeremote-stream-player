@@ -272,39 +272,42 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div
-        []
+        [ class "card-wrapper aspect-ratio-outer" ]
         [ div
-            [ class "card" ]
+            [ class "card aspect-ratio-inner" ]
             [ div
                 [ class "music-info" ]
                 [ div
-                    [ class "channel" ]
-                    [ select [ on "change" (Json.map SetChannel targetValue) ] (List.map channelOption channels)
-                    , p [ class "channel-info" ] [ text (log "programme name" model.name) ]
-                    ]
-                , p [ class "title" ] [ text model.title ]
-                , p [ class "artist" ] [ text model.artist ]
+                    [ class "music-info-content" ]
+                    [ div
+                        [ class "channel" ]
+                        [ select [ on "change" (Json.map SetChannel targetValue) ] (List.map channelOption channels)
+                        , p [ class "channel-info" ] [ text (log "programme name" model.name) ]
+                        ]
+                        , p [ class "title" ] [ text model.title ]
+                        , p [ class "artist" ] [ text model.artist ]
 
-                --, div [] [ text (model.name ++ " on " ++ model.channel) ]
-                , audio
-                    [ id "homeremote-stream-player-audio-elem"
-                    , src (model.channel.streamUrl ++ "?" ++ (log "timestamp" model.timestamp))
-                    , type_ "audio/mpeg"
-                    , controls True
+                        --, div [] [ text (model.name ++ " on " ++ model.channel) ]
+                        , audio
+                        [ id "homeremote-stream-player-audio-elem"
+                        , src (model.channel.streamUrl ++ "?" ++ (log "timestamp" model.timestamp))
+                        , type_ "audio/mpeg"
+                        , controls True
 
-                    --`, on "play" (Json.map TimeUpdate timeDecoder)` can also be written as `onPlay TimeUpdate` with functions defined elsewhere:
-                    -- onPlay : (Float -> msg) -> Html.Attribute msg
-                    -- onPlay msg =
-                    --     on "play" (Json.map msg timeDecoder)
-                    --
-                    -- timeDecoder : Json.Decoder Float
-                    -- timeDecoder =
-                    --     Json.at [ "target", "currentTime" ] Json.float
-                    , on "play" (Json.succeed GetNowPlaying)
+                        --`, on "play" (Json.map TimeUpdate timeDecoder)` can also be written as `onPlay TimeUpdate` with functions defined elsewhere:
+                        -- onPlay : (Float -> msg) -> Html.Attribute msg
+                        -- onPlay msg =
+                        --     on "play" (Json.map msg timeDecoder)
+                        --
+                        -- timeDecoder : Json.Decoder Float
+                        -- timeDecoder =
+                        --     Json.at [ "target", "currentTime" ] Json.float
+                        , on "play" (Json.succeed GetNowPlaying)
+                        ]
+                        [ text "Your browser does not support the audio element."
+                        ]
+                    , Html.map MsgControls (Elm.Controls.view model.controls)
                     ]
-                    [ text "Your browser does not support the audio element."
-                    ]
-                , Html.map MsgControls (Elm.Controls.view model.controls)
                 ]
             , button
                 [ onClick GetNowPlaying

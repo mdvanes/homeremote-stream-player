@@ -3,20 +3,17 @@
   "version": "1.4.1",
   "dependencies": {
     "express": "^4.17.1",
-    "got": "^10.6.0",
-    "ts-node": "^8.8.2",
-    "typescript": "^3.8.3"
+    "got": "^11.8.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mdvanes/homeremote-stream-player.git"
+    "url": "https://github.com/mdvanes/homeremote-plugins.git"
   },
-  "main": "index.js",
+  "main": "./lib/streamplayer-server.js",
+  "types": "./lib/streamplayer-server.d.ts",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node example.ts --CORS=debug",
-    "build": "tsc index.ts",
-    "devserver": "ts-node example.ts --CORS=debug"
+    "build": "tsc src/streamplayer-server.ts --outDir lib -d"
   },
   "gitHead": "1c79d816ed2921cfe7c8a6a64fd84a339984f774",
   "publishConfig": {
