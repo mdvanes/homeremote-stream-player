@@ -61,6 +61,10 @@
     opacity: 0.8;
 }
 
+.card .controls > .play.active {
+    opacity: 1;
+}
+
 .card .controls > .pause {
     background: transparent url("pause.svg") no-repeat center/40%;
     margin-left: 1rem;

@@ -3,29 +3,7 @@ import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import "./HomeremoteStreamPlayer.css";
 import Elm from "react-elm-components";
-// import Buttons from './Elm/Buttons.elm';
 import Audio from "./Elm/Audio.elm";
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 
 const setupPorts = (elmElem) => (ports) => {
     ports.setPlayPauseStatusPort.subscribe((newStatus) => {
@@ -43,10 +21,15 @@ const setupPorts = (elmElem) => (ports) => {
     });
 };
 
+// TODO disable/conditional logging
+// TODO show playing state
+// TODO fix delay in Firefox
+
+// TODO github actions
+
 const App = ({ url }) => {
     const elmElem = useRef(null);
     return (
-        // <Elm src={Buttons.Elm.Elm.Buttons} />
         <Elm
             ref={elmElem}
             src={Audio.Elm.Elm.Audio}
