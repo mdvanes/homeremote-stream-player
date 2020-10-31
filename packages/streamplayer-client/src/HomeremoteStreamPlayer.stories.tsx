@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from "react";
 import HomeremoteStreamPlayer from "./HomeremoteStreamPlayer";
-import "./storybookStyles.css";
+// Custom storybook styles can be loaded with: import "./storybookStyles.css";
 import packageJson from "../package.json";
 
 export default {
@@ -8,14 +8,11 @@ export default {
     component: HomeremoteStreamPlayer,
 };
 
-// TODO keep square even if picture is landscape
-
-// TODO use Box
 const Wrapper: FC = ({ children }) => {
     return (
         <div
             style={{
-                border: "1px solid red;",
+                // border: "1px solid blue",
                 minWidth: "500px",
                 maxWidth: "600px",
             }}
