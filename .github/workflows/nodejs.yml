@@ -21,14 +21,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install and Build components 🔧
-        run: |
-          yarn install
-          yarn build
-      - name: Validate ☑️
-        run: yarn validate
-        env:
-          CI: false # true -> fails on warning
+      # - name: Install and Build components 🔧
+      #   run: |
+      #     yarn install
+      #     yarn build
+      # - name: Validate ☑️
+      #   run: yarn validate
+      #   env:
+      #     CI: false # true -> fails on warning
       - name: Build Storybook 📚
         run: yarn build-storybook
       - name: Deploy 🚀
