@@ -17,15 +17,9 @@ const setupPorts = (elmElem) => (ports) => {
             } else {
                 audioElem.pause();
             }
-        }, 10);
+        }, 50);
     });
 };
-
-// TODO disable/conditional logging
-// TODO show playing state
-// TODO fix delay in Firefox
-
-// TODO github actions
 
 const App = ({ url }) => {
     const elmElem = useRef(null);
