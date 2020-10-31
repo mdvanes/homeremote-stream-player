@@ -27,7 +27,7 @@ jobs:
         env:
           CI: false # true -> fails on warning
       - name: Build Storybook 📚
-          run: yarn build-storybook
+        run: yarn build-storybook
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         on:
