@@ -1,7 +1,7 @@
 module Elm.Audio exposing (main)
 
 import Browser
-import Debug exposing (log)
+-- import Debug exposing (log)
 import Elm.Controls
 import Html exposing (Html, audio, button, div, img, option, p, select, text)
 import Html.Attributes exposing (class, controls, id, src, title, type_, value)
@@ -190,9 +190,9 @@ getImageUrl data =
 
 conditionalLog : String -> String -> String
 conditionalLog label value =
-    if False then
-        log label value
-    else
+    -- if True then
+    --     log label value
+    -- else
         value
 
 -- UPDATE
