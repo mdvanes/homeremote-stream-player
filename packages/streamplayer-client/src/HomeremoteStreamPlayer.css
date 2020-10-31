@@ -49,6 +49,7 @@
 
 .card .controls > .play,
 .card .controls > .pause {
+    cursor: pointer;
     border: none;
     background: transparent;
     flex: 1;
@@ -97,6 +98,7 @@ select {
 .card > .get-now-playing {
     flex: 1;
     border: none;
+    cursor: pointer;
     padding: 0;
     display: flex;
     flex-direction: column;
