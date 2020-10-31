@@ -188,7 +188,12 @@ getImageUrl data =
     else
         data.imageUrl
 
-
+conditionalLog : String -> String -> String
+conditionalLog label value =
+    if False then
+        log label value
+    else
+        value
 
 -- UPDATE
 
@@ -282,7 +287,7 @@ view model =
                     [ div
                         [ class "channel" ]
                         [ select [ on "change" (Json.map SetChannel targetValue) ] (List.map channelOption channels)
-                        , p [ class "channel-info" ] [ text (log "programme name" model.name) ]
+                        , p [ class "channel-info" ] [ text (conditionalLog "programme name" model.name) ]
                         ]
                         , p [ class "title" ] [ text model.title ]
                         , p [ class "artist" ] [ text model.artist ]
@@ -290,7 +295,7 @@ view model =
                         --, div [] [ text (model.name ++ " on " ++ model.channel) ]
                         , audio
                         [ id "homeremote-stream-player-audio-elem"
-                        , src (model.channel.streamUrl ++ "?" ++ (log "timestamp" model.timestamp))
+                        , src (model.channel.streamUrl ++ "?" ++ (conditionalLog "timestamp" model.timestamp))
                         , type_ "audio/mpeg"
                         , controls True
 

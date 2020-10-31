@@ -1,6 +1,6 @@
 module Elm.Controls exposing (Model, Msg(..), init, update, view)
 
-import Debug exposing (log, toString)
+import Debug exposing (toString)
 import Elm.Ports exposing (setPlayPauseStatusPort)
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
