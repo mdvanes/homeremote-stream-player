@@ -1,6 +1,5 @@
 import React, { FC, ReactNode } from "react";
 import HomeremoteStreamPlayer from "./HomeremoteStreamPlayer";
-// Custom storybook styles can be loaded with: import "./storybookStyles.css";
 import packageJson from "../package.json";
 
 export default {
@@ -8,13 +7,12 @@ export default {
     component: HomeremoteStreamPlayer,
 };
 
-const Wrapper: FC = ({ children }) => {
+const Wrapper: FC<{ width?: number }> = ({ width = 600, children }) => {
     return (
         <div
             style={{
-                // border: "1px solid blue",
-                minWidth: "500px",
-                maxWidth: "600px",
+                minWidth: "375px",
+                maxWidth: `${width}px`,
             }}
         >
             {children}
@@ -27,11 +25,17 @@ const url =
         ? `https://${window.location.host}/${window.top.location.pathname}`
         : "http://localhost:3100";
 
-export const Default = (): ReactNode => (
-    <Wrapper>
+export const Default = ({ width }): ReactNode => (
+    <Wrapper width={width}>
         <HomeremoteStreamPlayer url={url} />
     </Wrapper>
 );
+
+// See https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#knobs-to-manually-configured-args
+Default.args = { width: 600 };
+Default.argTypes = {
+    width: { control: { type: "range", min: 375, max: 775, step: "100" } },
+};
 
 export const WithSquarePicture = (): ReactNode => (
     <Wrapper>

@@ -1,0 +1,11 @@
+/* NOTE these styles are loaded by all Storybook stories */
+
+html,
+body {
+    /* background-color: #eceff1; */
+}
+
+.reset {
+    font-family: 'sans-serif';
+}
+

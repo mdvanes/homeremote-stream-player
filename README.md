@@ -12,11 +12,12 @@ Server: [/packages/server](/packages/server)
 
 ## Publish
 
-```
-nvm use
-lerna changed
-lerna publish
-```
+* `nvm use`
+* in webpack.elmloader.js, enable `optimize: true,` (should be done automatically on webpack production mode)
+* `yarn build`
+* commit changes (lib dirs should eventually be in git ignore)
+* `lerna changed`
+* `lerna publish`
 
 ## Running
 
