@@ -30,6 +30,7 @@
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
     display: flex;
     font-family: sans-serif;
+    overflow: hidden;
 }
 
 .card > .music-info {
@@ -46,7 +47,6 @@
 
 .card .controls {
     display: flex;
-    margin: 0 3rem;
 }
 
 .card .controls > .controls-button {
@@ -54,7 +54,6 @@
     border: none;
     background: transparent;
     flex: 1;
-    height: 7rem;
     transition: fill 300ms;
 }
 
@@ -99,6 +98,8 @@ select {
     color: var(--secondary-text-color);
     font-size: 85%;
     margin: 0 0 0 0.3rem;
+    max-height: 2rem;
+    overflow: hidden;
 }
 
 .card .title {

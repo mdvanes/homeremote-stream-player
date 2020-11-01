@@ -4,7 +4,7 @@ import HomeremoteStreamPlayer from "../../streamplayer-client/lib/HomeremoteStre
 import "./storybookStyles.css";
 
 export default {
-    title: `RootApp`,
+    title: `ExampleApp`,
     component: HomeremoteStreamPlayer,
     parameters: {
         backgrounds: {
