@@ -1,5 +1,4 @@
-declare const got: any;
-interface NowPlayingResponse {
+export interface NowPlayingResponse {
     artist: string;
     title: string;
     last_updated: string;
@@ -7,8 +6,8 @@ interface NowPlayingResponse {
     name: string;
     imageUrl: string;
 }
-declare enum ChannelName {
+export declare enum ChannelName {
     RADIO2 = 0,
     RADIO3 = 1
 }
-declare const getNowPlaying: (channelName: ChannelName) => Promise<NowPlayingResponse>;
+export declare const getNowPlaying: (channelName: ChannelName) => Promise<NowPlayingResponse>;

@@ -1,10 +1,11 @@
+import {
+    getNowPlaying,
+    ChannelName,
+    NowPlayingResponse,
+} from "./packages/streamplayer-server/lib/streamplayer-server";
 /* eslint-disable @typescript-eslint/no-var-requires */
 const express = require("express");
 const app = express();
-const {
-    getNowPlaying,
-    ChannelName,
-} = require("./packages/streamplayer-server/lib/streamplayer-server");
 
 const port = 3100;
 
@@ -51,7 +52,7 @@ const startServer = (corsMode: CORS_MODE): void => {
     app.get("/mock/square/api/nowplaying/radio2", async (req, res) => {
         logRequest(req);
         setCorsHeaders(corsMode, res);
-        res.send({
+        const mockResponse: NowPlayingResponse = {
             artist: "Family Of The Year",
             title: "Hero",
             // eslint-disable-next-line @typescript-eslint/camelcase
@@ -60,13 +61,14 @@ const startServer = (corsMode: CORS_MODE): void => {
             name: "Spijkers Met Koppen / Dolf Jansen, Felix Meurders",
             imageUrl:
                 "https://radio-images.npo.nl/{format}/34e8df87-0f33-45c6-bd1a-f2528ff87626/b4c0c59c-1ade-4d9f-b2ed-a5710ca23e8e.png",
-        });
+        };
+        res.send(mockResponse);
     });
 
     app.get("/mock/landscape/api/nowplaying/radio2", async (req, res) => {
         logRequest(req);
         setCorsHeaders(corsMode, res);
-        res.send({
+        const mockResponse: NowPlayingResponse = {
             artist: "Family Of The Year",
             title: "Hero",
             // eslint-disable-next-line @typescript-eslint/camelcase
@@ -75,7 +77,8 @@ const startServer = (corsMode: CORS_MODE): void => {
             name: "Spijkers Met Koppen / Dolf Jansen, Felix Meurders",
             imageUrl:
                 "https://radio-images.npo.nl/{format}/34e8df87-0f33-45c6-bd1a-f2528ff87626/b4c0c59c-1ade-4d9f-b2ed-a5710ca23e8e.png",
-        });
+        };
+        res.send(mockResponse);
     });
 
     app.get("/api/nowplaying/radio3", async (req, res) => {

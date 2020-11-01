@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const got = require("got");
 
-interface NowPlayingResponse {
+export interface NowPlayingResponse {
     artist: string;
     title: string;
     last_updated: string;
@@ -11,13 +11,13 @@ interface NowPlayingResponse {
     imageUrl: string;
 }
 
-enum ChannelName {
+export enum ChannelName {
     RADIO2,
     RADIO3,
 }
 
 // Export for use by other apps
-const getNowPlaying = async (
+export const getNowPlaying = async (
     channelName: ChannelName
 ): Promise<NowPlayingResponse> => {
     if (channelName === ChannelName.RADIO2) {
@@ -66,9 +66,4 @@ const getNowPlaying = async (
             imageUrl: image_url ?? "",
         };
     }
-};
-
-module.exports = {
-    getNowPlaying,
-    ChannelName,
 };

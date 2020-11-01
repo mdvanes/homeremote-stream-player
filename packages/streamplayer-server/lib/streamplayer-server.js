@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,7 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
+exports.__esModule = true;
+exports.getNowPlaying = exports.ChannelName = void 0;
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-var-requires */
 var got = require("got");
@@ -42,9 +44,9 @@ var ChannelName;
 (function (ChannelName) {
     ChannelName[ChannelName["RADIO2"] = 0] = "RADIO2";
     ChannelName[ChannelName["RADIO3"] = 1] = "RADIO3";
-})(ChannelName || (ChannelName = {}));
+})(ChannelName = exports.ChannelName || (exports.ChannelName = {}));
 // Export for use by other apps
-var getNowPlaying = function (channelName) { return __awaiter(_this, void 0, void 0, function () {
+exports.getNowPlaying = function (channelName) { return __awaiter(void 0, void 0, void 0, function () {
     var nowonairResponse, _a, artist, title, image, enddatetime, broadcastResponse, _b, name_1, presenters, image_url, presentersSuffix, nowonairResponse, _c, artist, title, image, enddatetime, broadcastResponse, _d, name_2, presenters, image_url, presentersSuffix;
     return __generator(this, function (_e) {
         switch (_e.label) {
@@ -90,7 +92,3 @@ var getNowPlaying = function (channelName) { return __awaiter(_this, void 0, voi
         }
     });
 }); };
-module.exports = {
-    getNowPlaying: getNowPlaying,
-    ChannelName: ChannelName
-};
