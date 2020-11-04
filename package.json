@@ -54,7 +54,7 @@
     "devserver1": "lerna exec yarn devserver",
     "storybook": "start-storybook -p 6006 --ci",
     "storybook:api": "ts-node storybookMockServer.ts --CORS=debug",
-    "build-storybook": "STORYBOOK_MODE=PROD build-storybook -s mocks",
+    "build-storybook": "STORYBOOK_MODE=PROD build-storybook -s mocks -o docs",
     "build": "lerna exec yarn build",
     "example_for_running_script_on_one_package": "lerna exec --scope @mdworld/homeremote-stream-player yarn test",
     "lint": "eslint *.ts packages/**/src/**/*.{js,jsx,ts,tsx}",

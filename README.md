@@ -16,8 +16,10 @@ Server: [/packages/server](/packages/server)
 * in webpack.elmloader.js, enable `optimize: true,` (should be done automatically on webpack production mode)
 * `yarn build`
 * commit changes (lib dirs should eventually be in git ignore)
-* `lerna changed`
+* optionally: `lerna changed`
 * `lerna publish`
+* build storybook manually (currently fails on CI): `yarn build-storybook`
+* commit and push the content of `docs`
 
 ## Running
 

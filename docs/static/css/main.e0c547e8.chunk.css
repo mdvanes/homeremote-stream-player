@@ -1,4 +1,18 @@
+/* NOTE these styles are loaded by all Storybook stories */
+
+html,
+body {
+    /* background-color: #eceff1; */
+}
+
+.reset {
+    font-family: 'sans-serif';
+}
+
+
 :root {
+    --primary-color: #1a237e;
+    --primary-color-dark: #141b62;
     --secondary-text-color: #909093;
     --border-radius: 4px;
 }
@@ -29,6 +43,7 @@
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
     display: flex;
     font-family: sans-serif;
+    overflow: hidden;
 }
 
 .card > .music-info {
@@ -45,26 +60,41 @@
 
 .card .controls {
     display: flex;
-    margin: 0 3rem;
 }
 
-.card .controls > .play,
-.card .controls > .pause {
+.card .controls > .controls-button {
+    cursor: pointer;
     border: none;
     background: transparent;
     flex: 1 1;
-    height: 7rem;
+    transition: fill 300ms;
+}
+
+.card .controls > .controls-button:hover {
+    fill: #292929;
+    transition: fill 500ms;
+}
+
+.card .controls > .controls-button.active {
+    fill: #1a237e;
+    fill: var(--primary-color);
+}
+
+.card .controls > .controls-button.active:hover {
+    fill: #141b62;
+    fill: var(--primary-color-dark);
 }
 
 .card .controls > .play {
-    background: transparent url(../../static/media/play.c1e2bd20.svg) no-repeat center/135%;
-    opacity: 0.8;
+    fill: #3f3f3f;
 }
 
 .card .controls > .pause {
-    background: transparent url(../../static/media/pause.bddd0db3.svg) no-repeat center/40%;
-    margin-left: 1rem;
-    opacity: 0.3;
+    fill: #b3b3b3;
+}
+
+.card .controls > .pause:hover {
+    fill: #909090;
 }
 
 .card .channel {
@@ -84,6 +114,8 @@ select {
     color: var(--secondary-text-color);
     font-size: 85%;
     margin: 0 0 0 0.3rem;
+    max-height: 2rem;
+    overflow: hidden;
 }
 
 .card .title {
@@ -100,6 +132,7 @@ select {
 .card > .get-now-playing {
     flex: 1 1;
     border: none;
+    cursor: pointer;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -117,4 +150,4 @@ select {
 }
 
 
-/*# sourceMappingURL=main.2150623b.chunk.css.map*/
+/*# sourceMappingURL=main.e0c547e8.chunk.css.map*/
