@@ -91,23 +91,7 @@ describe("StreamPlayer client", () => {
     });
 
     it("calls audioElem.play on new status", () => {
-        // const { baseElement, debug, getByTestId } = render(
-        //     <HomeremoteStreamPlayer />
-        // );
         render(<HomeremoteStreamPlayer />);
-        // debug(baseElement.querySelector("p"));
-        // expect(baseElement.querySelector("p")).toBeInTheDocument();
-        // debug(getby);
-        // expect(
-        //     baseElement
-        //         .querySelector("mock-react-elm-components")
-        //         .getAttribute("src")
-        // ).toBe("mock-elm-audio");
-        // triggerPorts();
-
-        // playSpy.mockReset();
-        // mockSubscribe();
-        // expect(playSpy).toHaveBeenCalledWith();
         expect(playSpy).not.toHaveBeenCalled();
         mockSubscribe("Play");
         jest.runAllTimers();

@@ -10,7 +10,7 @@ const setupPorts = (elmElem) => (ports) => {
         const audioElem = ReactDOM.findDOMNode(elmElem.current).querySelector(
             "audio"
         );
-        // Wait 10ms to let the audio elem be updated with a new cachebusting timestamp in Audio.elm `Cmd.batch [ Task.perform UpdateTimestamp Time.now, Cmd.map MsgControls controlsCmds ]`
+        // Wait to let the audio elem be updated with a new cachebusting timestamp in Audio.elm `Cmd.batch [ Task.perform UpdateTimestamp Time.now, Cmd.map MsgControls controlsCmds ]`
         setTimeout(() => {
             if (newStatus === "Play") {
                 audioElem.play();
@@ -21,7 +21,7 @@ const setupPorts = (elmElem) => (ports) => {
     });
 };
 
-const App = ({ url }) => {
+const HomeRemoteStreamPlayer = ({ url }) => {
     const elmElem = useRef(null);
     return (
         <Elm
@@ -33,4 +33,4 @@ const App = ({ url }) => {
     );
 };
 
-export default App;
+export default HomeRemoteStreamPlayer;
