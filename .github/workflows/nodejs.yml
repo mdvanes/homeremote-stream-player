@@ -24,7 +24,7 @@ jobs:
       - name: Install and Build components 🔧
         run: |
           yarn install
-         yarn build
+          yarn build
       - name: Validate ☑️
         run: yarn validate
         env:
