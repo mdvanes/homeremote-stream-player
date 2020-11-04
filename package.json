@@ -13,7 +13,7 @@
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.0.27",
     "@storybook/theming": "^6.0.27",
-    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
@@ -59,8 +59,8 @@
     "example_for_running_script_on_one_package": "lerna exec --scope @mdworld/homeremote-stream-player yarn test",
     "lint": "eslint *.ts packages/**/src/**/*.{js,jsx,ts,tsx}",
     "typecheck": "echo 'Typecheck NYI'",
-    "test": "jest --watch",
-    "test:ci": "jest --collectCoverage",
+    "test": "jest --env=jsdom --watch",
+    "test:ci": "jest --env=jsdom --collectCoverage",
     "validate": "yarn lint && yarn typecheck && yarn test:ci"
   },
   "workspaces": {
