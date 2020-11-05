@@ -7,10 +7,15 @@ jest.mock("got");
 const gotSpy = jest.spyOn(GotModule, "default");
 
 const SomeArtist = "Some Artist";
+const SomeTitle = "Some Title";
+const SomeEndDateTime = "Some End Date Time";
 const SomePresenters = "Some Presenters";
+const SomeImageUrl = "Some Image Url";
 
 const mockBaseResponse = {
     artist: SomeArtist,
+    title: SomeTitle,
+    enddatetime: SomeEndDateTime,
 };
 
 const createMockRequest = (
@@ -28,7 +33,10 @@ describe("StreamPlayerAPI", () => {
     beforeEach(() => {
         gotSpy.mockReset();
         gotSpy.mockReturnValue(
-            createMockRequest({ presenters: SomePresenters })
+            createMockRequest({
+                presenters: SomePresenters,
+                image: SomeImageUrl,
+            })
         );
     });
 
@@ -39,30 +47,27 @@ describe("StreamPlayerAPI", () => {
         );
         expect(response).toEqual({
             artist: SomeArtist,
-            title: undefined, // TODO better mock response
+            title: SomeTitle,
             // eslint-disable-next-line @typescript-eslint/camelcase
-            last_updated: undefined,
-            songImageUrl: "",
-            name: `undefined / ${SomePresenters}`,
+            last_updated: SomeEndDateTime,
+            songImageUrl: SomeImageUrl,
+            name: `${SomeTitle} / ${SomePresenters}`,
             imageUrl: "",
         });
     });
 
-    it("can respond when presenters not defined", async () => {
+    it("can respond when fields are not defined", async () => {
         gotSpy.mockReturnValue(createMockRequest({}));
         const response = await getNowPlaying(ChannelName.RADIO2);
         expect(gotSpy).toHaveBeenCalledWith(
             "https://www.nporadio2.nl/api/tracks"
         );
-        expect(response).toEqual({
-            artist: SomeArtist,
-            title: undefined, // TODO better mock response
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            last_updated: undefined,
-            songImageUrl: "",
-            name: "undefined",
-            imageUrl: "",
-        });
+        expect(response).toEqual(
+            expect.objectContaining({
+                name: SomeTitle,
+                imageUrl: "",
+            })
+        );
     });
 
     it("retrieves data from Radio3 endpoint", async () => {
@@ -70,18 +75,15 @@ describe("StreamPlayerAPI", () => {
         expect(gotSpy).toHaveBeenCalledWith("https://www.npo3fm.nl/api/tracks");
     });
 
-    it("can respond when presenters not defined for Radio 3", async () => {
+    it("can respond when fields are not defined for Radio 3", async () => {
         gotSpy.mockReturnValue(createMockRequest({}));
         const response = await getNowPlaying(ChannelName.RADIO3);
-        expect(response).toEqual({
-            artist: SomeArtist,
-            title: undefined, // TODO better mock response
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            last_updated: undefined,
-            songImageUrl: "",
-            name: "undefined",
-            imageUrl: "",
-        });
+        expect(response).toEqual(
+            expect.objectContaining({
+                name: SomeTitle,
+                imageUrl: "",
+            })
+        );
     });
 
     it("ignores invalid channels", async () => {
