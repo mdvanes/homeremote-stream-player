@@ -16,8 +16,6 @@ export enum ChannelName {
     RADIO3,
 }
 
-// TODO add unit tests
-
 // Export for use by other apps
 export const getNowPlaying = async (
     channelName: ChannelName

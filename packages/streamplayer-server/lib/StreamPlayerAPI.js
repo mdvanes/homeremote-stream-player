@@ -45,7 +45,6 @@ var ChannelName;
     ChannelName[ChannelName["RADIO2"] = 0] = "RADIO2";
     ChannelName[ChannelName["RADIO3"] = 1] = "RADIO3";
 })(ChannelName = exports.ChannelName || (exports.ChannelName = {}));
-// TODO add unit tests
 // Export for use by other apps
 exports.getNowPlaying = function (channelName) { return __awaiter(void 0, void 0, void 0, function () {
     var nowonairResponse, _a, artist, title, image, enddatetime, broadcastResponse, _b, name_1, presenters, image_url, presentersSuffix, nowonairResponse, _c, artist, title, image, enddatetime, broadcastResponse, _d, name_2, presenters, image_url, presentersSuffix;
