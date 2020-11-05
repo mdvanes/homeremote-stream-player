@@ -1,11 +1,11 @@
 import React, { FC, ReactNode } from "react";
 // NOTE only use compiled versions, i.e. from lib! To get a good idea of what use of the modules looks like
-import HomeremoteStreamPlayer from "../../streamplayer-client/lib/HomeremoteStreamPlayer";
+import StreamPlayer from "../../streamplayer-client/lib/StreamPlayer";
 import "./storybookStyles.css";
 
 export default {
     title: `ExampleApp`,
-    component: HomeremoteStreamPlayer,
+    component: StreamPlayer,
     parameters: {
         backgrounds: {
             values: [
@@ -44,6 +44,6 @@ export const Default = (): ReactNode => (
             This is an example application that uses the (compiled) components
             from this monorepo.
         </p>
-        <HomeremoteStreamPlayer url={url} />
+        <StreamPlayer url={url} />
     </Wrapper>
 );

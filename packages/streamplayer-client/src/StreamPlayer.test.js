@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { Component } from "react";
 import { render } from "@testing-library/react";
-// In this case use `require`, see below. import HomeremoteStreamPlayer from "./HomeremoteStreamPlayer";
+// In this case use `require`, see below. import StreamPlayer from "./StreamPlayer";
 
 let mockEmit = () => {
     /* no-op */
