@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es2019",
+        "lib": ["dom", "dom.iterable", "es2019"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "react",
+        "declaration": true,
+        "sourceMap": true,
+        "baseUrl": "./",
+        "rootDir": "./",
+        "paths": {
+            "*": ["node_modules", "packages"]
+        },
+        "noEmit": false
+    },
+    "include": ["packages"],
+    "exclude": ["node_modules", "packages/**/*.test.ts", "packages/**/*.test.tsx", "packages/**/*.stories.tsx"]
+}

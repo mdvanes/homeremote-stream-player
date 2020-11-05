@@ -38,8 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.getNowPlaying = exports.ChannelName = void 0;
 /* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable @typescript-eslint/no-var-requires */
-var got = require("got");
+var got_1 = require("got");
 var ChannelName;
 (function (ChannelName) {
     ChannelName[ChannelName["RADIO2"] = 0] = "RADIO2";
@@ -52,11 +51,11 @@ exports.getNowPlaying = function (channelName) { return __awaiter(void 0, void 0
         switch (_e.label) {
             case 0:
                 if (!(channelName === ChannelName.RADIO2)) return [3 /*break*/, 3];
-                return [4 /*yield*/, got("https://www.nporadio2.nl/api/tracks").json()];
+                return [4 /*yield*/, got_1["default"]("https://www.nporadio2.nl/api/tracks").json()];
             case 1:
                 nowonairResponse = _e.sent();
                 _a = nowonairResponse.data[0], artist = _a.artist, title = _a.title, image = _a.image, enddatetime = _a.enddatetime;
-                return [4 /*yield*/, got("https://www.nporadio2.nl/api/broadcasts").json()];
+                return [4 /*yield*/, got_1["default"]("https://www.nporadio2.nl/api/broadcasts").json()];
             case 2:
                 broadcastResponse = _e.sent();
                 _b = broadcastResponse.data[0], name_1 = _b.title, presenters = _b.presenters, image_url = _b.image_url;
@@ -71,11 +70,11 @@ exports.getNowPlaying = function (channelName) { return __awaiter(void 0, void 0
                     }];
             case 3:
                 if (!(channelName === ChannelName.RADIO3)) return [3 /*break*/, 6];
-                return [4 /*yield*/, got("https://www.npo3fm.nl/api/tracks").json()];
+                return [4 /*yield*/, got_1["default"]("https://www.npo3fm.nl/api/tracks").json()];
             case 4:
                 nowonairResponse = _e.sent();
                 _c = nowonairResponse.data[0], artist = _c.artist, title = _c.title, image = _c.image, enddatetime = _c.enddatetime;
-                return [4 /*yield*/, got("https://www.npo3fm.nl/api/broadcasts").json()];
+                return [4 /*yield*/, got_1["default"]("https://www.npo3fm.nl/api/broadcasts").json()];
             case 5:
                 broadcastResponse = _e.sent();
                 _d = broadcastResponse.data[0], name_2 = _d.title, presenters = _d.presenters, image_url = _d.image_url;

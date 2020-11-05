@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const got = require("got");
+import got from "got";
 
 export interface NowPlayingResponse {
     artist: string;
@@ -16,18 +15,28 @@ export enum ChannelName {
     RADIO3,
 }
 
+interface TracksResponse {
+    data: [
+        { artist: string; title: string; image?: string; enddatetime: string }
+    ];
+}
+
+interface BroadcastResponse {
+    data: [{ title: string; presenters?: string; image_url?: string }];
+}
+
 // Export for use by other apps
 export const getNowPlaying = async (
     channelName: ChannelName
-): Promise<NowPlayingResponse> => {
+): Promise<NowPlayingResponse | undefined> => {
     if (channelName === ChannelName.RADIO2) {
         const nowonairResponse = await got(
             "https://www.nporadio2.nl/api/tracks"
-        ).json();
+        ).json<TracksResponse>();
         const { artist, title, image, enddatetime } = nowonairResponse.data[0];
         const broadcastResponse = await got(
             "https://www.nporadio2.nl/api/broadcasts"
-        ).json();
+        ).json<BroadcastResponse>();
         const {
             title: name,
             presenters,
@@ -46,11 +55,11 @@ export const getNowPlaying = async (
     if (channelName === ChannelName.RADIO3) {
         const nowonairResponse = await got(
             "https://www.npo3fm.nl/api/tracks"
-        ).json();
+        ).json<TracksResponse>();
         const { artist, title, image, enddatetime } = nowonairResponse.data[0];
         const broadcastResponse = await got(
             "https://www.npo3fm.nl/api/broadcasts"
-        ).json();
+        ).json<BroadcastResponse>();
         const {
             title: name,
             presenters,

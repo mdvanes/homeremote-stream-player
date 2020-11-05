@@ -60,7 +60,7 @@
     "build": "lerna exec yarn build",
     "example_for_running_script_on_one_package": "lerna exec --scope @mdworld/homeremote-stream-player yarn test",
     "lint": "eslint *.ts packages/**/src/**/*.{js,jsx,ts,tsx}",
-    "typecheck": "echo 'Typecheck NYI'",
+    "typecheck": "tsc --noEmit",
     "test": "jest --env=jsdom --watch",
     "test:ci": "jest --env=jsdom --collectCoverage",
     "validate": "yarn lint && yarn typecheck && yarn test:ci"

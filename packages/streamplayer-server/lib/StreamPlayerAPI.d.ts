@@ -10,4 +10,4 @@ export declare enum ChannelName {
     RADIO2 = 0,
     RADIO3 = 1
 }
-export declare const getNowPlaying: (channelName: ChannelName) => Promise<NowPlayingResponse>;
+export declare const getNowPlaying: (channelName: ChannelName) => Promise<NowPlayingResponse | undefined>;
