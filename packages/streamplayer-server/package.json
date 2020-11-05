@@ -9,11 +9,11 @@
     "type": "git",
     "url": "https://github.com/mdvanes/homeremote-plugins.git"
   },
-  "main": "./lib/streamplayer-server.js",
-  "types": "./lib/streamplayer-server.d.ts",
+  "main": "./lib/StreamPlayerAPI.js",
+  "types": "./lib/StreamPlayerAPI.d.ts",
   "license": "MIT",
   "scripts": {
-    "build": "tsc src/streamplayer-server.ts --outDir lib -d"
+    "build": "tsc src/StreamPlayerAPI.ts --outDir lib -d"
   },
   "gitHead": "1c79d816ed2921cfe7c8a6a64fd84a339984f774",
   "publishConfig": {
