@@ -1,10 +1,10 @@
 import React, { FC, ReactNode } from "react";
-import HomeremoteStreamPlayer from "./HomeremoteStreamPlayer";
+import StreamPlayer from "./StreamPlayer";
 import packageJson from "../package.json";
 
 export default {
     title: `Elm/StreamPlayer v${packageJson.version}`,
-    component: HomeremoteStreamPlayer,
+    component: StreamPlayer,
 };
 
 const Wrapper: FC<{ width?: number }> = ({ width = 600, children }) => {
@@ -27,7 +27,7 @@ const url =
 
 export const Default = ({ width }): ReactNode => (
     <Wrapper width={width}>
-        <HomeremoteStreamPlayer url={url} />
+        <StreamPlayer url={url} />
     </Wrapper>
 );
 
@@ -39,12 +39,12 @@ Default.argTypes = {
 
 export const WithSquarePicture = (): ReactNode => (
     <Wrapper>
-        <HomeremoteStreamPlayer url={`${url}/mock/square`} />
+        <StreamPlayer url={`${url}/mock/square`} />
     </Wrapper>
 );
 
 export const WithLandscapePicture = (): ReactNode => (
     <Wrapper>
-        <HomeremoteStreamPlayer url={`${url}/mock/landscape`} />
+        <StreamPlayer url={`${url}/mock/landscape`} />
     </Wrapper>
 );

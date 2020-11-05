@@ -1,7 +1,8 @@
+// TODO no lint disable
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useRef } from "react";
 import ReactDOM from "react-dom";
-import "./HomeremoteStreamPlayer.css";
+import "./StreamPlayer.css";
 import Elm from "react-elm-components";
 import Audio from "./Elm/Audio.elm";
 
@@ -21,7 +22,7 @@ const setupPorts = (elmElem) => (ports) => {
     });
 };
 
-const HomeRemoteStreamPlayer = ({ url }) => {
+const StreamPlayer = ({ url }) => {
     const elmElem = useRef(null);
     return (
         <Elm
@@ -33,4 +34,4 @@ const HomeRemoteStreamPlayer = ({ url }) => {
     );
 };
 
-export default HomeRemoteStreamPlayer;
+export default StreamPlayer;

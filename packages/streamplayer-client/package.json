@@ -1,8 +1,8 @@
 {
   "name": "@mdworld/homeremote-stream-player",
   "version": "1.6.1",
-  "main": "./lib/HomeremoteStreamPlayer.js",
-  "types": "./lib/HomeremoteStreamPlayer.d.ts",
+  "main": "./lib/StreamPlayer.js",
+  "types": "./lib/StreamPlayer.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/mdvanes/homeremote-stream-player.git"
