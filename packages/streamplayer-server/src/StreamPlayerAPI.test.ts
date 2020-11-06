@@ -48,7 +48,6 @@ describe("StreamPlayerAPI", () => {
         expect(response).toEqual({
             artist: SomeArtist,
             title: SomeTitle,
-            // eslint-disable-next-line @typescript-eslint/camelcase
             last_updated: SomeEndDateTime,
             songImageUrl: SomeImageUrl,
             name: `${SomeTitle} / ${SomePresenters}`,

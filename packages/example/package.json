@@ -3,20 +3,12 @@
   "version": "1.6.1",
   "private": true,
   "dependencies": {
-    "@mdworld/homeremote-stream-player": "^1.6.1",
-    "@mdworld/homeremote-stream-player-server": "^1.6.1",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "concurrently": "^5.1.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "@mdworld/homeremote-stream-player": "^1.6.1"
   },
   "scripts": {
     "start": "node server.js",
     "build": "echo '\n\nBUILD DISABLED FOR PACKAGE \"Example\"\n\n'",
-    "build1": "react-scripts build"
+    "build1": "echo 'used to be: react-scripts build'"
   },
   "eslintConfig": {
     "extends": "react-app"

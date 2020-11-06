@@ -61,7 +61,6 @@ Adding a (dev)dependency to the root project:
 
 * Fix default size with Wrapper elem in /helpers/index.ts
 * Test and document production building of packages, especially streamplayer-server. (Streamplayer-client would be `lerna exec --scope @mdworld/homeremote-stream-player yarn build`)
-* Fix type generation for streamplayer-server
-* clean up streamplayer-client/stories/*.css
 * empty packages/*/package.json
 * Use packages/example to include all the packages in one place, but resolve dependencies with `yarn lerna add @mdworld/bla --scope=@mdworld/homeremote-stream-player` instead of normal `yarn lerna add @mdworld/bla`
+* clean up packages/example. Only ExampleApp.stories.tsx is needed? It should be in packages, not in root, to have a linked dependency to @mdworld/homeremote-stream-player to be as real as possible

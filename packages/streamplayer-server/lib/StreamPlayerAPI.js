@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.getNowPlaying = exports.ChannelName = void 0;
-/* eslint-disable @typescript-eslint/camelcase */
 var got_1 = require("got");
 var ChannelName;
 (function (ChannelName) {
