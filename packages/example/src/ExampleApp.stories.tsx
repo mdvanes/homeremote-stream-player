@@ -43,7 +43,7 @@ export const Default = (): ReactNode => (
         <h1 className="reset">Example App</h1>
         <p className="reset">
             This is an example application that uses the (compiled) components
-            from this monorepo.
+            from this monorepo. (test if updates work)
         </p>
         <StreamPlayer url={url} />
     </Wrapper>
