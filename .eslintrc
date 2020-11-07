@@ -1,28 +1,40 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "extends": [
-    "react-app",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier",
-    "prettier/@typescript-eslint",
-    "prettier/react",
-    "plugin:jest/recommended"
-  ],
-  "plugins": [
-    "@typescript-eslint",
-    "prettier",
-    "react",
-    "jest"
-  ],
-  "env": {
-    "browser": true,
-    "jest/globals": true
-  },
-  "rules": {
-    // Only allow Prettier styles
-    "prettier/prettier": [
-      "error"
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "react-app",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended",
+        "prettier",
+        "prettier/@typescript-eslint",
+        "prettier/react",
+        "plugin:jest/recommended"
+    ],
+    "plugins": ["@typescript-eslint", "prettier", "react", "jest"],
+    "env": {
+        "browser": true,
+        "jest/globals": true
+    },
+    "rules": {
+        // Only allow Prettier styles
+        "prettier/prettier": ["error"],
+        
+    },
+    "overrides": [
+        {
+            "files": ["packages/**/src/**/*.stories.tsx"],
+            "rules": {
+                // Storybook expects anonymous default export
+                "import/no-anonymous-default-export": "off"
+            }
+        },
+        {
+            "files": ["*.js", "*.jsx"],
+            "rules": {
+                // Incorrectly checks for types on FC in JS(X)
+                "@typescript-eslint/explicit-module-boundary-types": "off",
+                // Incorrectly warns in JS(X) about: 'React' was used before it was defined
+                "no-use-before-define": [0]
+            }
+        }
     ]
-  }
 }

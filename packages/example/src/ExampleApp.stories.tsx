@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from "react";
 // NOTE only use compiled versions, i.e. from lib! To get a good idea of what use of the modules looks like
 import StreamPlayer from "@mdworld/homeremote-stream-player";
+import { Meta } from "@storybook/react";
 import "./storybookStyles.css";
 
 export default {
@@ -15,7 +16,7 @@ export default {
             ],
         },
     },
-};
+} as Meta; // workaround because eslint disable in .eslintrc does not see this file
 
 const Wrapper: FC = ({ children }) => {
     return (

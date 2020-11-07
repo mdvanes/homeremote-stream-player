@@ -25,7 +25,7 @@ const url =
         ? `https://${window.location.host}/${window.top.location.pathname}`
         : "http://localhost:3100";
 
-export const Default = ({ width }): ReactNode => (
+export const Default = ({ width }: { width: number }): ReactNode => (
     <Wrapper width={width}>
         <StreamPlayer url={url} />
     </Wrapper>

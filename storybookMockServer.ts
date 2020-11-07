@@ -2,9 +2,8 @@ import {
     getNowPlaying,
     ChannelName,
     NowPlayingResponse,
-} from "./packages/streamplayer-server/lib/streamplayer-server";
-/* eslint-disable @typescript-eslint/no-var-requires */
-const express = require("express");
+} from "./packages/streamplayer-server/lib/StreamPlayerAPI";
+import express, { Request, Response } from "express";
 const app = express();
 
 const port = 3100;
@@ -19,7 +18,7 @@ const corsMode: CORS_MODE =
         ? CORS_MODE.DEBUG
         : CORS_MODE.NONE;
 
-const setCorsHeaders = (corsMode: CORS_MODE, res: any): void => {
+const setCorsHeaders = (corsMode: CORS_MODE, res: Response): void => {
     if (corsMode === CORS_MODE.DEBUG) {
         console.log("CORS DEBUG MODE");
         res.header("Access-Control-Allow-Origin", "http://localhost:6006"); // update to match the domain you will make the request from
@@ -30,7 +29,7 @@ const setCorsHeaders = (corsMode: CORS_MODE, res: any): void => {
     }
 };
 
-const logRequest = (req: any): void => {
+const logRequest = (req: Request): void => {
     console.log(`Request made to ${req.url}`);
 };
 
@@ -55,7 +54,6 @@ const startServer = (corsMode: CORS_MODE): void => {
         const mockResponse: NowPlayingResponse = {
             artist: "Family Of The Year",
             title: "Hero",
-            // eslint-disable-next-line @typescript-eslint/camelcase
             last_updated: "2020-10-31T11:57:03",
             songImageUrl: "http://localhost:3100/square.jpg",
             name: "Spijkers Met Koppen / Dolf Jansen, Felix Meurders",
@@ -71,7 +69,6 @@ const startServer = (corsMode: CORS_MODE): void => {
         const mockResponse: NowPlayingResponse = {
             artist: "Family Of The Year",
             title: "Hero",
-            // eslint-disable-next-line @typescript-eslint/camelcase
             last_updated: "2020-10-31T11:57:03",
             songImageUrl: "http://localhost:3100/landscape.jpg",
             name: "Spijkers Met Koppen / Dolf Jansen, Felix Meurders",

@@ -1,5 +1,3 @@
-// TODO no lint disable
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { Component } from "react";
 import { render } from "@testing-library/react";
 // In this case use `require`, see below. import StreamPlayer from "./StreamPlayer";
@@ -50,6 +48,7 @@ class MockReactElmComponent extends Component {
 // With ref:
 jest.mock("react-elm-components", () => MockReactElmComponent);
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const StreamPlayer = require("./StreamPlayer").default;
 
 jest.mock("./StreamPlayer.css", () => "");
