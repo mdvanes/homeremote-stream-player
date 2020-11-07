@@ -1,5 +1,6 @@
 const path = require("path");
 const elmloader = require("../../webpack.elmloader.js");
+const TerserPlugin = require("terser-webpack-plugin");
 
 process.env.BABEL_ENV = "production";
 process.env.NODE_ENV = "production";
@@ -33,5 +34,16 @@ module.exports = {
     },
     externals: {
         react: "commonjs react",
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    // Default is to write cache dirs in /packages/*/node_modules/.cache
+                    nameCache: {},
+                },
+            }),
+        ],
     },
 };
