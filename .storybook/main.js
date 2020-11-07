@@ -38,7 +38,7 @@ module.exports = {
         const babelLoader = oneOf.find(({ test }) =>
             new RegExp(test).test(".jsx")
         );
-        babelLoader.include = [/packages\/(.*)\/src/, /src/];
+        babelLoader.include = [/packages\/(.*)\/src/, /src/, /helpers/];
         babelLoader.exclude = [/(node_modules|bower_components|build)/];
         const fileLoader = oneOf.find(({ test }) =>
             new RegExp(test).test(".elm")

@@ -15,11 +15,11 @@ Server: [/packages/server](/packages/server)
 * `nvm use`
 * in webpack.elmloader.js, enable `optimize: true,` (should be done automatically on webpack production mode)
 * `yarn build`
+* `yarn validate`
 * commit changes (lib dirs should eventually be in git ignore)
 * optionally: `lerna changed`
 * `lerna publish`
-* build storybook manually (currently fails on CI): `yarn build-storybook`
-* commit and push the content of `docs`
+* on each push to the main branch, CI builds and publishes storybook, see .github/workflows
 
 ## Running
 
@@ -33,8 +33,9 @@ lerna run start
 * clone the repo
 * `nvm use`
 * in the root: `yarn`
-* start storybook: `yarn storybook`
-* in another terminal, start the backend API for storybook: `yarn storybook:api`
+* start storybook & api: `yarn start`
+    * alternatively: start storybook: `yarn storybook`
+    * in another terminal, start the backend API for storybook: `yarn storybook:api`
 
 ## Build Storybook
 
@@ -59,8 +60,4 @@ Adding a (dev)dependency to the root project:
 
 ## TODO
 
-* Fix default size with Wrapper elem in /helpers/index.ts
-* Test and document production building of packages, especially streamplayer-server. (Streamplayer-client would be `lerna exec --scope @mdworld/homeremote-stream-player yarn build`)
-* empty packages/*/package.json
-* Use packages/example to include all the packages in one place, but resolve dependencies with `yarn lerna add @mdworld/bla --scope=@mdworld/homeremote-stream-player` instead of normal `yarn lerna add @mdworld/bla`
 * clean up packages/example. Only ExampleApp.stories.tsx is needed? It should be in packages, not in root, to have a linked dependency to @mdworld/homeremote-stream-player to be as real as possible

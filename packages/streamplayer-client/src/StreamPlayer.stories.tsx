@@ -1,23 +1,11 @@
-import React, { FC, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import StreamPlayer from "./StreamPlayer";
 import packageJson from "../package.json";
+import { BreakpointWrapper } from "../../../helpers";
 
 export default {
     title: `Elm/StreamPlayer v${packageJson.version}`,
     component: StreamPlayer,
-};
-
-const Wrapper: FC<{ width?: number }> = ({ width = 600, children }) => {
-    return (
-        <div
-            style={{
-                minWidth: "375px",
-                maxWidth: `${width}px`,
-            }}
-        >
-            {children}
-        </div>
-    );
 };
 
 const url =
@@ -26,9 +14,9 @@ const url =
         : "http://localhost:3100";
 
 export const Default = ({ width }: { width: number }): ReactNode => (
-    <Wrapper width={width}>
+    <BreakpointWrapper width={width}>
         <StreamPlayer url={url} />
-    </Wrapper>
+    </BreakpointWrapper>
 );
 
 // See https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#knobs-to-manually-configured-args
@@ -38,13 +26,13 @@ Default.argTypes = {
 };
 
 export const WithSquarePicture = (): ReactNode => (
-    <Wrapper>
+    <BreakpointWrapper>
         <StreamPlayer url={`${url}/mock/square`} />
-    </Wrapper>
+    </BreakpointWrapper>
 );
 
 export const WithLandscapePicture = (): ReactNode => (
-    <Wrapper>
+    <BreakpointWrapper>
         <StreamPlayer url={`${url}/mock/landscape`} />
-    </Wrapper>
+    </BreakpointWrapper>
 );
