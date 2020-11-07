@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.16.1]
+        node-version: [12.16.1, 15.x] # TODO test 15.0.1
 
     steps:
       - name: Checkout 🛎️
@@ -31,10 +31,10 @@ jobs:
           CI: false # true -> fails on warning
       - name: Build Storybook 📚
         run: yarn build-storybook
-      # - name: Deploy 🚀
-      #   uses: JamesIves/github-pages-deploy-action@3.7.1
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     BRANCH: gh-pages # The branch the action should deploy to.
-      #     FOLDER: storybook-static # The folder the action should deploy.
-      #     CLEAN: true # Automatically remove deleted files from the deploy branch
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: storybook-static # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
