@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import got from "got";
 
 export interface NowPlayingResponse {
