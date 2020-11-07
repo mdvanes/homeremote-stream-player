@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.16.1, 15.x] # TODO test 15.0.1
+        node-version: [15.0.1] # Test other node versions, e.g.: [12.16.1, 15.x, 16.x]
 
     steps:
       - name: Checkout 🛎️
