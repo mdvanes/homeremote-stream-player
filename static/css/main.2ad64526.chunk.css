@@ -1,0 +1,153 @@
+/* NOTE these styles are loaded by all Storybook stories */
+
+html,
+body {
+    /* background-color: #eceff1; */
+}
+
+.reset {
+    font-family: 'sans-serif';
+}
+
+
+:root {
+    --primary-color: #1a237e;
+    --primary-color-dark: #141b62;
+    --secondary-text-color: #909093;
+    --border-radius: 4px;
+}
+
+.aspect-ratio-outer {
+    position: relative;
+}
+
+.aspect-ratio-outer:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: 50%; /* aspect ratio (1 / 2) * 100%; */
+}
+
+.aspect-ratio-outer > .aspect-ratio-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.card {
+    background-color: white;
+    border-radius: 4px;
+    border-radius: var(--border-radius);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    display: flex;
+    font-family: sans-serif;
+    overflow: hidden;
+}
+
+.card > .music-info {
+    flex: 1 1;
+}
+
+.card > .music-info .music-info-content {
+    padding: 1rem;
+}
+
+.card > .music-info audio {
+    display: none;
+}
+
+.card .controls {
+    display: flex;
+}
+
+.card .controls > .controls-button {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    flex: 1 1;
+    transition: fill 300ms;
+}
+
+.card .controls > .controls-button:hover {
+    fill: #292929;
+    transition: fill 500ms;
+}
+
+.card .controls > .controls-button.active {
+    fill: #1a237e;
+    fill: var(--primary-color);
+}
+
+.card .controls > .controls-button.active:hover {
+    fill: #141b62;
+    fill: var(--primary-color-dark);
+}
+
+.card .controls > .play {
+    fill: #3f3f3f;
+}
+
+.card .controls > .pause {
+    fill: #b3b3b3;
+}
+
+.card .controls > .pause:hover {
+    fill: #909090;
+}
+
+.card .channel {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+select {
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid black;
+}
+
+.card .channel .channel-info {
+    color: #909093;
+    color: var(--secondary-text-color);
+    font-size: 85%;
+    margin: 0 0 0 0.3rem;
+    max-height: 2rem;
+    overflow: hidden;
+}
+
+.card .title {
+    font-size: 125%;
+    margin: 0;
+}
+
+.card .artist {
+    color: #909093;
+    color: var(--secondary-text-color);
+    margin: 0 0 0.5rem 0;
+}
+
+.card > .get-now-playing {
+    flex: 1 1;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background: transparent; /* needed for firefox border clipping */
+}
+
+.card > .get-now-playing img {
+    border-bottom-right-radius: 4px;
+    border-bottom-right-radius: var(--border-radius);
+    border-top-right-radius: 4px;
+    border-top-right-radius: var(--border-radius);
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+
+/*# sourceMappingURL=main.2ad64526.chunk.css.map*/
