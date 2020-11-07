@@ -29,9 +29,8 @@ jobs:
         run: yarn validate
         env:
           CI: false # true -> fails on warning
-      # TODO Storybook build fails on elm-compiler, so disable for the moment
-      # - name: Build Storybook 📚
-      #   run: yarn build-storybook
+      - name: Build Storybook 📚
+        run: yarn build-storybook
       # - name: Deploy 🚀
       #   uses: JamesIves/github-pages-deploy-action@3.7.1
       #   with:
