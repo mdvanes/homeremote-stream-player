@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
-import ReactDOM from "react-dom";
 import "./StreamPlayer.css";
 import Elm from "react-elm-components";
 import Audio from "./Elm/Audio.elm";
 
-const setupPorts = (elmElem) => (ports) => {
+const setupPorts = (containerRef) => (ports) => {
     ports.setPlayPauseStatusPort.subscribe((newStatus) => {
-        const audioElem = ReactDOM.findDOMNode(elmElem.current).querySelector(
+        // NOTE: findDomNode has been deprecated
+        const audioElem = containerRef.current.children[0].querySelector(
             "audio"
         );
         // Wait to let the audio elem be updated with a new cachebusting timestamp in Audio.elm `Cmd.batch [ Task.perform UpdateTimestamp Time.now, Cmd.map MsgControls controlsCmds ]`
@@ -21,14 +21,15 @@ const setupPorts = (elmElem) => (ports) => {
 };
 
 const StreamPlayer = ({ url }) => {
-    const elmElem = useRef(null);
+    const containerRef = useRef(null);
     return (
-        <Elm
-            ref={elmElem}
-            src={Audio.Elm.Elm.Audio}
-            flags={{ url }}
-            ports={setupPorts(elmElem)}
-        />
+        <div ref={containerRef}>
+            <Elm
+                src={Audio.Elm.Elm.Audio}
+                flags={{ url }}
+                ports={setupPorts(containerRef)}
+            />
+        </div>
     );
 };
 
