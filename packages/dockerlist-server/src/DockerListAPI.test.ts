@@ -1,4 +1,4 @@
-import { getDockerList, ChannelName } from "./DockerListAPI";
+import { getDockerList, startContainer, stopContainer } from "./DockerListAPI";
 import * as GotModule from "got";
 import { CancelableRequest } from "got";
 
@@ -40,20 +40,50 @@ describe("DockerListAPI", () => {
     //     );
     // });
 
-    it("??", async () => {
-        const response = await getDockerList(ChannelName.RADIO2);
-        console.log(response);
+    it("lists all containers", async () => {
+        const response = await getDockerList();
+        // console.log(response);
         // expect(gotSpy).toHaveBeenCalledWith(
         //     "https://www.nporadio2.nl/api/tracks"
         // );
-        // expect(response).toEqual({
-        //     artist: SomeArtist,
-        //     title: SomeTitle,
-        //     last_updated: SomeEndDateTime,
-        //     songImageUrl: SomeImageUrl,
-        //     name: `${SomeTitle} / ${SomePresenters}`,
-        //     imageUrl: "",
-        // });
+        console.log(
+            response.containers.map((x) => {
+                return `name: ${x.Names.join(" ").padEnd(
+                    22,
+                    " "
+                )}  |  State: ${x.State.padEnd(
+                    10,
+                    " "
+                )} |  Status: ${x.Status.padEnd(25, " ")} |  Id: ${x.Id.padEnd(
+                    25,
+                    " "
+                )}`;
+            })
+        );
+
+        expect(response).toEqual({
+            // artist: SomeArtist,
+            // title: SomeTitle,
+            // last_updated: SomeEndDateTime,
+            // songImageUrl: SomeImageUrl,
+            // name: `${SomeTitle} / ${SomePresenters}`,
+            // imageUrl: "",
+        });
+    });
+
+    // TODO this already works, but needs a mock
+    it("starts a container", async () => {
+        // 42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe
+        // const response = await startContainer(
+        //     "42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe"
+        // );
+    });
+
+    // TODO this already works, but needs a mock
+    it("stops a container", async () => {
+        // const response = await stopContainer(
+        //     "42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe"
+        // );
     });
 
     // it("can respond when fields are not defined", async () => {
