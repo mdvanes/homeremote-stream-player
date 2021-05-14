@@ -16,10 +16,10 @@ external addEventListener: (request, string, unit => unit) => unit = "addEventLi
 @get external status: request => int = "status"
 
 module DockerListMod = {
-  type t = {
-    address: string,
-    total_balance: float,
-  }
+  // type t = {
+  //   address: string,
+  //   total_balance: float,
+  // }
 
   @scope("JSON") @val
   external // external parseResponse: response => t = "parse"
@@ -50,7 +50,7 @@ module DockerListMod = {
       ~address="3",
       ~onDone=response => {
         // let response = request->response->parseResponse
-        Js.log(response["message"])
+        Js.log2("weird", response["message"])
       },
       ~onError=x => {
         // let response = request->response->parseResponse
@@ -70,44 +70,24 @@ module DockerListMod = {
     // Runs only once right after mounting the component
     React.useEffect0(() => {
       // Run effects
-      query(
-        ~address="3",
-        ~onDone=response => {
-          // let response = request->response->parseResponse
-          Js.log(response["message"])
-        },
-        ~onError=x => {
-          // let response = request->response->parseResponse
-          Js.log("Error logging: " ++ Belt.Int.toString(x))
-        },
-      )
+      myQuery()
+
+      // query(
+      //   ~address="3",
+      //   ~onDone=response => {
+      //     // let response = request->response->parseResponse
+      //     Js.log(response["message"])
+      //   },
+      //   ~onError=x => {
+      //     // let response = request->response->parseResponse
+      //     Js.log("Error logging: " ++ Belt.Int.toString(x))
+      //   },
+      // )
       None // or Some(() => {})
     })
 
     let handleClick = event => {
-      // TODO fix assign? Needs the fourth () arg?: myQuery()
-      // TODO this is ignored?
-      query(
-        ~address="3",
-        ~onDone=response => {
-          // let response = request->response->parseResponse
-          Js.log(response["message"])
-        },
-        ~onError=x => {
-          // let response = request->response->parseResponse
-          Js.log("Error logging: " ++ Belt.Int.toString(x))
-        },
-      )
-      Js.log("Click!")
-      // switch onClick {
-      // | Location(location) =>
-      //   if Utils.isMouseRightClick(event) {
-      //     event |> ReactEvent.Mouse.preventDefault
-      //     location |> toString |> RescriptReactRouter.push
-      //   }
-      // | CustomFn(fn) => fn()
-      // }
-      // ignore()
+      DockerApi.Api.getDogsAndPrint();
     }
 
     <div
