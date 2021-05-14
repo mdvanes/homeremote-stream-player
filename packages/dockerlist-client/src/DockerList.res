@@ -25,25 +25,38 @@ module DockerListMod = {
   external // external parseResponse: response => t = "parse"
   parseResponse: response => {"message": array<string>} = "parse"
 
-  //  let query = (~address, ~onDone, ~onError, ()) => {
-  let query = (~address) => {
+  let query = (~address, ~onDone, ~onError /* , () */) => {
+    // let query = (~address) => {
     let request = makeXMLHttpRequest()
 
-    // request->addEventListener("load", () => onDone(request->response->parseResponse))
-    // request->addEventListener("error", () => onError(request->status))
-    request->addEventListener("load", () => {
-      let response = request->response->parseResponse
-      Js.log(response["message"])
-    })
-    request->addEventListener("error", () => {
-      Js.log("Error logging here")
-    })
+    request->addEventListener("load", () => onDone(request->response->parseResponse))
+    request->addEventListener("error", () => onError(request->status))
+    // request->addEventListener("load", () => {
+    //   let response = request->response->parseResponse
+    //   Js.log(response["message"])
+    // })
+    // request->addEventListener("error", () => {
+    //   Js.log("Error logging here")
+    // })
 
     request->open_("GET", "https://dog.ceo/api/breeds/image/random/" ++ address)
     request->send
 
     // () => request->abort
   }
+
+  let myQuery = () =>
+    query(
+      ~address="3",
+      ~onDone=response => {
+        // let response = request->response->parseResponse
+        Js.log(response["message"])
+      },
+      ~onError=x => {
+        // let response = request->response->parseResponse
+        Js.log("Error logging: " ++ Belt.Int.toString(x))
+      },
+    )
 
   @react.component
   let make = (~count: int) => {
@@ -57,9 +70,45 @@ module DockerListMod = {
     // Runs only once right after mounting the component
     React.useEffect0(() => {
       // Run effects
-      query(~address="3")
+      query(
+        ~address="3",
+        ~onDone=response => {
+          // let response = request->response->parseResponse
+          Js.log(response["message"])
+        },
+        ~onError=x => {
+          // let response = request->response->parseResponse
+          Js.log("Error logging: " ++ Belt.Int.toString(x))
+        },
+      )
       None // or Some(() => {})
     })
+
+    let handleClick = event => {
+      // TODO fix assign? Needs the fourth () arg?: myQuery()
+      // TODO this is ignored?
+      query(
+        ~address="3",
+        ~onDone=response => {
+          // let response = request->response->parseResponse
+          Js.log(response["message"])
+        },
+        ~onError=x => {
+          // let response = request->response->parseResponse
+          Js.log("Error logging: " ++ Belt.Int.toString(x))
+        },
+      )
+      Js.log("Click!")
+      // switch onClick {
+      // | Location(location) =>
+      //   if Utils.isMouseRightClick(event) {
+      //     event |> ReactEvent.Mouse.preventDefault
+      //     location |> toString |> RescriptReactRouter.push
+      //   }
+      // | CustomFn(fn) => fn()
+      // }
+      // ignore()
+    }
 
     <div
       style={ReactDOM.Style.make(
@@ -69,7 +118,7 @@ module DockerListMod = {
         (),
       )}>
       {React.string("Docker List")}
-      <button className={styles["root"]}> {msg->React.string} </button>
+      <button className={styles["root"]} onClick={handleClick}> {msg->React.string} </button>
     </div>
   }
 }
