@@ -31,6 +31,7 @@ TODO For now workflow is: start storybook and in other terminal in /packages/doc
 
 ## TODO
 
+- Material UI bindings seem very unstable: https://jsiebern.github.io/bs-material-ui Adding it breaks the build sometimes
 - Add Reason/Rescript
 - Clean up old Elm deps from package.json
 - Builders (like webpack) are discouraged: https://rescript-lang.org/docs/manual/latest/interop-with-js-build-systems
