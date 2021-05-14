@@ -2,62 +2,7 @@
 // set of attributes
 @module external styles: {..} = "./DockerList.module.css"
 
-type request
-type response
-
-@new external makeXMLHttpRequest: unit => request = "XMLHttpRequest"
-@send
-external addEventListener: (request, string, unit => unit) => unit = "addEventListener"
-@get external response: request => response = "response"
-@send external open_: (request, string, string) => unit = "open"
-@send external send: request => unit = "send"
-@send external abort: request => unit = "abort"
-
-@get external status: request => int = "status"
-
 module DockerListMod = {
-  // type t = {
-  //   address: string,
-  //   total_balance: float,
-  // }
-
-  @scope("JSON") @val
-  external // external parseResponse: response => t = "parse"
-  parseResponse: response => {"message": array<string>} = "parse"
-
-  let query = (~address, ~onDone, ~onError /* , () */) => {
-    // let query = (~address) => {
-    let request = makeXMLHttpRequest()
-
-    request->addEventListener("load", () => onDone(request->response->parseResponse))
-    request->addEventListener("error", () => onError(request->status))
-    // request->addEventListener("load", () => {
-    //   let response = request->response->parseResponse
-    //   Js.log(response["message"])
-    // })
-    // request->addEventListener("error", () => {
-    //   Js.log("Error logging here")
-    // })
-
-    request->open_("GET", "https://dog.ceo/api/breeds/image/random/" ++ address)
-    request->send
-
-    // () => request->abort
-  }
-
-  let myQuery = () =>
-    query(
-      ~address="3",
-      ~onDone=response => {
-        // let response = request->response->parseResponse
-        Js.log2("weird", response["message"])
-      },
-      ~onError=x => {
-        // let response = request->response->parseResponse
-        Js.log("Error logging: " ++ Belt.Int.toString(x))
-      },
-    )
-
   @react.component
   let make = (~count: int) => {
     let times = switch count {
@@ -67,27 +12,20 @@ module DockerListMod = {
     }
     let msg = "Click me " ++ times
 
+    let (imgs, setImgs) = React.useState(_ =>
+      "https://images.dog.ceo/breeds/waterdog-spanish/20180714_201544.jpg"
+    )
+
     // Runs only once right after mounting the component
     React.useEffect0(() => {
       // Run effects
-      myQuery()
-
-      // query(
-      //   ~address="3",
-      //   ~onDone=response => {
-      //     // let response = request->response->parseResponse
-      //     Js.log(response["message"])
-      //   },
-      //   ~onError=x => {
-      //     // let response = request->response->parseResponse
-      //     Js.log("Error logging: " ++ Belt.Int.toString(x))
-      //   },
-      // )
+      DockerApi.Api.getDogsAndPrint()
       None // or Some(() => {})
     })
 
-    let handleClick = event => {
-      DockerApi.Api.getDogsAndPrint();
+    let handleClick = _event => {
+      // DockerApi.Api.getDogsAndPrint()
+      DockerApi.Api.getDogsAndShow(~show=_param => setImgs(_prev => _param))
     }
 
     <div
@@ -99,6 +37,12 @@ module DockerListMod = {
       )}>
       {React.string("Docker List")}
       <button className={styles["root"]} onClick={handleClick}> {msg->React.string} </button>
+      <img
+        className={styles["image"]}
+        // TODO why can "height" not be set?
+        // style={ReactDOM.Style.make(~height="100px")}
+        src={imgs}
+      />
     </div>
   }
 }

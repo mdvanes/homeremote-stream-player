@@ -57,6 +57,20 @@ module Api = {
         Js.log("Error logging: " ++ Belt.Int.toString(x))
       },
     )
+
+  let getDogsAndShow = (~show) =>
+    getDogs(
+      ~address="1",
+      ~onDone=response => {
+        // let response = request->response->parseResponse
+        Js.log2("weird", response["message"])
+        show(response["message"][0])
+      },
+      ~onError=x => {
+        // let response = request->response->parseResponse
+        Js.log("Error logging: " ++ Belt.Int.toString(x))
+      },
+    )
 }
 
 // TODO use Fetch
