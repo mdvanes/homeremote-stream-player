@@ -1,10 +1,13 @@
 import React, { ReactNode } from "react";
-import DockerList from "./DockerList";
+// import DockerList from "./DockerList";
+import { DockerListMod } from "./Test.bs";
 import packageJson from "../package.json";
 import { BreakpointWrapper } from "../../../helpers";
 
+const DockerList = DockerListMod.make;
+
 export default {
-    title: `Reason/DockerList v${packageJson.version}`,
+    title: `ReScript/DockerList v${packageJson.version}`,
     component: DockerList,
 };
 
@@ -15,7 +18,8 @@ const url =
 
 export const Default = ({ width }: { width: number }): ReactNode => (
     <BreakpointWrapper width={width}>
-        <DockerList url={url} />
+        {/* <DockerList url={url} /> */}
+        <DockerList />
     </BreakpointWrapper>
 );
 
