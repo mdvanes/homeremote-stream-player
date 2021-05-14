@@ -22,18 +22,27 @@ module DockerListMod = {
   }
 
   @scope("JSON") @val
-  external parseResponse: response => t = "parse"
+  external // external parseResponse: response => t = "parse"
+  parseResponse: response => {"message": array<string>} = "parse"
 
-  let query = (~address, ~onDone, ~onError, ()) => {
+  //  let query = (~address, ~onDone, ~onError, ()) => {
+  let query = (~address) => {
     let request = makeXMLHttpRequest()
 
-    request->addEventListener("load", () => onDone(request->response->parseResponse))
-    request->addEventListener("error", () => onError(request->status))
+    // request->addEventListener("load", () => onDone(request->response->parseResponse))
+    // request->addEventListener("error", () => onError(request->status))
+    request->addEventListener("load", () => {
+      let response = request->response->parseResponse
+      Js.log(response["message"])
+    })
+    request->addEventListener("error", () => {
+      Js.log("Error logging here")
+    })
 
     request->open_("GET", "https://dog.ceo/api/breeds/image/random/" ++ address)
     request->send
 
-    () => request->abort
+    // () => request->abort
   }
 
   @react.component
@@ -48,17 +57,7 @@ module DockerListMod = {
     // Runs only once right after mounting the component
     React.useEffect0(() => {
       // Run effects
-      query(
-        "3",
-        () => {
-          let response = request->response->parseResponse
-          Js.log(response["message"])
-        },
-        () => {
-          let response = request->status
-          Js.log("Error logging here" ++ response)
-        },
-      )
+      query(~address="3")
       None // or Some(() => {})
     })
 
