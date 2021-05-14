@@ -1,6 +1,9 @@
 type request
 type response
 
+// open Js.Promise
+// open Fetch
+
 @new external makeXMLHttpRequest: unit => request = "XMLHttpRequest"
 @send
 external addEventListener: (request, string, unit => unit) => unit = "addEventListener"
@@ -25,6 +28,7 @@ module Api = {
   @scope("JSON") @val
   external parseResponse: response => {"message": array<string>} = "parse"
 
+  // XHR example (no dependencies)
   let getDogs = (~address, ~onDone, ~onError /* , () */) => {
     // let query = (~address) => {
     let request = makeXMLHttpRequest()
@@ -50,7 +54,7 @@ module Api = {
       ~address="3",
       ~onDone=response => {
         // let response = request->response->parseResponse
-        Js.log2("weird", response["message"])
+        Js.log2("GetDogsAndPrint Done", response["message"])
       },
       ~onError=x => {
         // let response = request->response->parseResponse
@@ -63,7 +67,7 @@ module Api = {
       ~address="1",
       ~onDone=response => {
         // let response = request->response->parseResponse
-        Js.log2("weird", response["message"])
+        Js.log2("GetDogsAndShow Done", response["message"])
         show(response["message"][0])
       },
       ~onError=x => {
@@ -71,12 +75,42 @@ module Api = {
         Js.log("Error logging: " ++ Belt.Int.toString(x))
       },
     )
+
+  // Using Fetch API with bs-fetch bindings
+  // let getDogsFetch = () => Js.Promise.(
+  //   Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")
+  //   |> then_(Fetch.Response.text)
+  //   |> then_(text => print_endline(text) |> resolve),
+  // )
+  // let getDogsFetch = () => "https://dog.ceo/api/breeds/image/random/1" 
+  //   |> Fetch.fetch
+  //   |> then_(Fetch.Response.text)
+
+  // let getDogsFetch = () => Js.Promise.(
+  //   Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")
+  //   |> then_(Fetch.Response.text)
+  //   |> then_(text => print_endline(text) |> resolve),
+  // )
+
+  let getDogsFetch = () => 
+    Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")
+    |> Js.Promise.then_(Fetch.Response.text)
+    |> Js.Promise.then_(text => print_endline(text) |> Js.Promise.resolve)
+  
+
+
+  // let tags: unit => Js.Promise.t<result<Shape.Tags.t, AppError.t>> = () =>
+  //   Endpoints.tags
+  //   |> fetch
+  //   |> then_(parseJsonIfOk)
+  //   |> then_(getErrorBodyText)
+  //   |> then_(result =>
+  //     result->Belt.Result.flatMap(json => json->Shape.Tags.decode->AppError.decode)->resolve
+  //   )
 }
 
 // TODO use Fetch
 //
-// open Js.Promise
-// open Fetch
 //
 // module Action = {
 //   type article =

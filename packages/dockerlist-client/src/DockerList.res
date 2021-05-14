@@ -28,7 +28,13 @@ module DockerListMod = {
       DockerApi.Api.getDogsAndShow(~show=_param => setImgs(_prev => _param))
     }
 
+    let handleClickFetch = _event => {
+      Js.log("handleClickFetch")
+      // TODO DockerApi.Api.getDogsFetch()
+    }
+
     <div
+      className={styles["root"]}
       style={ReactDOM.Style.make(
         // ~backgroundColor="white",
         ~padding="2px",
@@ -36,7 +42,10 @@ module DockerListMod = {
         (),
       )}>
       {React.string("Docker List")}
-      <button className={styles["root"]} onClick={handleClick}> {msg->React.string} </button>
+      <button className={styles["button"]} onClick={handleClick}> {msg->React.string} </button>
+      <button className={styles["button"]} onClick={handleClickFetch}>
+        {React.string("with Fetch Api")}
+      </button>
       <img
         className={styles["image"]}
         // TODO why can "height" not be set?

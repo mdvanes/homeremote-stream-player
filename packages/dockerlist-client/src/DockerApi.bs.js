@@ -18,7 +18,7 @@ function getDogs(address, onDone, onError) {
 
 function getDogsAndPrint(param) {
   return getDogs("3", (function (response) {
-                console.log("weird", response.message);
+                console.log("GetDogsAndPrint Done", response.message);
                 
               }), (function (x) {
                 console.log("Error logging: " + String(x));
@@ -28,7 +28,7 @@ function getDogsAndPrint(param) {
 
 function getDogsAndShow(show) {
   return getDogs("1", (function (response) {
-                console.log("weird", response.message);
+                console.log("GetDogsAndShow Done", response.message);
                 return Curry._1(show, Caml_array.get(response.message, 0));
               }), (function (x) {
                 console.log("Error logging: " + String(x));
@@ -36,10 +36,19 @@ function getDogsAndShow(show) {
               }));
 }
 
+function getDogsFetch(param) {
+  return fetch("https://dog.ceo/api/breeds/image/random/1").then(function (prim) {
+                return prim.text();
+              }).then(function (text) {
+              return Promise.resolve((console.log(text), undefined));
+            });
+}
+
 var Api = {
   getDogs: getDogs,
   getDogsAndPrint: getDogsAndPrint,
-  getDogsAndShow: getDogsAndShow
+  getDogsAndShow: getDogsAndShow,
+  getDogsFetch: getDogsFetch
 };
 
 export {

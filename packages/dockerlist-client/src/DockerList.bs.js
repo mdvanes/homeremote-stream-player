@@ -28,15 +28,23 @@ function DockerList$DockerListMod(Props) {
                             }));
               });
   };
+  var handleClickFetch = function (_event) {
+    console.log("handleClickFetch");
+    
+  };
   return React.createElement("div", {
+              className: styles.root,
               style: {
                 padding: "2px",
                 borderRadius: "2px"
               }
             }, "Docker List", React.createElement("button", {
-                  className: styles.root,
+                  className: styles.button,
                   onClick: handleClick
-                }, msg), React.createElement("img", {
+                }, msg), React.createElement("button", {
+                  className: styles.button,
+                  onClick: handleClickFetch
+                }, "with Fetch Api"), React.createElement("img", {
                   className: styles.image,
                   src: match[0]
                 }));
