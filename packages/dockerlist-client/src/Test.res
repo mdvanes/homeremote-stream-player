@@ -1,3 +1,7 @@
+// {..} means we are handling a JS object with an unknown
+// set of attributes
+@module external styles: {..} = "./DockerList.module.css"
+
 module DockerListMod = {
   @react.component
   let make = (~count: int) => {
@@ -8,7 +12,7 @@ module DockerListMod = {
     }
     let msg = "Click me " ++ times
 
-    <button> {msg->React.string} </button>
+    <button className={styles["root"]} > {msg->React.string} </button>
   }
 }
 

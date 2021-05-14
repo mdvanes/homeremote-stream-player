@@ -21,7 +21,7 @@ See https://github.com/mdvanes/homeremote/issues/9
   "bs-dependencies": ["@rescript/react"]
 } in bsconfig.json
 - in /packages/dockerlist-client run `yarn re:build`
-
+- TODO For now workflow is: start storybook and in other terminal in /packages/dockerlist-client run `yarn re:start`
 
 ## Running
 

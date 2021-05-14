@@ -19,7 +19,7 @@ const url =
 export const Default = ({ width }: { width: number }): ReactNode => (
     <BreakpointWrapper width={width}>
         {/* <DockerList url={url} /> */}
-        <DockerList />
+        <DockerList count={0} />
     </BreakpointWrapper>
 );
 
