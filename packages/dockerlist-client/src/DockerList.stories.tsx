@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
-// import DockerList from "./DockerList";
-import { DockerListMod } from "./Test.bs";
+import { DockerListMod } from "./DockerList.bs";
 import packageJson from "../package.json";
 import { BreakpointWrapper } from "../../../helpers";
 
@@ -11,14 +10,13 @@ export default {
     component: DockerList,
 };
 
-const url =
-    process.env.STORYBOOK_MODE === "PROD"
-        ? `https://${window.location.host}/${window.top.location.pathname}`
-        : "http://localhost:3100";
+// const url =
+//     process.env.STORYBOOK_MODE === "PROD"
+//         ? `https://${window.location.host}/${window.top.location.pathname}`
+//         : "http://localhost:3100";
 
 export const Default = ({ width }: { width: number }): ReactNode => (
     <BreakpointWrapper width={width}>
-        {/* <DockerList url={url} /> */}
         <DockerList count={0} />
     </BreakpointWrapper>
 );

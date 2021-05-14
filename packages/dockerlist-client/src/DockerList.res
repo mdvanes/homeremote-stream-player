@@ -12,7 +12,15 @@ module DockerListMod = {
     }
     let msg = "Click me " ++ times
 
-    <button className={styles["root"]} > {msg->React.string} </button>
+    <div
+      style={ReactDOM.Style.make(
+        // ~backgroundColor="white",
+        ~padding="2px",
+        ~borderRadius="2px",
+        (),
+      )}>
+      {React.string("Docker List")} <button className={styles["root"]}> {msg->React.string} </button>
+    </div>
   }
 }
 

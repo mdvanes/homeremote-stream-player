@@ -5,19 +5,24 @@ import * as DockerListModuleCss from "./DockerList.module.css";
 
 var styles = DockerListModuleCss;
 
-function Test$DockerListMod(Props) {
+function DockerList$DockerListMod(Props) {
   var count = Props.count;
   var times = count !== 1 ? (
       count !== 2 ? String(count) + " times" : "twice"
     ) : "once";
   var msg = "Click me " + times;
-  return React.createElement("button", {
-              className: styles.root
-            }, msg);
+  return React.createElement("div", {
+              style: {
+                padding: "2px",
+                borderRadius: "2px"
+              }
+            }, "Docker List", React.createElement("button", {
+                  className: styles.root
+                }, msg));
 }
 
 var DockerListMod = {
-  make: Test$DockerListMod
+  make: DockerList$DockerListMod
 };
 
 export {
