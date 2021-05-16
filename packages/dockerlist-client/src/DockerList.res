@@ -33,7 +33,7 @@ module DockerListMod = {
       DockerApi.Api.getDogsAndShow(~show=_param => setImgs(_prev => _param))
       let _ = ReasonApi.getDockerList() |> Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)
-        Js.log2("SpecialApiTestFunc: ", containerList)
+        // Js.log2("SpecialApiTestFunc: ", containerList)
         Js.Promise.resolve(containerList)
       })
 
@@ -67,15 +67,15 @@ module DockerListMod = {
       //     _,
       //   )
 
-      let _ = ReasonApi.fetchDogs() |> Js.Promise.then_(imgList => {
-        setImgs(_prev => imgList)
-        Js.log2("SpecialApiTestFunc: ", imgList)
-        Js.Promise.resolve(imgList)
-      })
+      // let _ = ReasonApi.fetchDogs() |> Js.Promise.then_(imgList => {
+      //   setImgs(_prev => imgList)
+      //   Js.log2("SpecialApiTestFunc: ", imgList)
+      //   Js.Promise.resolve(imgList)
+      // })
 
       let _ = ReasonApi.getDockerList() |> Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)
-        Js.log2("SpecialApiTestFunc: ", containerList)
+        // Js.log2("SpecialApiTestFunc: ", containerList)
         Js.Promise.resolve(containerList)
       })
     }
@@ -106,33 +106,33 @@ module DockerListMod = {
     let dockerContainersElems =
       containers
       ->Js.Array2.map(dockerContainer => {
+        let state = dockerContainer["State"]
         let className =
           styles["button"] ++
-          " " ++ if dockerContainer["State"] != "running" {
+          " " ++ if state != "running" {
             styles["off"]
           } else {
             ""
           }
 
         <button className={className}>
-          <p> {dockerContainer["Names"]} </p>
-          // {React.string("State")}
-          <p> {dockerContainer["Status"]} </p>
+          <h1> {dockerContainer["Names"]} </h1> <p> {dockerContainer["Status"]} </p>
         </button>
       })
       ->React.array
 
     // open MaterialUi
     <div className={styles["root"]}>
-      <h1>
-        {
-          // <Typography variant=#H4 gutterBottom=true> {"Headline"->React.string} </Typography>
-          // <MaterialUi_Typography> {"Some example text"->React.string} </MaterialUi_Typography>
-          React.string("Docker List")
-        }
-      </h1>
-      <h1> {"Docker List"->React.string} </h1>
-      <div className={styles["button-container"]}>
+      // <h1>
+      //   {
+      //     // <Typography variant=#H4 gutterBottom=true> {"Headline"->React.string} </Typography>
+      //     // <MaterialUi_Typography> {"Some example text"->React.string} </MaterialUi_Typography>
+      //     React.string("Docker List")
+      //   }
+      // </h1>
+      // <h1> {"Docker List"->React.string} </h1>
+      <div className={styles["button-container"]}> dockerContainersElems </div>
+      <div className={styles["button-container"]} style={ReactDOM.Style.make(~marginTop="2rem", ())}>
         <button className={styles["button"] ++ " " ++ styles["off"]} onClick={handleClick}>
           {msg->React.string}
         </button>
@@ -155,7 +155,6 @@ module DockerListMod = {
           <p> {React.string("Borked")} </p>
         </button>
       </div>
-      dockerContainersElems
       <div> imgElems </div>
       // <img
       //   className={styles["image"]}
