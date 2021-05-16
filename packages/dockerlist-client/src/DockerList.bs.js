@@ -2,6 +2,8 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as DockerListModuleCss from "./DockerList.module.css";
 import * as DockerApi$MdworldHomeremoteDockerlist from "./DockerApi.bs.js";
 
@@ -14,11 +16,16 @@ function DockerList$DockerListMod(Props) {
     ) : "once";
   var msg = "Click me " + times;
   var match = React.useState(function () {
-        return "https://images.dog.ceo/breeds/waterdog-spanish/20180714_201544.jpg";
+        return [];
       });
   var setImgs = match[1];
+  var dialogEl = React.useRef(null);
   React.useEffect((function () {
-          DockerApi$MdworldHomeremoteDockerlist.Api.getDogsAndPrint(undefined);
+          DockerApi$MdworldHomeremoteDockerlist.Api.getDogsAndShow(function (_param) {
+                return Curry._1(setImgs, (function (_prev) {
+                              return _param;
+                            }));
+              });
           
         }), []);
   var handleClick = function (_event) {
@@ -30,24 +37,47 @@ function DockerList$DockerListMod(Props) {
   };
   var handleClickFetch = function (_event) {
     console.log("handleClickFetch");
-    
-  };
-  return React.createElement("div", {
-              className: styles.root,
-              style: {
-                padding: "2px",
-                borderRadius: "2px"
-              }
-            }, "Docker List", React.createElement("button", {
-                  className: styles.button,
-                  onClick: handleClick
-                }, msg), React.createElement("button", {
-                  className: styles.button,
-                  onClick: handleClickFetch
-                }, "with Fetch Api"), React.createElement("img", {
-                  className: styles.image,
-                  src: match[0]
+    return Belt_Option.forEach(Caml_option.nullable_to_opt(dialogEl.current), (function (input) {
+                  input.showModal();
+                  
                 }));
+  };
+  var closeDialog = function (_event) {
+    return Belt_Option.forEach(Caml_option.nullable_to_opt(dialogEl.current), (function (input) {
+                  input.close();
+                  
+                }));
+  };
+  var imgElems = match[0].map(function (url) {
+        return React.createElement("img", {
+                    className: styles.image,
+                    src: url
+                  });
+      });
+  return React.createElement("div", {
+              className: styles.root
+            }, React.createElement("h1", undefined, "Docker List"), React.createElement("h1", undefined, "Docker List"), React.createElement("div", {
+                  className: styles["button-container"]
+                }, React.createElement("button", {
+                      className: styles.button + " " + styles.off,
+                      onClick: handleClick
+                    }, msg), React.createElement("button", {
+                      className: styles.button + " " + styles.off,
+                      onClick: handleClickFetch
+                    }, "with Fetch Api"), React.createElement("button", {
+                      className: styles.button + " " + styles.off,
+                      onClick: handleClickFetch
+                    }, React.createElement("h1", undefined, "Name"), React.createElement("p", undefined, "Off")), React.createElement("button", {
+                      className: styles.button,
+                      onClick: handleClickFetch
+                    }, React.createElement("h1", undefined, "Bladiebla"), React.createElement("p", undefined, "Up 2 days")), React.createElement("button", {
+                      className: styles.button + " " + styles.error,
+                      onClick: handleClickFetch
+                    }, React.createElement("h1", undefined, "Errrr"), React.createElement("p", undefined, "Borked"))), imgElems, React.createElement("dialog", {
+                  ref: dialogEl
+                }, "are you sure you want to start container SOMEConTAINEr", React.createElement("button", {
+                      onClick: closeDialog
+                    }, "close")));
 }
 
 var DockerListMod = {

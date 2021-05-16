@@ -64,11 +64,11 @@ module Api = {
 
   let getDogsAndShow = (~show) =>
     getDogs(
-      ~address="1",
+      ~address="3",
       ~onDone=response => {
         // let response = request->response->parseResponse
         Js.log2("GetDogsAndShow Done", response["message"])
-        show(response["message"][0])
+        show(response["message"])
       },
       ~onError=x => {
         // let response = request->response->parseResponse
@@ -76,13 +76,16 @@ module Api = {
       },
     )
 
+  let result = [1, 2, 3]->Js.Array2.map(a => a + 1)->Js.Array2.filter(a => mod(a, 2) == 0)
+  Js.log(result)
+
   // Using Fetch API with bs-fetch bindings
   // let getDogsFetch = () => Js.Promise.(
   //   Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")
   //   |> then_(Fetch.Response.text)
   //   |> then_(text => print_endline(text) |> resolve),
   // )
-  // let getDogsFetch = () => "https://dog.ceo/api/breeds/image/random/1" 
+  // let getDogsFetch = () => "https://dog.ceo/api/breeds/image/random/1"
   //   |> Fetch.fetch
   //   |> then_(Fetch.Response.text)
 
@@ -92,12 +95,10 @@ module Api = {
   //   |> then_(text => print_endline(text) |> resolve),
   // )
 
-  let getDogsFetch = () => 
-    Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")
-    |> Js.Promise.then_(Fetch.Response.text)
-    |> Js.Promise.then_(text => print_endline(text) |> Js.Promise.resolve)
-  
-
+  // let getDogsFetch = () =>
+  //   Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")
+  //   |> Js.Promise.then_(Fetch.Response.text)
+  //   |> Js.Promise.then_(text => print_endline(text) |> Js.Promise.resolve)
 
   // let tags: unit => Js.Promise.t<result<Shape.Tags.t, AppError.t>> = () =>
   //   Endpoints.tags
