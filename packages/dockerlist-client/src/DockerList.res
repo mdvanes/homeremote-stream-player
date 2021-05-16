@@ -25,7 +25,7 @@ module DockerListMod = {
 
     // TODO extract modal
     // let (showModal, setShowModal) = React.useState(_ => false)
-    let dialogEl = React.useRef(Js.Nullable.null)
+    // let dialogEl = React.useRef(Js.Nullable.null)
 
     // Runs only once right after mounting the component
     React.useEffect0(() => {
@@ -46,7 +46,7 @@ module DockerListMod = {
     //   DockerApi.Api.getDogsAndShow(~show=_param => setImgs(_prev => _param))
     // }
 
-    let handleClickFetch = _event => {
+    let handleClickFetch = (id: string, _event) => {
       Js.log("handleClickFetch")
       // TODO full screen modal to confirm the action when starting/stopping container
       // dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->showModal)
@@ -79,11 +79,17 @@ module DockerListMod = {
         // Js.log2("SpecialApiTestFunc: ", containerList)
         Js.Promise.resolve(containerList)
       })
+
+      let _ = ReasonApi.startContainer(id) |> Js.Promise.then_(containerList => {
+        setContainers(_prev => containerList)
+        // Js.log2("SpecialApiTestFunc: ", containerList)
+        Js.Promise.resolve(containerList)
+      })
     }
 
-    let closeDialog = _event => {
-      dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->close)
-    }
+    // let closeDialog = _event => {
+    //   dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->close)
+    // }
 
     // let imgElems = React.array([React.string("elem 1")]->Js.Array2.map(a => <h1> a </h1>))
     // let imgElems =
@@ -110,18 +116,24 @@ module DockerListMod = {
         let state = dockerContainer["State"]
         let className =
           // TODO convenience method for multiple classNames?
-          styles["button-list-item"] ++
-          " " ++
-          styles["mui-button"] ++
-          " " ++ if state == "running" {
+          `${styles["button-list-item"]} ${styles["mui-button"]} ` ++ if state == "running" {
             styles["button-success"]
           } else {
             ""
           }
 
-        <button className={className}>
-          <h1> {dockerContainer["Names"]} </h1> <p> {dockerContainer["Status"]} </p>
-        </button>
+        let name =
+          dockerContainer["Names"]
+          ->Js.Array2.map(name => Js.String2.sliceToEnd(name, ~from=1))
+          ->Js.Array2.joinWith(" ")
+
+        <ConfirmAction
+          onClick={handleClickFetch(dockerContainer["Id"])}
+          className={className}
+          question={`Do you want to **turn on** ${name}?`}
+          confirmButtonStyle={ReactDOM.Style.make(~backgroundColor="darkblue", ~color="white", ())}>
+          <h1> {name->React.string} </h1> <p> {dockerContainer["Status"]} </p>
+        </ConfirmAction>
       })
       ->React.array
 
@@ -137,18 +149,19 @@ module DockerListMod = {
       // <h1> {"Docker List"->React.string} </h1>
       <div className={styles["button-list"]}>
         <ConfirmAction
-          onClick={handleClickFetch}
+          onClick={handleClickFetch("some-id")}
           className={styles["button-list-item"] ++ " " ++ styles["mui-button"]}
           question="turn on ?? such a long text oh wow so long wow wow wow wow wow"
-          confirmButtonStyle={ReactDOM.Style.make(~backgroundColor="darkblue", ~color="white", ())}
-        />
+          confirmButtonStyle={ReactDOM.Style.make(~backgroundColor="darkblue", ~color="white", ())}>
+          {"modal"->React.string}
+        </ConfirmAction>
         dockerContainersElems
       </div>
       <div className={styles["button-list"]} style={ReactDOM.Style.make(~marginTop="2rem", ())}>
         // <button className={styles["button"] ++ " " ++ styles["off"]} onClick={handleClick}>
         //   {msg->React.string}
         // </button>
-        <button className={styles["mui-button"]} onClick={handleClickFetch}>
+        <button className={styles["mui-button"]} onClick={handleClickFetch("some-id")}>
           {React.string("modal")}
         </button>
         // <button className={styles["button"] ++ " " ++ styles["off"]} onClick={handleClickFetch}>
@@ -163,7 +176,7 @@ module DockerListMod = {
         // </button>
         <button
           className={styles["mui-button"] ++ " " ++ styles["button-error"]}
-          onClick={handleClickFetch}>
+          onClick={handleClickFetch("some-id")}>
           <h1> {React.string("Errrr")} </h1>
           // {React.string("State")}
           <p> {React.string("Borked")} </p>
@@ -176,13 +189,13 @@ module DockerListMod = {
       //   // style={ReactDOM.Style.make(~height="100px")}
       //   src={imgs}
       // />
-      <dialog ref={ReactDOM.Ref.domRef(dialogEl)}>
-        {
-          // style={ReactDOM.Style.make(~height="100px")}>
-          "are you sure you want to start container SOMEConTAINEr"->React.string
-        }
-        <button onClick={closeDialog}> {"close"->React.string} </button>
-      </dialog>
+      // <dialog ref={ReactDOM.Ref.domRef(dialogEl)}>
+      //   {
+      //     // style={ReactDOM.Style.make(~height="100px")}>
+      //     "are you sure you want to start container SOMEConTAINEr"->React.string
+      //   }
+      //   <button onClick={closeDialog}> {"close"->React.string} </button>
+      // </dialog>
     </div>
   }
 }

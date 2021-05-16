@@ -13,6 +13,7 @@ function ConfirmAction(Props) {
   var question = Props.question;
   var classNameOpt = Props.className;
   var confirmButtonStyle = Props.confirmButtonStyle;
+  var children = Props.children;
   var className = classNameOpt !== undefined ? classNameOpt : "";
   var dialogEl = React.useRef(null);
   var openDialog = function (_event) {
@@ -30,7 +31,7 @@ function ConfirmAction(Props) {
   return React.createElement(React.Fragment, undefined, React.createElement("button", {
                   className: className,
                   onClick: openDialog
-                }, "modal"), React.createElement("dialog", {
+                }, children), React.createElement("dialog", {
                   ref: dialogEl
                 }, React.createElement("p", undefined, question), React.createElement("div", {
                       className: styles["dialog-actions"]

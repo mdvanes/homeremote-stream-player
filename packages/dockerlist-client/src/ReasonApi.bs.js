@@ -28,10 +28,21 @@ function getDockerList(param) {
             });
 }
 
+function startContainer(id) {
+  return fetch("http://localhost:3100/api/dockerlist/start/" + id).then(function (response) {
+                  return response.json();
+                }).then(function (jsonResponse) {
+                return Promise.resolve(jsonResponse.containers);
+              }).catch(function (_err) {
+              return Promise.resolve([]);
+            });
+}
+
 export {
   myFunc ,
   fetchDogs ,
   getDockerList ,
+  startContainer ,
   
 }
 /* No side effect */

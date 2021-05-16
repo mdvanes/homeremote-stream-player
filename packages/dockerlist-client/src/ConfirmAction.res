@@ -14,6 +14,7 @@ let make = (
   ~question: string,
   ~className: string="",
   ~confirmButtonStyle: ReactDOM.Style.t,
+  ~children: React.element
 ) => {
   let dialogEl = React.useRef(Js.Nullable.null)
   let openDialog = _event => {
@@ -27,7 +28,7 @@ let make = (
   }
 
   <>
-    <button className={className} onClick={openDialog}> {React.string("modal")} </button>
+    <button className={className} onClick={openDialog}> children </button>
     <dialog ref={ReactDOM.Ref.domRef(dialogEl)}>
       <p> {question->React.string} </p>
       <div className={styles["dialog-actions"]}>

@@ -3,7 +3,10 @@ import {
     ChannelName,
     NowPlayingResponse,
 } from "./packages/streamplayer-server/lib/StreamPlayerAPI";
-import { getDockerList } from "./packages/dockerlist-server/lib/DockerListAPI";
+import {
+    getDockerList,
+    startContainer,
+} from "./packages/dockerlist-server/lib/DockerListAPI";
 import express, { Request, Response } from "express";
 const app = express();
 
@@ -96,6 +99,18 @@ const startServer = (corsMode: CORS_MODE): void => {
         setCorsHeaders(corsMode, res);
         try {
             const response = await getDockerList();
+            res.send(response);
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(500);
+        }
+    });
+
+    app.get("/api/dockerlist/start/:id", async (req, res) => {
+        logRequest(req);
+        setCorsHeaders(corsMode, res);
+        try {
+            const response = await startContainer(req.params.id);
             res.send(response);
         } catch (error) {
             console.log(error);

@@ -2,8 +2,6 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
-import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as DockerListModuleCss from "./DockerList.module.css";
 import * as ReasonApi$MdworldHomeremoteDockerlist from "./ReasonApi.bs.js";
 import * as ConfirmAction$MdworldHomeremoteDockerlist from "./ConfirmAction.bs.js";
@@ -15,7 +13,6 @@ function DockerList$DockerListMod(Props) {
         return [];
       });
   var setContainers = match[1];
-  var dialogEl = React.useRef(null);
   React.useEffect((function () {
           ReasonApi$MdworldHomeremoteDockerlist.getDockerList(undefined).then(function (containerList) {
                 Curry._1(setContainers, (function (_prev) {
@@ -25,7 +22,7 @@ function DockerList$DockerListMod(Props) {
               });
           
         }), []);
-  var handleClickFetch = function (_event) {
+  var handleClickFetch = function (id, _event) {
     console.log("handleClickFetch");
     ReasonApi$MdworldHomeremoteDockerlist.getDockerList(undefined).then(function (containerList) {
           Curry._1(setContainers, (function (_prev) {
@@ -33,35 +30,51 @@ function DockerList$DockerListMod(Props) {
                 }));
           return Promise.resolve(containerList);
         });
-    
-  };
-  var closeDialog = function (_event) {
-    return Belt_Option.forEach(Caml_option.nullable_to_opt(dialogEl.current), (function (input) {
-                  input.close();
-                  
+    ReasonApi$MdworldHomeremoteDockerlist.startContainer(id).then(function (containerList) {
+          Curry._1(setContainers, (function (_prev) {
+                  return containerList;
                 }));
+          return Promise.resolve(containerList);
+        });
+    
   };
   var dockerContainersElems = match[0].map(function (dockerContainer) {
         var state = dockerContainer.State;
         var className = styles["button-list-item"] + " " + styles["mui-button"] + " " + (
           state === "running" ? styles["button-success"] : ""
         );
-        return React.createElement("button", {
-                    className: className
-                  }, React.createElement("h1", undefined, dockerContainer.Names), React.createElement("p", undefined, dockerContainer.Status));
+        var name = dockerContainer.Names.map(function (name) {
+                return name.slice(1);
+              }).join(" ");
+        var partial_arg = dockerContainer.Id;
+        return React.createElement(ConfirmAction$MdworldHomeremoteDockerlist.make, {
+                    onClick: (function (param) {
+                        return handleClickFetch(partial_arg, param);
+                      }),
+                    question: "Do you want to **turn on** " + name + "?",
+                    className: className,
+                    confirmButtonStyle: {
+                      backgroundColor: "darkblue",
+                      color: "white"
+                    },
+                    children: null
+                  }, React.createElement("h1", undefined, name), React.createElement("p", undefined, dockerContainer.Status));
       });
   return React.createElement("div", {
               className: styles.root
             }, React.createElement("div", {
                   className: styles["button-list"]
                 }, React.createElement(ConfirmAction$MdworldHomeremoteDockerlist.make, {
-                      onClick: handleClickFetch,
+                      onClick: (function (param) {
+                          return handleClickFetch("some-id", param);
+                        }),
                       question: "turn on ?? such a long text oh wow so long wow wow wow wow wow",
                       className: styles["button-list-item"] + " " + styles["mui-button"],
                       confirmButtonStyle: {
                         backgroundColor: "darkblue",
                         color: "white"
-                      }
+                      },
+                      children: "modal"
                     }), dockerContainersElems), React.createElement("div", {
                   className: styles["button-list"],
                   style: {
@@ -69,15 +82,15 @@ function DockerList$DockerListMod(Props) {
                   }
                 }, React.createElement("button", {
                       className: styles["mui-button"],
-                      onClick: handleClickFetch
+                      onClick: (function (param) {
+                          return handleClickFetch("some-id", param);
+                        })
                     }, "modal"), React.createElement("button", {
                       className: styles["mui-button"] + " " + styles["button-error"],
-                      onClick: handleClickFetch
-                    }, React.createElement("h1", undefined, "Errrr"), React.createElement("p", undefined, "Borked"))), React.createElement("dialog", {
-                  ref: dialogEl
-                }, "are you sure you want to start container SOMEConTAINEr", React.createElement("button", {
-                      onClick: closeDialog
-                    }, "close")));
+                      onClick: (function (param) {
+                          return handleClickFetch("some-id", param);
+                        })
+                    }, React.createElement("h1", undefined, "Errrr"), React.createElement("p", undefined, "Borked"))));
 }
 
 var DockerListMod = {
