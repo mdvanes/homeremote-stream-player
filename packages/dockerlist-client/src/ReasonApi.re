@@ -5,7 +5,12 @@
 //   | ErrorFetchingDogs
 //   | LoadedDogs(array(string));
 
-let testFunc = () => Js.Promise.(
+let myFunc = (): Js.Promise.t('array) => Js.Promise.resolve(["a"])
+
+let fetchDogs = () => Js.Promise.(
+      // "https://dog.ceo/api/breeds/image/random/3"
+      // ->
+      // fetch
       fetch("https://dog.ceo/api/breeds/image/random/3")
       |> then_(response => response##json())
       |> then_(jsonResponse => {
@@ -14,11 +19,11 @@ let testFunc = () => Js.Promise.(
            // Js.Promise.resolve(Belt.List.toArray(jsonResponse##message));
            Js.Promise.resolve(jsonResponse##message);
          })
-         // TODO this catch may not resolve to (), it must resolve to an array. Not resolve([]), because that makes it a "list"
-      // |> catch(_err => {
-      //      // setState(_previousState => ErrorFetchingDogs);
-      //      Js.Promise.resolve(Js.Array.from([]));
-      //    })
+      |> catch(_err => {
+           // setState(_previousState => ErrorFetchingDogs);
+           // TODO In Rescript ["a"] is an array, but in Reason ["a"] is a list and [|"a"|] is an array
+           Js.Promise.resolve([||]);
+         })
       // |> ignore
     );
 

@@ -63,7 +63,7 @@ module DockerListMod = {
       //     _,
       //   )
 
-      let _ = SpecialApi.testFunc()
+      let _ = ReasonApi.fetchDogs()
         |> Js.Promise.then_(imgList => {
           setImgs(_prev => imgList)
           Js.log2("SpecialApiTestFunc: ", imgList)
