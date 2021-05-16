@@ -6,6 +6,7 @@ import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as DockerListModuleCss from "./DockerList.module.css";
 import * as DockerApi$MdworldHomeremoteDockerlist from "./DockerApi.bs.js";
+import * as ReasonApi$MdworldHomeremoteDockerlist from "./ReasonApi.bs.js";
 
 var styles = DockerListModuleCss;
 
@@ -37,10 +38,15 @@ function DockerList$DockerListMod(Props) {
   };
   var handleClickFetch = function (_event) {
     console.log("handleClickFetch");
-    return Belt_Option.forEach(Caml_option.nullable_to_opt(dialogEl.current), (function (input) {
-                  input.showModal();
-                  
+    DockerApi$MdworldHomeremoteDockerlist.Api.getDogsFetch(undefined);
+    ReasonApi$MdworldHomeremoteDockerlist.fetchDogs(undefined).then(function (imgList) {
+          Curry._1(setImgs, (function (_prev) {
+                  return imgList;
                 }));
+          console.log("SpecialApiTestFunc: ", imgList);
+          return Promise.resolve(imgList);
+        });
+    
   };
   var closeDialog = function (_event) {
     return Belt_Option.forEach(Caml_option.nullable_to_opt(dialogEl.current), (function (input) {

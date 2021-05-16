@@ -47,11 +47,40 @@ var result = [
 
 console.log(result);
 
+var myPromise = new Promise((function (resolve, param) {
+        return resolve(2);
+      }));
+
+var __x = myPromise.then(function (value) {
+      console.log("prom1: ", value);
+      return Promise.resolve(value + 2 | 0);
+    });
+
+var __x$1 = __x.then(function (value) {
+      console.log("prom2: ", value);
+      return Promise.resolve(value + 3 | 0);
+    });
+
+__x$1.catch(function (err) {
+      console.log("Failure!!", err);
+      return Promise.resolve(-2);
+    });
+
+function getDogsFetch(param) {
+  var __x = fetch("https://dog.ceo/api/breeds/image/random/1");
+  return __x.then(function (value) {
+              console.log("getDogsFetch: ", value);
+              return Promise.resolve(value);
+            });
+}
+
 var Api = {
   getDogs: getDogs,
   getDogsAndPrint: getDogsAndPrint,
   getDogsAndShow: getDogsAndShow,
-  result: result
+  result: result,
+  myPromise: myPromise,
+  getDogsFetch: getDogsFetch
 };
 
 export {
