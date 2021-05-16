@@ -17,7 +17,7 @@ export default {
 
 export const Default = ({ width }: { width: number }): ReactNode => (
     <BreakpointWrapper width={width}>
-        <DockerList count={0} />
+        <DockerList />
     </BreakpointWrapper>
 );
 
