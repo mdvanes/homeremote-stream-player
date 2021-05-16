@@ -20,12 +20,23 @@ function DockerList$DockerListMod(Props) {
         return [];
       });
   var setImgs = match[1];
+  var match$1 = React.useState(function () {
+        return [];
+      });
+  var setContainers = match$1[1];
   var dialogEl = React.useRef(null);
   React.useEffect((function () {
           DockerApi$MdworldHomeremoteDockerlist.Api.getDogsAndShow(function (_param) {
                 return Curry._1(setImgs, (function (_prev) {
                               return _param;
                             }));
+              });
+          ReasonApi$MdworldHomeremoteDockerlist.getDockerList(undefined).then(function (containerList) {
+                Curry._1(setContainers, (function (_prev) {
+                        return containerList;
+                      }));
+                console.log("SpecialApiTestFunc: ", containerList);
+                return Promise.resolve(containerList);
               });
           
         }), []);
@@ -46,6 +57,13 @@ function DockerList$DockerListMod(Props) {
           console.log("SpecialApiTestFunc: ", imgList);
           return Promise.resolve(imgList);
         });
+    ReasonApi$MdworldHomeremoteDockerlist.getDockerList(undefined).then(function (containerList) {
+          Curry._1(setContainers, (function (_prev) {
+                  return containerList;
+                }));
+          console.log("SpecialApiTestFunc: ", containerList);
+          return Promise.resolve(containerList);
+        });
     
   };
   var closeDialog = function (_event) {
@@ -59,6 +77,14 @@ function DockerList$DockerListMod(Props) {
                     className: styles.image,
                     src: url
                   });
+      });
+  var dockerContainersElems = match$1[0].map(function (dockerContainer) {
+        var className = styles.button + " " + (
+          dockerContainer.State !== "running" ? styles.off : ""
+        );
+        return React.createElement("button", {
+                    className: className
+                  }, React.createElement("p", undefined, dockerContainer.Names), React.createElement("p", undefined, dockerContainer.Status));
       });
   return React.createElement("div", {
               className: styles.root
@@ -79,7 +105,7 @@ function DockerList$DockerListMod(Props) {
                     }, React.createElement("h1", undefined, "Bladiebla"), React.createElement("p", undefined, "Up 2 days")), React.createElement("button", {
                       className: styles.button + " " + styles.error,
                       onClick: handleClickFetch
-                    }, React.createElement("h1", undefined, "Errrr"), React.createElement("p", undefined, "Borked"))), imgElems, React.createElement("dialog", {
+                    }, React.createElement("h1", undefined, "Errrr"), React.createElement("p", undefined, "Borked"))), dockerContainersElems, React.createElement("div", undefined, imgElems), React.createElement("dialog", {
                   ref: dialogEl
                 }, "are you sure you want to start container SOMEConTAINEr", React.createElement("button", {
                       onClick: closeDialog

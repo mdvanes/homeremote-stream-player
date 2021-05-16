@@ -27,6 +27,23 @@ let fetchDogs = () => Js.Promise.(
       // |> ignore
     );
 
+let getDockerList = () => Js.Promise.(
+  "http://localhost:3100/api/dockerlist"
+  ->
+  fetch
+  // fetch("http://localhost:3100/api/dockerlist")
+  |> then_(response => response##json())
+  |> then_(jsonResponse => {
+        Js.Promise.resolve(jsonResponse##containers);
+      })
+  |> catch(_err => {
+        // Note: In Rescript ["a"] is an array, but in Reason ["a"] is a list and [|"a"|] is an array
+        Js.Promise.resolve([||]);
+      })
+  // |> ignore
+);
+
+
 // let testFunc = () => 
 //       fetch("https://dog.ceo/api/breeds/image/random/3")
 //       |> Js.Promise.then_(response => response##json())

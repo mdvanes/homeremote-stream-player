@@ -18,9 +18,20 @@ function fetchDogs(param) {
             });
 }
 
+function getDockerList(param) {
+  return fetch("http://localhost:3100/api/dockerlist").then(function (response) {
+                  return response.json();
+                }).then(function (jsonResponse) {
+                return Promise.resolve(jsonResponse.containers);
+              }).catch(function (_err) {
+              return Promise.resolve([]);
+            });
+}
+
 export {
   myFunc ,
   fetchDogs ,
+  getDockerList ,
   
 }
 /* No side effect */

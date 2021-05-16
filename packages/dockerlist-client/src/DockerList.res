@@ -18,11 +18,9 @@ module DockerListMod = {
     }
     let msg = "Click me " ++ times
 
-    let (
-      imgs,
-      setImgs,
-    ) = React.useState(_ => // "https://images.dog.ceo/breeds/waterdog-spanish/20180714_201544.jpg"
-    [])
+    let (imgs, setImgs) = React.useState(_ => [])
+
+    let (containers, setContainers) = React.useState(_ => [])
 
     // TODO extract modal
     // let (showModal, setShowModal) = React.useState(_ => false)
@@ -33,6 +31,12 @@ module DockerListMod = {
       // Run effects
       // DockerApi.Api.getDogsAndPrint()
       DockerApi.Api.getDogsAndShow(~show=_param => setImgs(_prev => _param))
+      let _ = ReasonApi.getDockerList() |> Js.Promise.then_(containerList => {
+        setContainers(_prev => containerList)
+        Js.log2("SpecialApiTestFunc: ", containerList)
+        Js.Promise.resolve(containerList)
+      })
+
       None // or Some(() => {})
     })
 
@@ -63,12 +67,17 @@ module DockerListMod = {
       //     _,
       //   )
 
-      let _ = ReasonApi.fetchDogs()
-        |> Js.Promise.then_(imgList => {
-          setImgs(_prev => imgList)
-          Js.log2("SpecialApiTestFunc: ", imgList)
-          Js.Promise.resolve(imgList)
-        })
+      let _ = ReasonApi.fetchDogs() |> Js.Promise.then_(imgList => {
+        setImgs(_prev => imgList)
+        Js.log2("SpecialApiTestFunc: ", imgList)
+        Js.Promise.resolve(imgList)
+      })
+
+      let _ = ReasonApi.getDockerList() |> Js.Promise.then_(containerList => {
+        setContainers(_prev => containerList)
+        Js.log2("SpecialApiTestFunc: ", containerList)
+        Js.Promise.resolve(containerList)
+      })
     }
 
     let closeDialog = _event => {
@@ -92,6 +101,25 @@ module DockerListMod = {
           src={url}
         />
       )
+      ->React.array
+
+    let dockerContainersElems =
+      containers
+      ->Js.Array2.map(dockerContainer => {
+        let className =
+          styles["button"] ++
+          " " ++ if dockerContainer["State"] != "running" {
+            styles["off"]
+          } else {
+            ""
+          }
+
+        <button className={className}>
+          <p> {dockerContainer["Names"]} </p>
+          // {React.string("State")}
+          <p> {dockerContainer["Status"]} </p>
+        </button>
+      })
       ->React.array
 
     // open MaterialUi
@@ -127,7 +155,8 @@ module DockerListMod = {
           <p> {React.string("Borked")} </p>
         </button>
       </div>
-      imgElems
+      dockerContainersElems
+      <div> imgElems </div>
       // <img
       //   className={styles["image"]}
       //   // TODO why can "height" not be set?
