@@ -109,9 +109,12 @@ module DockerListMod = {
       ->Js.Array2.map(dockerContainer => {
         let state = dockerContainer["State"]
         let className =
-          styles["button"] ++
-          " " ++ if state != "running" {
-            styles["off"]
+          // TODO convenience method for multiple classNames?
+          styles["button-list-item"] ++
+          " " ++
+          styles["mui-button"] ++
+          " " ++ if state == "running" {
+            styles["button-success"]
           } else {
             ""
           }
@@ -132,16 +135,20 @@ module DockerListMod = {
       //   }
       // </h1>
       // <h1> {"Docker List"->React.string} </h1>
-      <div className={styles["button-container"]}>
-        <ConfirmAction onClick={handleClickFetch} className={styles["button"]} question="turn on ??" confirmButtonColor="blue" />
+      <div className={styles["button-list"]}>
+        <ConfirmAction
+          onClick={handleClickFetch}
+          className={styles["button-list-item"] ++ " " ++ styles["mui-button"]}
+          question="turn on ?? such a long text oh wow so long wow wow wow wow wow"
+          confirmButtonStyle={ReactDOM.Style.make(~backgroundColor="darkblue", ~color="white", ())}
+        />
         dockerContainersElems
       </div>
-      <div
-        className={styles["button-container"]} style={ReactDOM.Style.make(~marginTop="2rem", ())}>
+      <div className={styles["button-list"]} style={ReactDOM.Style.make(~marginTop="2rem", ())}>
         // <button className={styles["button"] ++ " " ++ styles["off"]} onClick={handleClick}>
         //   {msg->React.string}
         // </button>
-        <button className={styles["button"] ++ " " ++ styles["off"]} onClick={handleClickFetch}>
+        <button className={styles["mui-button"]} onClick={handleClickFetch}>
           {React.string("modal")}
         </button>
         // <button className={styles["button"] ++ " " ++ styles["off"]} onClick={handleClickFetch}>
@@ -154,7 +161,9 @@ module DockerListMod = {
         //   // {React.string("State")}
         //   <p> {React.string("Up 2 days")} </p>
         // </button>
-        <button className={styles["button"] ++ " " ++ styles["error"]} onClick={handleClickFetch}>
+        <button
+          className={styles["mui-button"] ++ " " ++ styles["button-error"]}
+          onClick={handleClickFetch}>
           <h1> {React.string("Errrr")} </h1>
           // {React.string("State")}
           <p> {React.string("Borked")} </p>

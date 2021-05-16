@@ -13,7 +13,7 @@ let make = (
   ~onClick: ReactEvent.Mouse.t => unit,
   ~question: string,
   ~className: string="",
-  ~confirmButtonColor: string="",
+  ~confirmButtonStyle: ReactDOM.Style.t,
 ) => {
   let dialogEl = React.useRef(Js.Nullable.null)
   let openDialog = _event => {
@@ -29,14 +29,22 @@ let make = (
   <>
     <button className={className} onClick={openDialog}> {React.string("modal")} </button>
     <dialog ref={ReactDOM.Ref.domRef(dialogEl)}>
-      {question->React.string}
-      <button className={styles["button"] ++ " " ++ styles["off"]} onClick={closeDialog}>
-        {"cancel"->React.string}
-      </button>
-      <button
-        className={styles["button"]} style={ReactDOM.Style.make(~backgroundColor=confirmButtonColor, ())} onClick={onClick}>
-        {"OK"->React.string}
-      </button>
+      <p> {question->React.string} </p>
+      <div className={styles["dialog-actions"]}>
+        <button className={styles["mui-button"]} onClick={closeDialog}>
+          {"cancel"->React.string}
+        </button>
+        <button
+          className={styles["mui-button"]}
+          // style={ReactDOM.Style.make(~backgroundColor=confirmButtonColor, ())}
+          style={confirmButtonStyle}
+          onClick={(event) => {
+              onClick(event);
+              closeDialog();
+          }}>
+          {"OK"->React.string}
+        </button>
+      </div>
     </dialog>
   </>
 }

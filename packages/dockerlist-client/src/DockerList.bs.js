@@ -43,8 +43,8 @@ function DockerList$DockerListMod(Props) {
   };
   var dockerContainersElems = match[0].map(function (dockerContainer) {
         var state = dockerContainer.State;
-        var className = styles.button + " " + (
-          state !== "running" ? styles.off : ""
+        var className = styles["button-list-item"] + " " + styles["mui-button"] + " " + (
+          state === "running" ? styles["button-success"] : ""
         );
         return React.createElement("button", {
                     className: className
@@ -53,22 +53,25 @@ function DockerList$DockerListMod(Props) {
   return React.createElement("div", {
               className: styles.root
             }, React.createElement("div", {
-                  className: styles["button-container"]
+                  className: styles["button-list"]
                 }, React.createElement(ConfirmAction$MdworldHomeremoteDockerlist.make, {
                       onClick: handleClickFetch,
-                      question: "turn on ??",
-                      className: styles.button,
-                      confirmButtonColor: "blue"
+                      question: "turn on ?? such a long text oh wow so long wow wow wow wow wow",
+                      className: styles["button-list-item"] + " " + styles["mui-button"],
+                      confirmButtonStyle: {
+                        backgroundColor: "darkblue",
+                        color: "white"
+                      }
                     }), dockerContainersElems), React.createElement("div", {
-                  className: styles["button-container"],
+                  className: styles["button-list"],
                   style: {
                     marginTop: "2rem"
                   }
                 }, React.createElement("button", {
-                      className: styles.button + " " + styles.off,
+                      className: styles["mui-button"],
                       onClick: handleClickFetch
                     }, "modal"), React.createElement("button", {
-                      className: styles.button + " " + styles.error,
+                      className: styles["mui-button"] + " " + styles["button-error"],
                       onClick: handleClickFetch
                     }, React.createElement("h1", undefined, "Errrr"), React.createElement("p", undefined, "Borked"))), React.createElement("dialog", {
                   ref: dialogEl
