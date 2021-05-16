@@ -9,8 +9,8 @@
 @send external close: Dom.element => unit = "close"
 
 module DockerListMod = {
-  @react.component
   // Pass props like: let make = (~count: int) => {
+  @react.component
   let make = () => {
     // let times = switch count {
     // | 1 => "once"
@@ -49,7 +49,7 @@ module DockerListMod = {
     let handleClickFetch = _event => {
       Js.log("handleClickFetch")
       // TODO full screen modal to confirm the action when starting/stopping container
-      dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->showModal)
+      // dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->showModal)
 
       // Works:
       // let _ = DockerApi.Api.getDogsFetch()
@@ -132,8 +132,12 @@ module DockerListMod = {
       //   }
       // </h1>
       // <h1> {"Docker List"->React.string} </h1>
-      <div className={styles["button-container"]}> dockerContainersElems </div>
-      <div className={styles["button-container"]} style={ReactDOM.Style.make(~marginTop="2rem", ())}>
+      <div className={styles["button-container"]}>
+        <ConfirmAction onClick={handleClickFetch} className={styles["button"]} question="turn on ??" confirmButtonColor="blue" />
+        dockerContainersElems
+      </div>
+      <div
+        className={styles["button-container"]} style={ReactDOM.Style.make(~marginTop="2rem", ())}>
         // <button className={styles["button"] ++ " " ++ styles["off"]} onClick={handleClick}>
         //   {msg->React.string}
         // </button>

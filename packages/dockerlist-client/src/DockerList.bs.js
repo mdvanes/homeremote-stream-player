@@ -6,6 +6,7 @@ import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as DockerListModuleCss from "./DockerList.module.css";
 import * as ReasonApi$MdworldHomeremoteDockerlist from "./ReasonApi.bs.js";
+import * as ConfirmAction$MdworldHomeremoteDockerlist from "./ConfirmAction.bs.js";
 
 var styles = DockerListModuleCss;
 
@@ -26,10 +27,6 @@ function DockerList$DockerListMod(Props) {
         }), []);
   var handleClickFetch = function (_event) {
     console.log("handleClickFetch");
-    Belt_Option.forEach(Caml_option.nullable_to_opt(dialogEl.current), (function (input) {
-            input.showModal();
-            
-          }));
     ReasonApi$MdworldHomeremoteDockerlist.getDockerList(undefined).then(function (containerList) {
           Curry._1(setContainers, (function (_prev) {
                   return containerList;
@@ -57,7 +54,12 @@ function DockerList$DockerListMod(Props) {
               className: styles.root
             }, React.createElement("div", {
                   className: styles["button-container"]
-                }, dockerContainersElems), React.createElement("div", {
+                }, React.createElement(ConfirmAction$MdworldHomeremoteDockerlist.make, {
+                      onClick: handleClickFetch,
+                      question: "turn on ??",
+                      className: styles.button,
+                      confirmButtonColor: "blue"
+                    }), dockerContainersElems), React.createElement("div", {
                   className: styles["button-container"],
                   style: {
                     marginTop: "2rem"
