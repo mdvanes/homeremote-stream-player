@@ -44,9 +44,31 @@ module DockerListMod = {
     let handleClickFetch = _event => {
       Js.log("handleClickFetch")
       // TODO full screen modal to confirm the action when starting/stopping container
-      dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->showModal)
+      // dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->showModal)
       // .showModal();
-      // TODO DockerApi.Api.getDogsFetch()
+      // Works:
+      let _ = DockerApi.Api.getDogsFetch()
+
+      // Works:
+      // let _ =
+      //   DockerApi.Api.getDogsFetch()
+      //   |> Js.Promise.then_(Fetch.Response.text)
+      //   |> Js.Promise.then_(text => print_endline("endline: " ++ text) |> Js.Promise.resolve)
+      //   |> Js.Promise.then_(
+      //     value => {
+      //       Js.log2("handleClickFetch: ", value)
+      //       Js.Promise.resolve(value)
+      //     },
+      //     // value
+      //     _,
+      //   )
+
+      let _ = SpecialApi.testFunc()
+        |> Js.Promise.then_(imgList => {
+          setImgs(_prev => imgList)
+          Js.log2("SpecialApiTestFunc: ", imgList)
+          Js.Promise.resolve(imgList)
+        })
     }
 
     let closeDialog = _event => {

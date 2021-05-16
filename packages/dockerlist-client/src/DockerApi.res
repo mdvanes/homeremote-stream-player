@@ -79,15 +79,73 @@ module Api = {
   let result = [1, 2, 3]->Js.Array2.map(a => a + 1)->Js.Array2.filter(a => mod(a, 2) == 0)
   Js.log(result)
 
+  // Working example of promise (with wildcards)
+  let myPromise = Js.Promise.make((~resolve, ~reject as _) => resolve(. 2))
+  let _ = myPromise->Js.Promise.then_(value => {
+      Js.log2("prom1: ", value)
+      Js.Promise.resolve(value + 2)
+    }, _)->Js.Promise.then_(value => {
+      Js.log2("prom2: ", value)
+      Js.Promise.resolve(value + 3)
+    }, _)->Js.Promise.catch(err => {
+      Js.log2("Failure!!", err)
+      Js.Promise.resolve(-2)
+    }, _)
+
   // Using Fetch API with bs-fetch bindings
   // let getDogsFetch = () => Js.Promise.(
   //   Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")
   //   |> then_(Fetch.Response.text)
   //   |> then_(text => print_endline(text) |> resolve),
   // )
-  // let getDogsFetch = () => "https://dog.ceo/api/breeds/image/random/1"
-  //   |> Fetch.fetch
-  //   |> then_(Fetch.Response.text)
+  // Works:
+  // let getDogsFetch = () =>
+  //   Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")->Js.Promise.then_(value => {
+  //     Js.log2("getDogsFetch: ", value)
+  //     Js.Promise.resolve(value)
+  //   }, _)
+
+  // Note: https://kevanstannard.github.io/rescript-blog/fetch-json.html
+  // module Decode = {
+  //   // open Json.Decode
+  //   let catData = (data: Js.Json.t) => {
+  //      file: Json.Decode.field("file", string, data),
+  //   }
+  // }
+
+  // Note: https://medium.com/@kevanstannard/how-to-fetch-json-data-with-reasonml-a4507ec945ad
+  let getDogsFetch = () =>
+    "https://dog.ceo/api/breeds/image/random/1"
+    ->Fetch.fetch
+    // Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")
+    // ->Js.Promise.then_(Fetch.Response.text)
+    ->Js.Promise.then_(value => {
+      Js.log2("getDogsFetch: ", value)
+      Js.Promise.resolve(value)
+    }, _)
+
+  // type data = {message: array<string>}
+
+  // @scope("JSON") @val
+  // external parseDogResponse: string => data = "parse"
+
+  // let result = parseDogResponse(`{"message": ["Luke", "Christine"]}`)
+  // let name1 = result.message[0]
+
+  // let _ =
+  //   getDogsFetch()
+  //   |> Js.Promise.then_(Fetch.Response.json)
+  //   |> Js.Promise.then_(x => Js.Promise.resolve(parseDogResponse))
+  // // |> Js.Promise.then_(response => {
+  // //   switch Js.Json.decodeObject(response) {
+  // //   | Some(decodedRes) => Js.Promise.resolve(decodedRes)
+  // //   | None => Js.Promise.resolve(Js.Dict.empty())
+  // //   }
+  // // })
+  // |> Js.Promise.then_(response => {
+  //   Js.log2("getDogsFetch2: ", response.message[0])
+  //   Js.Promise.resolve(response.message[0])
+  // })
 
   // let getDogsFetch = () => Js.Promise.(
   //   Fetch.fetch("https://dog.ceo/api/breeds/image/random/1")
