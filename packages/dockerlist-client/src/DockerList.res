@@ -12,45 +12,30 @@ module DockerListMod = {
   // Pass props like: let make = (~count: int) => {
   @react.component
   let make = () => {
-    // let times = switch count {
-    // | 1 => "once"
-    // | 2 => "twice"
-    // | n => Belt.Int.toString(n) ++ " times"
-    // }
-    // let msg = "Click me " ++ times
-
-    // let (imgs, setImgs) = React.useState(_ => [])
+    let update_interval_ms = 60000
 
     let (containers, setContainers) = React.useState(_ => [])
 
-    // TODO extract modal
-    // let (showModal, setShowModal) = React.useState(_ => false)
-    // let dialogEl = React.useRef(Js.Nullable.null)
-
     // Runs only once right after mounting the component
     React.useEffect0(() => {
-      // Run effects
-      // DockerApi.Api.getDogsAndPrint()
-      // DockerApi.Api.getDogsAndShow(~show=_param => setImgs(_prev => _param))
-      let _ = ReasonApi.getDockerList() |> Js.Promise.then_(containerList => {
-        setContainers(_prev => containerList)
-        // Js.log2("SpecialApiTestFunc: ", containerList)
-        Js.Promise.resolve(containerList)
-      })
+      let update = () => {
+        ReasonApi.getDockerList()
+        |> Js.Promise.then_(containerList => {
+          setContainers(_prev => containerList)
+          Js.Promise.resolve(containerList)
+        })
+        |> ignore
+      }
+
+      update()
+
+      let _ = Js.Global.setInterval(update, update_interval_ms)
 
       None // or Some(() => {})
     })
 
-    // let handleClick = _event => {
-    //   // DockerApi.Api.getDogsAndPrint()
-    //   DockerApi.Api.getDogsAndShow(~show=_param => setImgs(_prev => _param))
-    // }
-
     let handleClickFetch = (id: string, _event) => {
       Js.log("handleClickFetch")
-      // TODO full screen modal to confirm the action when starting/stopping container
-      // dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->showModal)
-
       // Works:
       // let _ = DockerApi.Api.getDogsFetch()
 
@@ -113,33 +98,10 @@ module DockerListMod = {
         })
     }
 
-    // let closeDialog = _event => {
-    //   dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->close)
-    // }
-
-    // let imgElems = React.array([React.string("elem 1")]->Js.Array2.map(a => <h1> a </h1>))
-    // let imgElems =
-    //   [React.string("elem 1"), React.string("elem 2")]
-    //   ->Js.Array2.map(a => <h1> a </h1>)
-    //   ->React.array
-    //Js.log(result)
-    // let fooElems = React.array([React.string("foo")]);
-    // let imgElems =
-    //   imgs
-    //   ->Js.Array2.map(url =>
-    //     <img
-    //       className={styles["image"]}
-    //       // TODO why can "height" not be set?
-    //       // style={ReactDOM.Style.make(~height="100px")}
-    //       src={url}
-    //     />
-    //   )
-    //   ->React.array
-
     let dockerContainersElems =
       containers
       ->Js.Array2.map(dockerContainer => {
-        let id = dockerContainer["Id"];
+        let id = dockerContainer["Id"]
         let isRunning = dockerContainer["State"] == "running"
         let className =
           // TODO convenience method for multiple classNames?
@@ -200,40 +162,13 @@ module DockerListMod = {
         <button className={styles["mui-button"]} onClick={handleClickFetch("some-id")}>
           {React.string("modal")}
         </button>
-        // <button className={styles["button"] ++ " " ++ styles["off"]} onClick={handleClickFetch}>
-        //   <h1> {React.string("Name")} </h1>
-        //   // {React.string("State")}
-        //   <p> {React.string("Off")} </p>
-        // </button>
-        // <button className={styles["button"]} onClick={handleClickFetch}>
-        //   <h1> {React.string("Bladiebla")} </h1>
-        //   // {React.string("State")}
-        //   <p> {React.string("Up 2 days")} </p>
-        // </button>
         <button
           className={styles["mui-button"] ++ " " ++ styles["button-error"]}
           onClick={handleClickFetch("some-id")}>
           <h1> {React.string("Errrr")} </h1>
-          // {React.string("State")}
           <p> {React.string("Borked")} </p>
         </button>
       </div>
-      // <div> imgElems </div>
-      // <img
-      //   className={styles["image"]}
-      //   // TODO why can "height" not be set?
-      //   // style={ReactDOM.Style.make(~height="100px")}
-      //   src={imgs}
-      // />
-      // <dialog ref={ReactDOM.Ref.domRef(dialogEl)}>
-      //   {
-      //     // style={ReactDOM.Style.make(~height="100px")}>
-      //     "are you sure you want to start container SOMEConTAINEr"->React.string
-      //   }
-      //   <button onClick={closeDialog}> {"close"->React.string} </button>
-      // </dialog>
     </div>
   }
 }
-
-// Js.log("Hello, World!")
