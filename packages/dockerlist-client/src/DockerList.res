@@ -87,6 +87,32 @@ module DockerListMod = {
       })
     }
 
+    let startContainerAndUpdate = (id: string, _event) => {
+      // TODO |> vs ->
+      // TODO handle error?
+      let _ =
+        ReasonApi.startContainer(id)
+        |> Js.Promise.then_(_response => {
+          ReasonApi.getDockerList()
+        })
+        |> Js.Promise.then_(containerList => {
+          setContainers(_prev => containerList)
+          Js.Promise.resolve(containerList)
+        })
+    }
+
+    let stopContainerAndUpdate = (id: string, _event) => {
+      let _ =
+        ReasonApi.stopContainer(id)
+        |> Js.Promise.then_(_response => {
+          ReasonApi.getDockerList()
+        })
+        |> Js.Promise.then_(containerList => {
+          setContainers(_prev => containerList)
+          Js.Promise.resolve(containerList)
+        })
+    }
+
     // let closeDialog = _event => {
     //   dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->close)
     // }
@@ -113,10 +139,11 @@ module DockerListMod = {
     let dockerContainersElems =
       containers
       ->Js.Array2.map(dockerContainer => {
-        let state = dockerContainer["State"]
+        let id = dockerContainer["Id"];
+        let isRunning = dockerContainer["State"] == "running"
         let className =
           // TODO convenience method for multiple classNames?
-          `${styles["button-list-item"]} ${styles["mui-button"]} ` ++ if state == "running" {
+          `${styles["button-list-item"]} ${styles["mui-button"]} ` ++ if isRunning {
             styles["button-success"]
           } else {
             ""
@@ -128,9 +155,18 @@ module DockerListMod = {
           ->Js.Array2.joinWith(" ")
 
         <ConfirmAction
-          onClick={handleClickFetch(dockerContainer["Id"])}
+          key={id}
+          onClick={if isRunning {
+            stopContainerAndUpdate(id)
+          } else {
+            startContainerAndUpdate(id)
+          }}
           className={className}
-          question={`Do you want to **turn on** ${name}?`}
+          question={if isRunning {
+            `Do you want to stop ${name}?`
+          } else {
+            `Do you want to start ${name}?`
+          }}
           confirmButtonStyle={ReactDOM.Style.make(~backgroundColor="darkblue", ~color="white", ())}>
           <h1> {name->React.string} </h1> <p> {dockerContainer["Status"]} </p>
         </ConfirmAction>

@@ -59,6 +59,20 @@ let startContainer = (id: string) => Js.Promise.(
   // |> ignore
 );
 
+let stopContainer = (id: string) => Js.Promise.(
+  ("http://localhost:3100/api/dockerlist/stop/" ++ id)
+  ->
+  fetch
+  |> then_(response => response##json())
+  |> then_(jsonResponse => {
+        Js.Promise.resolve(jsonResponse##containers);
+      })
+  |> catch(_err => {
+        // Note: In Rescript ["a"] is an array, but in Reason ["a"] is a list and [|"a"|] is an array
+        Js.Promise.resolve([||]);
+      })
+);
+
 // let testFunc = () => 
 //       fetch("https://dog.ceo/api/breeds/image/random/3")
 //       |> Js.Promise.then_(response => response##json())
