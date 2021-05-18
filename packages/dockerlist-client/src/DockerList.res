@@ -8,6 +8,10 @@
 @send external showModal: Dom.element => unit = "showModal"
 @send external close: Dom.element => unit = "close"
 
+StyleUtil.test1()
+StyleUtil.test2()
+StyleUtil.test3()
+
 module DockerListMod = {
   // Pass props like: let make = (~count: int) => {
   @react.component
@@ -29,9 +33,14 @@ module DockerListMod = {
 
       update()
 
-      let _ = Js.Global.setInterval(update, update_interval_ms)
+      let interval = Js.Global.setInterval(update, update_interval_ms)
 
-      None // or Some(() => {})
+      // None or Some for a callback
+      Some(
+        () => {
+          Js.Global.clearInterval(interval)
+        },
+      )
     })
 
     let handleClickFetch = (id: string, _event) => {
@@ -102,11 +111,21 @@ module DockerListMod = {
       containers
       ->Js.Array2.map(dockerContainer => {
         let id = dockerContainer["Id"]
-        let isRunning = dockerContainer["State"] == "running"
+        // https://stackoverflow.com/a/32428199: created, restarting, running, paused, exited, dead
+        let state = dockerContainer["State"]
+        let isRunning = state == "running"
+        let isExited = state == "exited"
+        let isUnexpected = !isRunning && !isExited
         let className =
           // TODO convenience method for multiple classNames?
-          `${styles["button-list-item"]} ${styles["mui-button"]} ` ++ if isRunning {
+          `${styles["button-list-item"]} ${styles["mui-button"]} ` ++
+          if isRunning {
             styles["button-success"]
+          } else {
+            ""
+          } ++
+          " " ++ if isUnexpected {
+            styles["button-error"]
           } else {
             ""
           }
@@ -130,7 +149,9 @@ module DockerListMod = {
             `Do you want to start ${name}?`
           }}
           confirmButtonStyle={ReactDOM.Style.make(~backgroundColor="darkblue", ~color="white", ())}>
-          <h1> {name->React.string} </h1> <p> {dockerContainer["Status"]} </p>
+          <h1> {name->React.string} </h1>
+          <p> {dockerContainer["Status"]} </p>
+          <p> {styles["button-list-item"]} </p>
         </ConfirmAction>
       })
       ->React.array
@@ -165,8 +186,7 @@ module DockerListMod = {
         <button
           className={styles["mui-button"] ++ " " ++ styles["button-error"]}
           onClick={handleClickFetch("some-id")}>
-          <h1> {React.string("Errrr")} </h1>
-          <p> {React.string("Borked")} </p>
+          <h1> {React.string("Errrr")} </h1> <p> {React.string("Borked")} </p>
         </button>
       </div>
     </div>
