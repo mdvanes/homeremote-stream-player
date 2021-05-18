@@ -60,7 +60,7 @@
     "webpack-cli": "^4.2.0"
   },
   "scripts": {
-    "start": "concurrently -c \"blue,magenta\" \"npm:storybook\" \"npm:storybook:api\"",
+    "start": "concurrently -c \"blue,magenta,green\" \"npm:storybook -- --quiet\" \"npm:storybook:api\" \"cd packages/dockerlist-client && yarn re:start\"",
     "storybook": "start-storybook -p 6006 --ci",
     "storybook:api": "ts-node storybookMockServer.ts --CORS=debug",
     "build-storybook": "STORYBOOK_MODE=PROD build-storybook -s mocks",

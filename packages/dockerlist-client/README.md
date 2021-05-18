@@ -23,17 +23,15 @@ See https://github.com/mdvanes/homeremote/issues/9
 - in /packages/dockerlist-client run `yarn re:build`
 - Add fetch to endpoint: `yarn lerna add bs-fetch --scope=@mdworld/homeremote-dockerlist` and add to bsconfig.json: "bs-dependencies": ["bs-fetch"]
 
-TODO For now workflow is: start storybook and in other terminal in /packages/dockerlist-client run `yarn re:start`
-
 ## Running
 
--   dev: `yarn storybook` and in second terminal, cwd to packages/server and run `yarn start`
+-   dev: run in root: `yarn start` and it will start storybook, mock api, and `yarn re:start` (in this dir)
 
 ## TODO
 
+- Fix building
 - For now XHR works in Rescript, but Fetch only works in Reason files. Mainly decoding the JSON fails, even with "@glennsl/bs-json"
 - Material UI bindings seem very unstable: https://jsiebern.github.io/bs-material-ui Adding it breaks the build sometimes
-- Add Reason/Rescript
 - Clean up old Elm deps from package.json
 - Builders (like webpack) are discouraged: https://rescript-lang.org/docs/manual/latest/interop-with-js-build-systems
 - Snowpack build to `dist` dir like in https://github.com/jihchi/rescript-react-realworld-example-app/blob/main/package.json https://www.snowpack.dev/
