@@ -53,7 +53,6 @@ module DockerListMod = {
       )
       ->React.array
 
-    // open MaterialUi
     <div className={styles["root"]}>
       <div className={styles["button-list"]}>
         dockerContainersElems

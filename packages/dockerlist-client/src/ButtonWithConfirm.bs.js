@@ -8,7 +8,7 @@ import * as DockerListModuleCss from "./DockerList.module.css";
 
 var styles = DockerListModuleCss;
 
-function ConfirmAction(Props) {
+function ButtonWithConfirm(Props) {
   var onClick = Props.onClick;
   var question = Props.question;
   var classNameOpt = Props.className;
@@ -48,7 +48,7 @@ function ConfirmAction(Props) {
                         }, "OK"))));
 }
 
-var make = ConfirmAction;
+var make = ButtonWithConfirm;
 
 export {
   styles ,

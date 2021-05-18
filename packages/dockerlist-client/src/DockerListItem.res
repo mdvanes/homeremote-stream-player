@@ -65,7 +65,7 @@ let make = (
     ->Js.Array2.map(name => Js.String2.sliceToEnd(name, ~from=1))
     ->Js.Array2.joinWith(" ")
 
-  <ConfirmAction
+  <ButtonWithConfirm
     key={id}
     onClick={if isRunning {
       stopContainerAndUpdate(id)
@@ -80,5 +80,5 @@ let make = (
     }}
     confirmButtonStyle={confirmButtonStyle}>
     <h1> {name->React.string} </h1> <p> {container["Status"]} </p>
-  </ConfirmAction>
+  </ButtonWithConfirm>
 }

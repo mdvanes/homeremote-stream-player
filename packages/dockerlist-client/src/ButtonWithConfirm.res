@@ -1,11 +1,8 @@
-// {..} means we are handling a JS object with an unknown
-// set of attributes
-@module external styles: {..} = "./DockerList.module.css"
+@module
+external styles: {"dialog-actions": string, "mui-button": string} = "./DockerList.module.css"
 
 @send external showModal: Dom.element => unit = "showModal"
 @send external close: Dom.element => unit = "close"
-
-// TODO rename to ButtonWithConfirm / ConfirmingButton
 
 @react.component
 let make = (
@@ -13,12 +10,11 @@ let make = (
   ~question: string,
   ~className: string="",
   ~confirmButtonStyle: ReactDOM.Style.t,
-  ~children: React.element
+  ~children: React.element,
 ) => {
   let dialogEl = React.useRef(Js.Nullable.null)
+
   let openDialog = _event => {
-    // Js.log("handleClickFetch")
-    // TODO full screen modal to confirm the action when starting/stopping container
     dialogEl.current->Js.Nullable.toOption->Belt.Option.forEach(input => input->showModal)
   }
 
@@ -36,11 +32,10 @@ let make = (
         </button>
         <button
           className={styles["mui-button"]}
-          // style={ReactDOM.Style.make(~backgroundColor=confirmButtonColor, ())}
           style={confirmButtonStyle}
-          onClick={(event) => {
-              onClick(event);
-              closeDialog();
+          onClick={event => {
+            onClick(event)
+            closeDialog()
           }}>
           {"OK"->React.string}
         </button>

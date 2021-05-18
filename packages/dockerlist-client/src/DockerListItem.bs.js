@@ -5,7 +5,7 @@ import * as React from "react";
 import * as DockerListModuleCss from "./DockerList.module.css";
 import * as ReasonApi$MdworldHomeremoteDockerlist from "./ReasonApi.bs.js";
 import * as StyleUtil$MdworldHomeremoteDockerlist from "./StyleUtil.bs.js";
-import * as ConfirmAction$MdworldHomeremoteDockerlist from "./ConfirmAction.bs.js";
+import * as ButtonWithConfirm$MdworldHomeremoteDockerlist from "./ButtonWithConfirm.bs.js";
 
 var styles = DockerListModuleCss;
 
@@ -41,7 +41,7 @@ function DockerListItem(Props) {
   var name = container.Names.map(function (name) {
           return name.slice(1);
         }).join(" ");
-  return React.createElement(ConfirmAction$MdworldHomeremoteDockerlist.make, {
+  return React.createElement(ButtonWithConfirm$MdworldHomeremoteDockerlist.make, {
               onClick: isRunning ? (function (param) {
                     ReasonApi$MdworldHomeremoteDockerlist.stopContainer(id).then(function (_response) {
                             return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(undefined);
