@@ -7,7 +7,6 @@
 
 // TODO rename to ButtonWithConfirm / ConfirmingButton
 
-// Pass props like: let make = (~count: int) => {
 @react.component
 let make = (
   ~onClick: ReactEvent.Mouse.t => unit,
