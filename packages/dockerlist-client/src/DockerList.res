@@ -8,6 +8,7 @@
 module DockerListMod = {
   @genType @react.component
   let make = (
+    ~url: string,
     ~confirmButtonStyle: ReactDOM.Style.t=ReactDOM.Style.make(
       ~backgroundColor="darkblue",
       ~color="white",
@@ -21,7 +22,7 @@ module DockerListMod = {
     // Runs only once right after mounting the component
     React.useEffect0(() => {
       let update = () => {
-        ReasonApi.getDockerList()
+        ReasonApi.getDockerList(url)
         |> Js.Promise.then_(containerList => {
           setContainers(_prev => containerList)
           Js.Promise.resolve(containerList)
@@ -46,6 +47,7 @@ module DockerListMod = {
       ->Js.Array2.map(dockerContainer =>
         <DockerListItem
           key={dockerContainer["Id"]}
+          url={url}
           container={dockerContainer}
           setContainers={setContainers}
           confirmButtonStyle={confirmButtonStyle}

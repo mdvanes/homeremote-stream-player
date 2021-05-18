@@ -17,6 +17,7 @@ type setContainersType = (array<dockerContainer> => array<dockerContainer>) => u
 
 @react.component
 let make = (
+  ~url: string,
   ~container: dockerContainer,
   ~setContainers: setContainersType,
   ~confirmButtonStyle: ReactDOM.Style.t,
@@ -38,9 +39,9 @@ let make = (
     // TODO |> vs ->
     // TODO handle error?
     let _ =
-      ReasonApi.startContainer(id)
+      ReasonApi.startContainer(url, id)
       |> Js.Promise.then_(_response => {
-        ReasonApi.getDockerList()
+        ReasonApi.getDockerList(url)
       })
       |> Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)
@@ -50,9 +51,9 @@ let make = (
 
   let stopContainerAndUpdate = (id: string, _event) => {
     let _ =
-      ReasonApi.stopContainer(id)
+      ReasonApi.stopContainer(url, id)
       |> Js.Promise.then_(_response => {
-        ReasonApi.getDockerList()
+        ReasonApi.getDockerList(url)
       })
       |> Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)

@@ -18,8 +18,8 @@ function fetchDogs(param) {
             });
 }
 
-function getDockerList(param) {
-  return fetch("http://localhost:3100/api/dockerlist").then(function (response) {
+function getDockerList(url) {
+  return fetch(url + "/api/dockerlist").then(function (response) {
                   return response.json();
                 }).then(function (jsonResponse) {
                 return Promise.resolve(jsonResponse.containers);
@@ -28,8 +28,8 @@ function getDockerList(param) {
             });
 }
 
-function startContainer(id) {
-  return fetch("http://localhost:3100/api/dockerlist/start/" + id).then(function (response) {
+function startContainer(url, id) {
+  return fetch(url + ("/api/dockerlist/start/" + id)).then(function (response) {
                   return response.json();
                 }).then(function (jsonResponse) {
                 return Promise.resolve(jsonResponse.containers);
@@ -38,8 +38,8 @@ function startContainer(id) {
             });
 }
 
-function stopContainer(id) {
-  return fetch("http://localhost:3100/api/dockerlist/stop/" + id).then(function (response) {
+function stopContainer(url, id) {
+  return fetch(url + ("/api/dockerlist/stop/" + id)).then(function (response) {
                   return response.json();
                 }).then(function (jsonResponse) {
                 return Promise.resolve(jsonResponse.containers);

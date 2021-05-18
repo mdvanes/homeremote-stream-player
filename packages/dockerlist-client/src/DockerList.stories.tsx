@@ -10,14 +10,17 @@ export default {
     component: DockerList,
 };
 
-// const url =
-//     process.env.STORYBOOK_MODE === "PROD"
-//         ? `https://${window.location.host}/${window.top.location.pathname}`
-//         : "http://localhost:3100";
+const url =
+    process.env.STORYBOOK_MODE === "PROD"
+        ? `https://${window.location.host}/${window.top.location.pathname}`
+        : "http://localhost:3100";
 
 export const Default = ({ width }: { width: number }): ReactNode => (
     <BreakpointWrapper width={width}>
-        <DockerList confirmButtonStyle={{ color: "blue" }} />
+        <DockerList
+            url={url}
+            confirmButtonStyle={{ backgroundColor: "#1a237e", color: "white" }}
+        />
     </BreakpointWrapper>
 );
 
@@ -26,15 +29,3 @@ Default.args = { width: 600 };
 Default.argTypes = {
     width: { control: { type: "range", min: 375, max: 775, step: "100" } },
 };
-
-// export const WithSquarePicture = (): ReactNode => (
-//     <BreakpointWrapper>
-//         <StreamPlayer url={`${url}/mock/square`} />
-//     </BreakpointWrapper>
-// );
-
-// export const WithLandscapePicture = (): ReactNode => (
-//     <BreakpointWrapper>
-//         <StreamPlayer url={`${url}/mock/landscape`} />
-//     </BreakpointWrapper>
-// );

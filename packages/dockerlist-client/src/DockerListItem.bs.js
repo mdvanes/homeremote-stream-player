@@ -10,6 +10,7 @@ import * as ButtonWithConfirm$MdworldHomeremoteDockerlist from "./ButtonWithConf
 var styles = DockerListModuleCss;
 
 function DockerListItem(Props) {
+  var url = Props.url;
   var container = Props.container;
   var setContainers = Props.setContainers;
   var confirmButtonStyle = Props.confirmButtonStyle;
@@ -43,8 +44,8 @@ function DockerListItem(Props) {
         }).join(" ");
   return React.createElement(ButtonWithConfirm$MdworldHomeremoteDockerlist.make, {
               onClick: isRunning ? (function (param) {
-                    ReasonApi$MdworldHomeremoteDockerlist.stopContainer(id).then(function (_response) {
-                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(undefined);
+                    ReasonApi$MdworldHomeremoteDockerlist.stopContainer(url, id).then(function (_response) {
+                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url);
                           }).then(function (containerList) {
                           Curry._1(setContainers, (function (_prev) {
                                   return containerList;
@@ -53,8 +54,8 @@ function DockerListItem(Props) {
                         });
                     
                   }) : (function (param) {
-                    ReasonApi$MdworldHomeremoteDockerlist.startContainer(id).then(function (_response) {
-                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(undefined);
+                    ReasonApi$MdworldHomeremoteDockerlist.startContainer(url, id).then(function (_response) {
+                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url);
                           }).then(function (containerList) {
                           Curry._1(setContainers, (function (_prev) {
                                   return containerList;

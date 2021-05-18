@@ -27,8 +27,8 @@ let fetchDogs = () => Js.Promise.(
       // |> ignore
     );
 
-let getDockerList = () => Js.Promise.(
-  "http://localhost:3100/api/dockerlist"
+let getDockerList = (url: string) => Js.Promise.(
+  (url ++ "/api/dockerlist")
   ->
   fetch
   // fetch("http://localhost:3100/api/dockerlist")
@@ -43,8 +43,8 @@ let getDockerList = () => Js.Promise.(
   // |> ignore
 );
 
-let startContainer = (id: string) => Js.Promise.(
-  ("http://localhost:3100/api/dockerlist/start/" ++ id)
+let startContainer = (url: string, id: string) => Js.Promise.(
+  (url ++ "/api/dockerlist/start/" ++ id)
   ->
   fetch
   // fetch("http://localhost:3100/api/dockerlist")
@@ -59,8 +59,8 @@ let startContainer = (id: string) => Js.Promise.(
   // |> ignore
 );
 
-let stopContainer = (id: string) => Js.Promise.(
-  ("http://localhost:3100/api/dockerlist/stop/" ++ id)
+let stopContainer = (url: string, id: string) => Js.Promise.(
+  (url ++ "/api/dockerlist/stop/" ++ id)
   ->
   fetch
   |> then_(response => response##json())

@@ -10,6 +10,7 @@ import * as DockerListItem$MdworldHomeremoteDockerlist from "./DockerListItem.bs
 var styles = DockerListModuleCss;
 
 function DockerList$DockerListMod(Props) {
+  var url = Props.url;
   var confirmButtonStyleOpt = Props.confirmButtonStyle;
   var confirmButtonStyle = confirmButtonStyleOpt !== undefined ? Caml_option.valFromOption(confirmButtonStyleOpt) : ({
         backgroundColor: "darkblue",
@@ -21,7 +22,7 @@ function DockerList$DockerListMod(Props) {
   var setContainers = match[1];
   React.useEffect((function () {
           var update = function (param) {
-            ReasonApi$MdworldHomeremoteDockerlist.getDockerList(undefined).then(function (containerList) {
+            ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url).then(function (containerList) {
                   Curry._1(setContainers, (function (_prev) {
                           return containerList;
                         }));
@@ -38,6 +39,7 @@ function DockerList$DockerListMod(Props) {
         }), []);
   var dockerContainersElems = match[0].map(function (dockerContainer) {
         return React.createElement(DockerListItem$MdworldHomeremoteDockerlist.make, {
+                    url: url,
                     container: dockerContainer,
                     setContainers: setContainers,
                     confirmButtonStyle: confirmButtonStyle,
