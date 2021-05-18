@@ -8,10 +8,6 @@
 @send external showModal: Dom.element => unit = "showModal"
 @send external close: Dom.element => unit = "close"
 
-StyleUtil.test1()
-StyleUtil.test2()
-StyleUtil.test3()
-
 module DockerListMod = {
   // Pass props like: let make = (~count: int) => {
   @react.component
@@ -116,19 +112,12 @@ module DockerListMod = {
         let isRunning = state == "running"
         let isExited = state == "exited"
         let isUnexpected = !isRunning && !isExited
-        let className =
-          // TODO convenience method for multiple classNames?
-          `${styles["button-list-item"]} ${styles["mui-button"]} ` ++
-          if isRunning {
-            styles["button-success"]
-          } else {
-            ""
-          } ++
-          " " ++ if isUnexpected {
-            styles["button-error"]
-          } else {
-            ""
-          }
+        let className = StyleUtil.toClassName([
+          Name(styles["button-list-item"]),
+          Name(styles["mui-button"]),
+          NameOn(styles["button-success"], isRunning),
+          NameOn(styles["button-error"], isUnexpected),
+        ])
 
         let name =
           dockerContainer["Names"]

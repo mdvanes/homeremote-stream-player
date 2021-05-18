@@ -2,15 +2,15 @@
 
 // Generic array
 
-let toClassName = (input: array<(string, bool)>): string =>
+let toClassName0 = (input: array<(string, bool)>): string =>
   input
   ->Js.Array2.filter(((_name, isActive)) => isActive)
   ->Js.Array2.map(((name, _isActive)) => name)
   ->Js.Array2.joinWith("_")
 
-let testResult = toClassName([("class1", true), ("class2", false), ("class3", true)])
+let testResult0 = toClassName0([("class1", true), ("class2", false), ("class3", true)])
 
-let test1 = () => Js.log2("1. With Generic array", testResult)
+let test0 = () => Js.log2("1. With Generic array", testResult0)
 
 // Custom variant StringAndBool and destructuring of Variant in map
 
@@ -28,34 +28,36 @@ let testResult1 = toClassName1([
   StringAndBool("class3", true),
 ])
 
-let test2 = () => Js.log2("2. With custom variant", testResult1)
+let test1 = () => Js.log2("2. With custom variant", testResult1)
 
-// Pattern matching in filter
+// Variant classNameItem with the cases "Name" and "NameOn" with contructor arguments
+type classNameItem = Name(string) | NameOn(string, bool)
 
-type classNameItem = String(string) | StringAndBool(string, bool)
-
-let toClassName2 = (input: array<classNameItem>): string =>
+// Generic array with Variant parameter
+let toClassName = (input: array<classNameItem>): string =>
   input
   ->Js.Array2.filter(item => {
+    // Pattern matching
     switch item {
-    | StringAndBool(_name, isActive) => isActive
-    | String(_name) => true
+    // Destructure the Variant NameOn to name and isActive
+    | NameOn(_name, isActive) => isActive
+    | Name(_name) => true
     }
   })
   ->Js.Array2.map(item => {
     switch item {
-    | StringAndBool(name, _isActive) => name
-    | String(name) => name
+    | NameOn(name, _isActive) => name
+    | Name(name) => name
     }
   })
   ->Js.Array2.joinWith(" ")
 
-let testResult2 = toClassName2([
-  StringAndBool("class1", true),
-  String("class2"),
-  StringAndBool("class3", false),
-  StringAndBool("class4", true),
-  String("class5"),
-])
+// let testResult = toClassName([
+//   NameOn("class1", true),
+//   Name("class2"),
+//   NameOn("class3", false),
+//   NameOn("class4", true),
+//   Name("class5"),
+// ])
 
-let test3 = () => Js.log2("3. With pattern matching", testResult2)
+// let test = () => Js.log2("3. With pattern matching", testResult2)
