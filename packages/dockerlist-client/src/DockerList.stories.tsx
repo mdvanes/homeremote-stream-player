@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { DockerListMod } from "./DockerList.bs";
+import { DockerListMod } from "./DockerList.gen";
 import packageJson from "../package.json";
 import { BreakpointWrapper } from "../../../helpers";
 
@@ -17,7 +17,7 @@ export default {
 
 export const Default = ({ width }: { width: number }): ReactNode => (
     <BreakpointWrapper width={width}>
-        <DockerList />
+        <DockerList confirmButtonStyle={{ color: "blue" }} />
     </BreakpointWrapper>
 );
 

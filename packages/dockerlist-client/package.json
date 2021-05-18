@@ -89,6 +89,7 @@
         "access": "public"
     },
     "devDependencies": {
+        "gentype": "^3.50.0",
         "rescript": "^9.1.2"
     },
     "dependencies": {

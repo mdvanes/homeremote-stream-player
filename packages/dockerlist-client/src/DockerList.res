@@ -6,7 +6,7 @@
 @send external close: Dom.element => unit = "close"
 
 module DockerListMod = {
-  @react.component
+  @genType @react.component
   let make = (
     ~confirmButtonStyle: ReactDOM.Style.t=ReactDOM.Style.make(
       ~backgroundColor="darkblue",
@@ -54,9 +54,7 @@ module DockerListMod = {
       ->React.array
 
     <div className={styles["root"]}>
-      <div className={styles["button-list"]}>
-        dockerContainersElems
-      </div>
+      <div className={styles["button-list"]}> dockerContainersElems </div>
     </div>
   }
 }
