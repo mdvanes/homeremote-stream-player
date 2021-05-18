@@ -5,7 +5,7 @@ interface DockerContainerInfo {
     Status: string;
 }
 export interface DockerListResponse {
-    status: "received";
+    status: "received" | "error";
     containers?: DockerContainerInfo[];
 }
 export declare const getDockerList: () => Promise<DockerListResponse>;

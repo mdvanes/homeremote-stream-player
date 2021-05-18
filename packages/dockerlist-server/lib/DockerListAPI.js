@@ -52,7 +52,6 @@ exports.getDockerList = function () { return __awaiter(void 0, void 0, void 0, f
                 }).json()];
             case 1:
                 result = _a.sent();
-                // console.log(result);
                 return [2 /*return*/, {
                         status: "received",
                         containers: result.map(pickAndMapContainerProps)
@@ -61,16 +60,18 @@ exports.getDockerList = function () { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.startContainer = function (containerId) { return __awaiter(void 0, void 0, void 0, function () {
-    var result;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, got_1["default"]("http://localhost/v1.41/containers/" + containerId + "/start", {
+            case 0: 
+            // TODO add error handling
+            return [4 /*yield*/, got_1["default"]("http://localhost/v1.41/containers/" + containerId + "/start", {
                     method: "POST",
                     socketPath: "/var/run/docker.sock"
                 }).json()];
             case 1:
-                result = _a.sent();
-                console.log(result);
+                // TODO add error handling
+                _a.sent();
+                console.log("before received");
                 return [2 /*return*/, {
                         status: "received"
                     }];
@@ -78,19 +79,30 @@ exports.startContainer = function (containerId) { return __awaiter(void 0, void 
     });
 }); };
 exports.stopContainer = function (containerId) { return __awaiter(void 0, void 0, void 0, function () {
-    var result;
+    var result, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, got_1["default"]("http://localhost/v1.41/containers/" + containerId + "/stop", {
-                    method: "POST",
-                    socketPath: "/var/run/docker.sock"
-                }).json()];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, got_1["default"](
+                    // TODO using invalid url to emulate error
+                    "http://localhost/v1.41/containers/111" + containerId + "/stop", {
+                        method: "POST",
+                        socketPath: "/var/run/docker.sock"
+                    }).json()];
             case 1:
                 result = _a.sent();
-                console.log(result);
+                console.log("result", result);
                 return [2 /*return*/, {
                         status: "received"
                     }];
+            case 2:
+                err_1 = _a.sent();
+                console.log("err", err_1);
+                return [2 /*return*/, {
+                        status: "error"
+                    }];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
