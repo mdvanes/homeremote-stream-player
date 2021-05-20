@@ -11,6 +11,7 @@ var styles = DockerListModuleCss;
 
 function DockerList$DockerListMod(Props) {
   var url = Props.url;
+  var onError = Props.onError;
   var confirmButtonStyleOpt = Props.confirmButtonStyle;
   var confirmButtonStyle = confirmButtonStyleOpt !== undefined ? Caml_option.valFromOption(confirmButtonStyleOpt) : ({
         backgroundColor: "darkblue",
@@ -22,7 +23,7 @@ function DockerList$DockerListMod(Props) {
   var setContainers = match[1];
   React.useEffect((function () {
           var update = function (param) {
-            ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url).then(function (containerList) {
+            ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url, onError).then(function (containerList) {
                   Curry._1(setContainers, (function (_prev) {
                           return containerList;
                         }));
@@ -43,6 +44,7 @@ function DockerList$DockerListMod(Props) {
                     container: dockerContainer,
                     setContainers: setContainers,
                     confirmButtonStyle: confirmButtonStyle,
+                    onError: onError,
                     key: dockerContainer.Id
                   });
       });

@@ -21,6 +21,7 @@ let make = (
   ~container: dockerContainer,
   ~setContainers: setContainersType,
   ~confirmButtonStyle: ReactDOM.Style.t,
+  ~onError: string => unit
 ) => {
   let id = container["Id"]
   // https://stackoverflow.com/a/32428199: created, restarting, running, paused, exited, dead
@@ -37,11 +38,10 @@ let make = (
 
   let startContainerAndUpdate = (id: string, _event) => {
     // TODO |> vs ->
-    // TODO handle error?
     let _ =
-      ReasonApi.startContainer(url, id)
+      ReasonApi.startContainer(url, id, onError)
       |> Js.Promise.then_(_response => {
-        ReasonApi.getDockerList(url)
+        ReasonApi.getDockerList(url, onError)
       })
       |> Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)
@@ -51,9 +51,9 @@ let make = (
 
   let stopContainerAndUpdate = (id: string, _event) => {
     let _ =
-      ReasonApi.stopContainer(url, id)
+      ReasonApi.stopContainer(url, id, onError)
       |> Js.Promise.then_(_response => {
-        ReasonApi.getDockerList(url)
+        ReasonApi.getDockerList(url, onError)
       })
       |> Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)

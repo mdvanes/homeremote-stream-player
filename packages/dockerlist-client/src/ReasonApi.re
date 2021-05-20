@@ -27,6 +27,7 @@ let getDockerList = (url: string, onError: string => unit) => Js.Promise.(
   ->
   fetch
   |> then_(response => response##json())
+  // TODO deduplicate response handling with startContainer and stopContainer
   |> then_(jsonResponse => {
         if(jsonResponse##status == "received") {
           Js.Promise.resolve(jsonResponse##containers);
@@ -43,33 +44,39 @@ let getDockerList = (url: string, onError: string => unit) => Js.Promise.(
   // |> ignore
 );
 
-let startContainer = (url: string, id: string) => Js.Promise.(
+let startContainer = (url: string, id: string, onError: string => unit) => Js.Promise.(
   (url ++ "/api/dockerlist/start/" ++ id)
   ->
   fetch
   |> then_(response => response##json())
   |> then_(jsonResponse => {
-        Js.Promise.resolve(jsonResponse##containers);
+        if(jsonResponse##status == "received") {
+          Js.Promise.resolve([||]);
+        } else {
+          Js.Exn.raiseError("Invalid startContainer response")
+        }
       })
   |> catch(_err => {
-        // TODO onError("error in startContainer")
+        onError("error in startContainer")
         // Note: In Rescript ["a"] is an array, but in Reason ["a"] is a list and [|"a"|] is an array
         Js.Promise.resolve([||]);
       })
 );
 
-let stopContainer = (url: string, id: string) => Js.Promise.(
+let stopContainer = (url: string, id: string, onError: string => unit) => Js.Promise.(
   (url ++ "/api/dockerlist/stop/" ++ id)
   ->
   fetch
   |> then_(response => response##json())
   |> then_(jsonResponse => {
-        // TODO fix error handling
-        Js.log2("error..", jsonResponse##status)
-        Js.Promise.resolve(jsonResponse##containers);
+        if(jsonResponse##status == "received") {
+          Js.Promise.resolve([||]);
+        } else {
+          Js.Exn.raiseError("Invalid stopContainer response")
+        }
       })
   |> catch(_err => {
-        // TODO onError("error in startContainer")
+        onError("error in stopContainer")
         // Note: In Rescript ["a"] is an array, but in Reason ["a"] is a list and [|"a"|] is an array
         Js.Promise.resolve([||]);
       })

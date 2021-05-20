@@ -19,6 +19,7 @@ export const Default = ({ width }: { width: number }): ReactNode => (
     <BreakpointWrapper width={width}>
         <DockerList
             url={url}
+            onError={(err) => console.error(`some error has occurred ${err}`)}
             confirmButtonStyle={{ backgroundColor: "#1a237e", color: "white" }}
         />
     </BreakpointWrapper>

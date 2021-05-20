@@ -14,6 +14,7 @@ function DockerListItem(Props) {
   var container = Props.container;
   var setContainers = Props.setContainers;
   var confirmButtonStyle = Props.confirmButtonStyle;
+  var onError = Props.onError;
   var id = container.Id;
   var state = container.State;
   var isRunning = state === "running";
@@ -44,8 +45,8 @@ function DockerListItem(Props) {
         }).join(" ");
   return React.createElement(ButtonWithConfirm$MdworldHomeremoteDockerlist.make, {
               onClick: isRunning ? (function (param) {
-                    ReasonApi$MdworldHomeremoteDockerlist.stopContainer(url, id).then(function (_response) {
-                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url);
+                    ReasonApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
+                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
                           }).then(function (containerList) {
                           Curry._1(setContainers, (function (_prev) {
                                   return containerList;
@@ -54,8 +55,8 @@ function DockerListItem(Props) {
                         });
                     
                   }) : (function (param) {
-                    ReasonApi$MdworldHomeremoteDockerlist.startContainer(url, id).then(function (_response) {
-                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url);
+                    ReasonApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError).then(function (_response) {
+                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
                           }).then(function (containerList) {
                           Curry._1(setContainers, (function (_prev) {
                                   return containerList;

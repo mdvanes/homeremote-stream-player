@@ -11,8 +11,20 @@ const DockerListBS: any = DockerListBS__Es6Import;
 import type {Style_t as ReactDOM_Style_t} from '@rescript/react/src/ReactDOM.gen';
 
 // tslint:disable-next-line:interface-over-type-literal
-export type Props = { readonly confirmButtonStyle?: ReactDOM_Style_t; readonly url: string };
+export type Props = {
+  readonly confirmButtonStyle?: ReactDOM_Style_t; 
+  readonly onError: (_1:string) => void; 
+  readonly url: string
+};
 
-export const DockerListMod_make: React.ComponentType<{ readonly confirmButtonStyle?: ReactDOM_Style_t; readonly url: string }> = DockerListBS.DockerListMod.make;
+export const DockerListMod_make: React.ComponentType<{
+  readonly confirmButtonStyle?: ReactDOM_Style_t; 
+  readonly onError: (_1:string) => void; 
+  readonly url: string
+}> = DockerListBS.DockerListMod.make;
 
-export const DockerListMod: { make: React.ComponentType<{ readonly confirmButtonStyle?: ReactDOM_Style_t; readonly url: string }> } = DockerListBS.DockerListMod
+export const DockerListMod: { make: React.ComponentType<{
+  readonly confirmButtonStyle?: ReactDOM_Style_t; 
+  readonly onError: (_1:string) => void; 
+  readonly url: string
+}> } = DockerListBS.DockerListMod
