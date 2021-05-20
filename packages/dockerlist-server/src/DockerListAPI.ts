@@ -23,7 +23,7 @@ const pickAndMapContainerProps = ({
 
 // Using Docker Engine API: curl --unix-socket /var/run/docker.sock http://v1.24/containers/json?all=true
 // These urls also work: http://localhost/v1.24/containers/json?all=true or v1.24/containers/json?all=true
-const ROOT_URL = "http://v1.41/containers??";
+const ROOT_URL = "http://v1.41/containers";
 
 export const getDockerList = async (): Promise<DockerListResponse> => {
     try {
