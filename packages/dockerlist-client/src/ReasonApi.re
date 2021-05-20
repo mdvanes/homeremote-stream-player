@@ -1,5 +1,9 @@
 [@bs.val] external fetch: string => Js.Promise.t('a) = "fetch";
 
+/**
+ * This is a .re (ReasonML) file instead of an .res (ReScript) file, because I can't get fetch to work in ReScript
+ */
+
 // let unwrapErrorToCb = (error: Js.Promise.error, message: string, cb: string => unit) => {
 //   switch error {
 //     // | error error => cb(message ++ "some kind of Error")
