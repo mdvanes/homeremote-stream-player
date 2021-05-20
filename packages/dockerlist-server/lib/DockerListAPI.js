@@ -42,63 +42,77 @@ var pickAndMapContainerProps = function (_a) {
     var Id = _a.Id, Names = _a.Names, State = _a.State, Status = _a.Status;
     return ({ Id: Id, Names: Names, State: State, Status: Status });
 };
-// Export for use by other apps
+// Using Docker Engine API: curl --unix-socket /var/run/docker.sock http://v1.24/containers/json?all=true
+// These urls also work: http://localhost/v1.24/containers/json?all=true or v1.24/containers/json?all=true
+var ROOT_URL = "http://v1.41/containers??";
 exports.getDockerList = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var result;
+    var result, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, got_1["default"]("http:/v1.41/containers/json?all=true", {
-                    socketPath: "/var/run/docker.sock"
-                }).json()];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, got_1["default"](ROOT_URL + "/json?all=true", {
+                        socketPath: "/var/run/docker.sock"
+                    }).json()];
             case 1:
                 result = _a.sent();
                 return [2 /*return*/, {
                         status: "received",
                         containers: result.map(pickAndMapContainerProps)
                     }];
+            case 2:
+                err_1 = _a.sent();
+                console.error(err_1);
+                return [2 /*return*/, {
+                        status: "error"
+                    }];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.startContainer = function (containerId) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: 
-            // TODO add error handling
-            return [4 /*yield*/, got_1["default"]("http://localhost/v1.41/containers/" + containerId + "/start", {
-                    method: "POST",
-                    socketPath: "/var/run/docker.sock"
-                }).json()];
-            case 1:
-                // TODO add error handling
-                _a.sent();
-                console.log("before received");
-                return [2 /*return*/, {
-                        status: "received"
-                    }];
-        }
-    });
-}); };
-exports.stopContainer = function (containerId) { return __awaiter(void 0, void 0, void 0, function () {
-    var result, err_1;
+    var err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, got_1["default"](
-                    // TODO using invalid url to emulate error
-                    "http://localhost/v1.41/containers/111" + containerId + "/stop", {
+                return [4 /*yield*/, got_1["default"](ROOT_URL + "/" + containerId + "/start", {
                         method: "POST",
                         socketPath: "/var/run/docker.sock"
                     }).json()];
             case 1:
-                result = _a.sent();
-                console.log("result", result);
+                _a.sent();
                 return [2 /*return*/, {
                         status: "received"
                     }];
             case 2:
-                err_1 = _a.sent();
-                console.log("err", err_1);
+                err_2 = _a.sent();
+                console.error(err_2);
+                return [2 /*return*/, {
+                        status: "error"
+                    }];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.stopContainer = function (containerId) { return __awaiter(void 0, void 0, void 0, function () {
+    var err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, got_1["default"](ROOT_URL + "/" + containerId + "/stop", {
+                        method: "POST",
+                        socketPath: "/var/run/docker.sock"
+                    }).json()];
+            case 1:
+                _a.sent();
+                return [2 /*return*/, {
+                        status: "received"
+                    }];
+            case 2:
+                err_3 = _a.sent();
+                console.error(err_3);
                 return [2 /*return*/, {
                         status: "error"
                     }];

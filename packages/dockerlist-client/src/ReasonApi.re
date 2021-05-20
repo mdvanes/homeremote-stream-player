@@ -1,42 +1,42 @@
 [@bs.val] external fetch: string => Js.Promise.t('a) = "fetch";
 
-// type state =
-//   | LoadingDogs
-//   | ErrorFetchingDogs
-//   | LoadedDogs(array(string));
+// let unwrapErrorToCb = (error: Js.Promise.error, message: string, cb: string => unit) => {
+//   switch error {
+//     // | error error => cb(message ++ "some kind of Error")
+//     | exception error => {
+//       // Note: in reason vs rescript write generic like option(Js.Exn.t) vs option<Js.Exn.t>
+//       let optError: option(Js.Exn.t) = Js.Exn.asJsExn(error)
+//         switch optError {
+//           | Some(error) => {
+//               Js.log(Js.Exn.name(error))
+//               Js.log(Js.Exn.message(error))
+//               // cb(message ++ Js.Exn.name(error) ++ " " ++ Js.Exn.message(error))
+//               cb(message)
+//             }
+//           | None => cb(message ++ "Not a Js.Exn.t")
+//         }
+//     }
+//     // | Js.Exn.Error(_obj) => cb(message ++ "Not an exn")
+//     // | Some(m) => cb(message ++ "Not an exn")
+//     | _ => cb(message ++ "Not an exn")
+//   }
+// }
 
-let myFunc = (): Js.Promise.t('array) => Js.Promise.resolve(["a"])
-
-let fetchDogs = () => Js.Promise.(
-      // "https://dog.ceo/api/breeds/image/random/3"
-      // ->
-      // fetch
-      fetch("https://dog.ceo/api/breeds/image/random/3")
-      |> then_(response => response##json())
-      |> then_(jsonResponse => {
-           // setState(_previousState => LoadedDogs(jsonResponse##message));
-           // Js.log2("testFunc Done", jsonResponse##message)
-           // Js.Promise.resolve(Belt.List.toArray(jsonResponse##message));
-           Js.Promise.resolve(jsonResponse##message);
-         })
-      |> catch(_err => {
-           // setState(_previousState => ErrorFetchingDogs);
-           // TODO In Rescript ["a"] is an array, but in Reason ["a"] is a list and [|"a"|] is an array
-           Js.Promise.resolve([||]);
-         })
-      // |> ignore
-    );
-
-let getDockerList = (url: string) => Js.Promise.(
+let getDockerList = (url: string, onError: string => unit) => Js.Promise.(
   (url ++ "/api/dockerlist")
   ->
   fetch
-  // fetch("http://localhost:3100/api/dockerlist")
   |> then_(response => response##json())
   |> then_(jsonResponse => {
-        Js.Promise.resolve(jsonResponse##containers);
+        if(jsonResponse##status == "received") {
+          Js.Promise.resolve(jsonResponse##containers);
+        } else {
+          Js.Exn.raiseError("Invalid getDockerList response")
+        }
       })
   |> catch(_err => {
+        onError("error in getDockerList")
+        // unwrapErrorToCb(err, "error in getDockerList:", onError)
         // Note: In Rescript ["a"] is an array, but in Reason ["a"] is a list and [|"a"|] is an array
         Js.Promise.resolve([||]);
       })
@@ -47,16 +47,15 @@ let startContainer = (url: string, id: string) => Js.Promise.(
   (url ++ "/api/dockerlist/start/" ++ id)
   ->
   fetch
-  // fetch("http://localhost:3100/api/dockerlist")
   |> then_(response => response##json())
   |> then_(jsonResponse => {
         Js.Promise.resolve(jsonResponse##containers);
       })
   |> catch(_err => {
+        // TODO onError("error in startContainer")
         // Note: In Rescript ["a"] is an array, but in Reason ["a"] is a list and [|"a"|] is an array
         Js.Promise.resolve([||]);
       })
-  // |> ignore
 );
 
 let stopContainer = (url: string, id: string) => Js.Promise.(
@@ -65,25 +64,13 @@ let stopContainer = (url: string, id: string) => Js.Promise.(
   fetch
   |> then_(response => response##json())
   |> then_(jsonResponse => {
+        // TODO fix error handling
+        Js.log2("error..", jsonResponse##status)
         Js.Promise.resolve(jsonResponse##containers);
       })
   |> catch(_err => {
+        // TODO onError("error in startContainer")
         // Note: In Rescript ["a"] is an array, but in Reason ["a"] is a list and [|"a"|] is an array
         Js.Promise.resolve([||]);
       })
 );
-
-// let testFunc = () => 
-//       fetch("https://dog.ceo/api/breeds/image/random/3")
-//       |> Js.Promise.then_(response => response##json())
-//       |> Js.Promise.then_(jsonResponse => {
-//            // setState(_previousState => LoadedDogs(jsonResponse##message));
-//            Js.log2("testFunc Done", jsonResponse##message)
-//            Js.Promise.resolve(jsonResponse##message);
-//          })
-//       |> Js.Promise.catch(_err => {
-//            // setState(_previousState => ErrorFetchingDogs);
-//            Js.Promise.resolve([]);
-//          })
-//       |> ignore
-    

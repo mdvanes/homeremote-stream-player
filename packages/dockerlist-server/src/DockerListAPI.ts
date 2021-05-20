@@ -21,54 +21,60 @@ const pickAndMapContainerProps = ({
     Status,
 }: DockerContainerInfo): DockerContainerInfo => ({ Id, Names, State, Status });
 
-// Export for use by other apps
+// Using Docker Engine API: curl --unix-socket /var/run/docker.sock http://v1.24/containers/json?all=true
+// These urls also work: http://localhost/v1.24/containers/json?all=true or v1.24/containers/json?all=true
+const ROOT_URL = "http://v1.41/containers??";
+
 export const getDockerList = async (): Promise<DockerListResponse> => {
-    // docker ps -as --format='{{json .}}' (see system guides for more commands)
-    // Using Docker Engine API: curl --unix-socket /var/run/docker.sock http:/v1.24/containers/json?all=true
+    try {
+        const result = await got(`${ROOT_URL}/json?all=true`, {
+            socketPath: "/var/run/docker.sock",
+        }).json<AllResponse>();
 
-    // TODO add error handling
-    const result = await got("http:/v1.41/containers/json?all=true", {
-        socketPath: "/var/run/docker.sock",
-    }).json<AllResponse>();
-
-    return {
-        status: "received",
-        containers: result.map(pickAndMapContainerProps),
-    };
+        return {
+            status: "received",
+            containers: result.map(pickAndMapContainerProps),
+        };
+    } catch (err) {
+        console.error(err);
+        return {
+            status: "error",
+        };
+    }
 };
 
 export const startContainer = async (
     containerId: string
 ): Promise<DockerListResponse> => {
-    // TODO add error handling
-    await got(`http://localhost/v1.41/containers/${containerId}/start`, {
-        method: "POST",
-        socketPath: "/var/run/docker.sock",
-    }).json<unknown>();
-    console.log("before received");
-    return {
-        status: "received",
-    };
+    try {
+        await got(`${ROOT_URL}/${containerId}/start`, {
+            method: "POST",
+            socketPath: "/var/run/docker.sock",
+        }).json<unknown>();
+        return {
+            status: "received",
+        };
+    } catch (err) {
+        console.error(err);
+        return {
+            status: "error",
+        };
+    }
 };
 
 export const stopContainer = async (
     containerId: string
 ): Promise<DockerListResponse> => {
     try {
-        const result = await got(
-            // TODO using invalid url to emulate error
-            `http://localhost/v1.41/containers/111${containerId}/stop`,
-            {
-                method: "POST",
-                socketPath: "/var/run/docker.sock",
-            }
-        ).json<unknown>();
-        console.log("result", result);
+        await got(`${ROOT_URL}/${containerId}/stop`, {
+            method: "POST",
+            socketPath: "/var/run/docker.sock",
+        }).json<unknown>();
         return {
             status: "received",
         };
     } catch (err) {
-        console.log("err", err);
+        console.error(err);
         return {
             status: "error",
         };
