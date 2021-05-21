@@ -12,7 +12,7 @@ let make = (
   ~container: DockerUtil.dockerContainer,
   ~setContainers: DockerUtil.setContainersType,
   ~confirmButtonStyle: ReactDOM.Style.t,
-  ~onError: string => unit
+  ~onError: string => unit,
 ) => {
   let id = container["Id"]
   // https://stackoverflow.com/a/32428199: created, restarting, running, paused, exited, dead
@@ -28,18 +28,28 @@ let make = (
   ])
 
   let startContainerAndUpdate = (id: string, _event) => {
-    // Note: |> is deprecated in favor of ->, however `a |> fn(b)` converts to `fn(b, a)` 
-    // where `a -> fn(b)` converts to `fn(a, b)` and `Js.Promise.then_` has not been optimized 
+    // Note: |> is deprecated in favor of ->, however `a |> fn(b)` converts to `fn(b, a)`
+    // where `a -> fn(b)` converts to `fn(a, b)` and `Js.Promise.then_` has not been optimized
     // for this order, e.g. like how Js.Array2 has been optimized for -> while Js.Array is optimized for |>
+    // This can be remedied by using the _ pipe placeholder. With the placeholder it is possible to write
+    // ```DockerApi.startContainer(url, id, onError)
+    // |> Js.Promise.then_(_response => {
+    //   DockerApi.getDockerList(url, onError)
+    // })```
+    // Like:
+    // ```DockerApi.startContainer(url, id, onError)
+    // -> Js.Promise.then_(_response => {
+    //   DockerApi.getDockerList(url, onError)
+    // }, _)```
     let _ =
       DockerApi.startContainer(url, id, onError)
-      |> Js.Promise.then_(_response => {
+      -> Js.Promise.then_(_response => {
         DockerApi.getDockerList(url, onError)
-      })
-      |> Js.Promise.then_(containerList => {
+      }, _)
+      -> Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)
         Js.Promise.resolve(containerList)
-      })
+      }, _)
   }
 
   let stopContainerAndUpdate = (id: string, _event) => {

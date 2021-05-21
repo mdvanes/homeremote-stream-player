@@ -55,9 +55,11 @@ function DockerListItem(Props) {
                         });
                     
                   }) : (function (param) {
-                    DockerApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError).then(function (_response) {
-                            return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
-                          }).then(function (containerList) {
+                    var __x = DockerApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError);
+                    var __x$1 = __x.then(function (_response) {
+                          return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+                        });
+                    __x$1.then(function (containerList) {
                           Curry._1(setContainers, (function (_prev) {
                                   return containerList;
                                 }));

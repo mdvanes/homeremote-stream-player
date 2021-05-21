@@ -4,29 +4,35 @@ external parseIntoDockerListResponse: string => DockerUtil.dockerListResponse = 
 
 open Js.Promise
 
-let handleResponse = (onError: string => unit, errorMessage: string, promise: Js.Promise.t<string>) => promise |> then_(jsonResponse => {
+let handleResponse = (
+  promise: Js.Promise.t<string>,
+  onError: string => unit,
+  errorMessage: string,
+) => promise
+  ->then_(jsonResponse => {
     let response = parseIntoDockerListResponse(jsonResponse)
     if response.status == "received" {
       Js.Promise.resolve(response.containers)
     } else {
       Js.Exn.raiseError("Error in response")
     }
-  }, _) |> catch(_err => {
+  }, _)
+  ->catch(_err => {
     onError(errorMessage)
     Js.Promise.resolve([])
   }, _)
 
 let getDockerList = (url: string, onError: string => unit) =>
   Fetch.fetch(`${url}/api/dockerlist`)
-  |> then_(Fetch.Response.text)
-  |> handleResponse(onError, "error in getDockerList")
+  ->then_(Fetch.Response.text, _)
+  ->handleResponse(onError, "error in getDockerList")
 
 let startContainer = (url: string, id: string, onError: string => unit) =>
   Fetch.fetch(`${url}/api/dockerlist/start/${id}`)
-  |> then_(Fetch.Response.text)
-  |> handleResponse(onError, "error in startContainer")
+  ->then_(Fetch.Response.text, _)
+  ->handleResponse(onError, "error in startContainer")
 
 let stopContainer = (url: string, id: string, onError: string => unit) =>
   Fetch.fetch(`${url}/api/dockerlist/stop/${id}`)
-  |> then_(Fetch.Response.text)
-  |> handleResponse(onError, "error in stopContainer")
+  ->then_(Fetch.Response.text, _)
+  ->handleResponse(onError, "error in stopContainer")

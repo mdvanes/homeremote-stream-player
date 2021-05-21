@@ -3,7 +3,7 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Js_exn from "rescript/lib/es6/js_exn.js";
 
-function handleResponse(onError, errorMessage, promise) {
+function handleResponse(promise, onError, errorMessage) {
   var __x = promise.then(function (jsonResponse) {
         var response = JSON.parse(jsonResponse);
         if (response.status === "received") {
@@ -19,21 +19,24 @@ function handleResponse(onError, errorMessage, promise) {
 }
 
 function getDockerList(url, onError) {
-  return handleResponse(onError, "error in getDockerList", fetch(url + "/api/dockerlist").then(function (prim) {
+  var __x = fetch(url + "/api/dockerlist");
+  return handleResponse(__x.then(function (prim) {
                   return prim.text();
-                }));
+                }), onError, "error in getDockerList");
 }
 
 function startContainer(url, id, onError) {
-  return handleResponse(onError, "error in startContainer", fetch(url + "/api/dockerlist/start/" + id).then(function (prim) {
+  var __x = fetch(url + "/api/dockerlist/start/" + id);
+  return handleResponse(__x.then(function (prim) {
                   return prim.text();
-                }));
+                }), onError, "error in startContainer");
 }
 
 function stopContainer(url, id, onError) {
-  return handleResponse(onError, "error in stopContainer", fetch(url + "/api/dockerlist/stop/" + id).then(function (prim) {
+  var __x = fetch(url + "/api/dockerlist/stop/" + id);
+  return handleResponse(__x.then(function (prim) {
                   return prim.text();
-                }));
+                }), onError, "error in stopContainer");
 }
 
 export {
