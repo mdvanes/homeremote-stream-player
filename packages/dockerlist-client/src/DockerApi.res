@@ -1,19 +1,6 @@
-// TODO deduplicate/import this type from DockerListItem.res
-type dockerContainer = {
-  "Id": string,
-  "Names": Js.Array2.t<Js.String2.t>,
-  "State": string,
-  "Status": React.element,
-}
-
-type dockerListResponse = {
-  status: string, // TODO convert to "received" | "error"
-  containers: array<dockerContainer>,
-}
-
 // NOTE: it might be better to do `|> then_(Fetch.Response.json)` (instead of `|> then_(Fetch.Response.text)`) and then Decode the response with e.g. @glennsl/bs-json
 @scope("JSON") @val
-external parseIntoDockerListResponse: string => dockerListResponse = "parse"
+external parseIntoDockerListResponse: string => DockerUtil.dockerListResponse = "parse"
 
 open Js.Promise
 

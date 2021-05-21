@@ -6,20 +6,11 @@ external styles: {
   "button-error": string,
 } = "./DockerList.module.css"
 
-type dockerContainer = {
-  "Id": string,
-  "Names": Js.Array2.t<Js.String2.t>,
-  "State": string,
-  "Status": React.element,
-}
-
-type setContainersType = (array<dockerContainer> => array<dockerContainer>) => unit
-
 @react.component
 let make = (
   ~url: string,
-  ~container: dockerContainer,
-  ~setContainers: setContainersType,
+  ~container: DockerUtil.dockerContainer,
+  ~setContainers: DockerUtil.setContainersType,
   ~confirmButtonStyle: ReactDOM.Style.t,
   ~onError: string => unit
 ) => {
@@ -29,7 +20,7 @@ let make = (
   let isRunning = state == "running"
   let isExited = state == "exited"
   let isUnexpected = !isRunning && !isExited
-  let className = StyleUtil.toClassName([
+  let className = DockerUtil.toClassName([
     Name(styles["button-list-item"]),
     Name(styles["mui-button"]),
     NameOn(styles["button-success"], isRunning),
@@ -37,7 +28,9 @@ let make = (
   ])
 
   let startContainerAndUpdate = (id: string, _event) => {
-    // TODO |> vs ->_
+    // Note: |> is deprecated in favor of ->, however `a |> fn(b)` converts to `fn(b, a)` 
+    // where `a -> fn(b)` converts to `fn(a, b)` and `Js.Promise.then_` has not been optimized 
+    // for this order, e.g. like how Js.Array2 has been optimized for -> while Js.Array is optimized for |>
     let _ =
       DockerApi.startContainer(url, id, onError)
       |> Js.Promise.then_(_response => {

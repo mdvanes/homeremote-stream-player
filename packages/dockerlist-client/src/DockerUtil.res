@@ -30,8 +30,26 @@ let testResult1 = toClassName1([
 
 let test1 = () => Js.log2("2. With custom variant", testResult1)
 
+/* Shared types */
+
+type dockerContainer = {
+  "Id": string,
+  "Names": Js.Array2.t<Js.String2.t>,
+  "State": string,
+  "Status": React.element,
+}
+
+type dockerListResponse = {
+  status: string, // TODO convert to "received" | "error"_
+  containers: array<dockerContainer>,
+}
+
+type setContainersType = (array<dockerContainer> => array<dockerContainer>) => unit
+
 // Variant classNameItem with the cases "Name" and "NameOn" with contructor arguments
 type classNameItem = Name(string) | NameOn(string, bool)
+
+/* Style utils */
 
 // Generic array with Variant parameter
 let toClassName = (input: array<classNameItem>): string =>
@@ -51,13 +69,3 @@ let toClassName = (input: array<classNameItem>): string =>
     }
   })
   ->Js.Array2.joinWith(" ")
-
-// let testResult = toClassName([
-//   NameOn("class1", true),
-//   Name("class2"),
-//   NameOn("class3", false),
-//   NameOn("class4", true),
-//   Name("class5"),
-// ])
-
-// let test = () => Js.log2("3. With pattern matching", testResult2)

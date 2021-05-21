@@ -4,7 +4,7 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as DockerListModuleCss from "./DockerList.module.css";
 import * as DockerApi$MdworldHomeremoteDockerlist from "./DockerApi.bs.js";
-import * as StyleUtil$MdworldHomeremoteDockerlist from "./StyleUtil.bs.js";
+import * as DockerUtil$MdworldHomeremoteDockerlist from "./DockerUtil.bs.js";
 import * as ButtonWithConfirm$MdworldHomeremoteDockerlist from "./ButtonWithConfirm.bs.js";
 
 var styles = DockerListModuleCss;
@@ -20,7 +20,7 @@ function DockerListItem(Props) {
   var isRunning = state === "running";
   var isExited = state === "exited";
   var isUnexpected = !isRunning && !isExited;
-  var className = StyleUtil$MdworldHomeremoteDockerlist.toClassName([
+  var className = DockerUtil$MdworldHomeremoteDockerlist.toClassName([
         {
           TAG: /* Name */0,
           _0: styles["button-list-item"]
