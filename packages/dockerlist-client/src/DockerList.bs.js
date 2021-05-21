@@ -4,7 +4,7 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as DockerListModuleCss from "./DockerList.module.css";
-import * as ReasonApi$MdworldHomeremoteDockerlist from "./ReasonApi.bs.js";
+import * as DockerApi$MdworldHomeremoteDockerlist from "./DockerApi.bs.js";
 import * as DockerListItem$MdworldHomeremoteDockerlist from "./DockerListItem.bs.js";
 
 var styles = DockerListModuleCss;
@@ -23,7 +23,7 @@ function DockerList$DockerListMod(Props) {
   var setContainers = match[1];
   React.useEffect((function () {
           var update = function (param) {
-            ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url, onError).then(function (containerList) {
+            DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError).then(function (containerList) {
                   Curry._1(setContainers, (function (_prev) {
                           return containerList;
                         }));

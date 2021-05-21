@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { action } from "@storybook/addon-actions";
 import { DockerListMod } from "./DockerList.gen";
 import packageJson from "../package.json";
 import { BreakpointWrapper } from "../../../helpers";
@@ -19,7 +20,7 @@ export const Default = ({ width }: { width: number }): ReactNode => (
     <BreakpointWrapper width={width}>
         <DockerList
             url={url}
-            onError={(err) => console.error(`some error has occurred ${err}`)}
+            onError={action(`some error has occurred`)}
             confirmButtonStyle={{ backgroundColor: "#1a237e", color: "white" }}
         />
     </BreakpointWrapper>

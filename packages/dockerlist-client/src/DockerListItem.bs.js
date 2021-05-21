@@ -3,7 +3,7 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as DockerListModuleCss from "./DockerList.module.css";
-import * as ReasonApi$MdworldHomeremoteDockerlist from "./ReasonApi.bs.js";
+import * as DockerApi$MdworldHomeremoteDockerlist from "./DockerApi.bs.js";
 import * as StyleUtil$MdworldHomeremoteDockerlist from "./StyleUtil.bs.js";
 import * as ButtonWithConfirm$MdworldHomeremoteDockerlist from "./ButtonWithConfirm.bs.js";
 
@@ -45,8 +45,8 @@ function DockerListItem(Props) {
         }).join(" ");
   return React.createElement(ButtonWithConfirm$MdworldHomeremoteDockerlist.make, {
               onClick: isRunning ? (function (param) {
-                    ReasonApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
-                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+                    DockerApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
+                            return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
                           }).then(function (containerList) {
                           Curry._1(setContainers, (function (_prev) {
                                   return containerList;
@@ -55,8 +55,8 @@ function DockerListItem(Props) {
                         });
                     
                   }) : (function (param) {
-                    ReasonApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError).then(function (_response) {
-                            return ReasonApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+                    DockerApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError).then(function (_response) {
+                            return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
                           }).then(function (containerList) {
                           Curry._1(setContainers, (function (_prev) {
                                   return containerList;

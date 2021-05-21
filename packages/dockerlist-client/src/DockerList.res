@@ -23,7 +23,7 @@ module DockerListMod = {
     // Runs only once right after mounting the component
     React.useEffect0(() => {
       let update = () => {
-        ReasonApi.getDockerList(url, onError)
+        DockerApi.getDockerList(url, onError)
         |> Js.Promise.then_(containerList => {
           // Js.log()
           setContainers(_prev => containerList)

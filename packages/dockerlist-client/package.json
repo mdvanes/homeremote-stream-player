@@ -8,7 +8,7 @@
         "url": "https://github.com/mdvanes/homeremote-plugins.git"
     },
     "scripts": {
-        "build": "webpack-cli --config webpack.config.prod.js",
+        "build": "yarn re:build",
         "re:build": "rescript",
         "re:start": "rescript build -w"
     },

@@ -37,11 +37,11 @@ let make = (
   ])
 
   let startContainerAndUpdate = (id: string, _event) => {
-    // TODO |> vs ->
+    // TODO |> vs ->_
     let _ =
-      ReasonApi.startContainer(url, id, onError)
+      DockerApi.startContainer(url, id, onError)
       |> Js.Promise.then_(_response => {
-        ReasonApi.getDockerList(url, onError)
+        DockerApi.getDockerList(url, onError)
       })
       |> Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)
@@ -51,9 +51,9 @@ let make = (
 
   let stopContainerAndUpdate = (id: string, _event) => {
     let _ =
-      ReasonApi.stopContainer(url, id, onError)
+      DockerApi.stopContainer(url, id, onError)
       |> Js.Promise.then_(_response => {
-        ReasonApi.getDockerList(url, onError)
+        DockerApi.getDockerList(url, onError)
       })
       |> Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)
