@@ -26,6 +26,7 @@
 //   }
 // }
 
+// Note: In Rescript `open Js.Promise` is in Reason `Js.Promise.()`
 let getDockerList = (url: string, onError: string => unit) => Js.Promise.(
   (url ++ "/api/dockerlist")
   ->
