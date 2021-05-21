@@ -4,6 +4,10 @@ external parseIntoDockerListResponse: string => DockerUtil.dockerListResponse = 
 
 open Js.Promise
 
+// Prevent type casting with Obj.magic, e.g. like let message: string = err->Obj.magic, see https://dev.to/fhammerschmidt/reason-react-best-practices-2cb7
+// Convert Js.Promise.error to string (effectively an unchecked type cast)
+external promiseErrToString: Js.Promise.error => string = "%identity";
+
 let handleResponse = (
   promise: Js.Promise.t<string>,
   onError: string => unit,
@@ -17,8 +21,9 @@ let handleResponse = (
       Js.Exn.raiseError("Error in response")
     }
   }, _)
-  ->catch(_err => {
-    onError(errorMessage)
+  ->catch(err => {
+    let message: string = err->promiseErrToString
+    onError(`${errorMessage} ${message}`)
     Js.Promise.resolve([])
   }, _)
 

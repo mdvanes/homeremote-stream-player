@@ -12,8 +12,8 @@ function handleResponse(promise, onError, errorMessage) {
           return Js_exn.raiseError("Error in response");
         }
       });
-  return __x.catch(function (_err) {
-              Curry._1(onError, errorMessage);
+  return __x.catch(function (err) {
+              Curry._1(onError, errorMessage + " " + err);
               return Promise.resolve([]);
             });
 }
