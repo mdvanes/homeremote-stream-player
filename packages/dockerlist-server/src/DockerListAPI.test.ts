@@ -7,22 +7,29 @@ jest.mock("got");
 const gotSpy = jest.spyOn(GotModule, "default");
 
 const createMockRequest = (
-    // additional: Record<string, string[]>
     jsonResponse: unknown
 ): CancelableRequest<unknown> => {
-    // const jsonResponse = {
-    //     // data: [{ ...mockBaseResponse, ...additional }],
-    //     // data: [{ ...additional }],
-    //     // ...additional
-    // };
     return {
         json: () => Promise.resolve(jsonResponse),
+    } as CancelableRequest<unknown>;
+};
+
+const createMockReject = (): CancelableRequest<unknown> => {
+    return {
+        json: () => Promise.reject(Error("Some Error")),
     } as CancelableRequest<unknown>;
 };
 
 describe("DockerListAPI", () => {
     beforeEach(() => {
         gotSpy.mockReset();
+        jest.spyOn(console, "error").mockImplementation(() => {
+            /* hide console errors when running Jest */
+        });
+    });
+
+    afterEach(() => {
+        (console.error as jest.Mock).mockRestore();
     });
 
     it("lists all containers", async () => {
@@ -66,22 +73,36 @@ describe("DockerListAPI", () => {
         });
     });
 
+    it("can return an error when listing all containers", async () => {
+        gotSpy.mockReturnValue(createMockReject());
+        const response = await getDockerList();
+
+        expect(response).toEqual({
+            status: "error",
+        });
+    });
+
     it("starts a container", async () => {
         gotSpy.mockReturnValue(createMockRequest([]));
-        const response = await startContainer(
-            "42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe"
-        );
+        const response = await startContainer("some_id");
 
         expect(response).toEqual({
             status: "received",
         });
     });
 
+    it("can return an error when starting a container", async () => {
+        gotSpy.mockReturnValue(createMockReject());
+        const response = await startContainer("some_id");
+
+        expect(response).toEqual({
+            status: "error",
+        });
+    });
+
     it("stops a container", async () => {
         gotSpy.mockReturnValue(createMockRequest([]));
-        const response = await stopContainer(
-            "42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe"
-        );
+        const response = await stopContainer("some_id");
 
         expect(response).toEqual({
             status: "received",
@@ -89,10 +110,8 @@ describe("DockerListAPI", () => {
     });
 
     it("can return an error when stopping a container", async () => {
-        gotSpy.mockReturnValue(createMockRequest([]));
-        const response = await stopContainer(
-            "42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe"
-        );
+        gotSpy.mockReturnValue(createMockReject());
+        const response = await stopContainer("some_id");
 
         expect(response).toEqual({
             status: "error",

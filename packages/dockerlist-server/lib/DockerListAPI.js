@@ -44,7 +44,7 @@ var pickAndMapContainerProps = function (_a) {
 };
 // Using Docker Engine API: curl --unix-socket /var/run/docker.sock http://v1.24/containers/json?all=true
 // These urls also work: http://localhost/v1.24/containers/json?all=true or v1.24/containers/json?all=true
-var ROOT_URL = "http://v1.41/containers??";
+var ROOT_URL = "http://v1.41/containers";
 exports.getDockerList = function () { return __awaiter(void 0, void 0, void 0, function () {
     var result, err_1;
     return __generator(this, function (_a) {
