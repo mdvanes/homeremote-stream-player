@@ -15,10 +15,9 @@ let handleResponse = (
 ) => promise
   ->then_(jsonResponse => {
     let response = parseIntoDockerListResponse(jsonResponse)
-    if response.status == "received" {
-      Js.Promise.resolve(response.containers)
-    } else {
-      Js.Exn.raiseError("Error in response")
+    switch response.status {
+    | "received" => Js.Promise.resolve(response.containers)
+    | _ => Js.Exn.raiseError("Error in response")
     }
   }, _)
   ->catch(err => {

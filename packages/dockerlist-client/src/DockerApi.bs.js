@@ -6,7 +6,8 @@ import * as Js_exn from "rescript/lib/es6/js_exn.js";
 function handleResponse(promise, onError, errorMessage) {
   var __x = promise.then(function (jsonResponse) {
         var response = JSON.parse(jsonResponse);
-        if (response.status === "received") {
+        var match = response.status;
+        if (match === "received") {
           return Promise.resolve(response.containers);
         } else {
           return Js_exn.raiseError("Error in response");

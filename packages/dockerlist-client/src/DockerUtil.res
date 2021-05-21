@@ -40,7 +40,7 @@ type dockerContainer = {
 }
 
 type dockerListResponse = {
-  status: string, // TODO convert to "received" | "error"_
+  status: string, // Union types do not exist in Reason but the string is pattern matched
   containers: array<dockerContainer>,
 }
 
