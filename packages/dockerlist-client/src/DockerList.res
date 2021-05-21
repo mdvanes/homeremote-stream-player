@@ -25,7 +25,6 @@ module DockerListMod = {
       let update = () => {
         DockerApi.getDockerList(url, onError)
         |> Js.Promise.then_(containerList => {
-          // Js.log()
           setContainers(_prev => containerList)
           Js.Promise.resolve(containerList)
         })
