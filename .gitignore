@@ -28,3 +28,5 @@ repl-temp-*
 
 /old
 /storybook-static
+
+/packages/dockerlist-client/lib
