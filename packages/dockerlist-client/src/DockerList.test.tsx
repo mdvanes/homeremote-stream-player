@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { DockerListMod } from "./DockerList.bs";
 
-// TODO convert to typescript?
 // TODO convert to bs-jest?
 
 const DockerList = DockerListMod.make;
