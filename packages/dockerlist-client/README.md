@@ -29,8 +29,6 @@ See https://github.com/mdvanes/homeremote/issues/9
 
 ## TODO
 
-- Error handling, callback for snackbar
-- Add unit test
 - Fix building, exclude "dist" from the build?
 - Add DockerList to the Example app
 - For now XHR works in Rescript, but Fetch only works in Reason files. Mainly decoding the JSON fails, even with "@glennsl/bs-json"
