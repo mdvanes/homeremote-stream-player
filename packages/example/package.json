@@ -3,6 +3,7 @@
   "version": "1.6.3",
   "private": true,
   "dependencies": {
+    "@mdworld/homeremote-dockerlist": "^1.6.3",
     "@mdworld/homeremote-stream-player": "^1.6.3"
   },
   "scripts": {
