@@ -1,8 +1,8 @@
 {
     "name": "@mdworld/homeremote-dockerlist",
     "version": "1.7.0",
-    "main": "./lib/DockerList.js",
-    "types": "./lib/DockerList.d.ts",
+    "main": "./src/DockerList.bs.js",
+    "types": "./src/DockerList.gen.tsx",
     "repository": {
         "type": "git",
         "url": "https://github.com/mdvanes/homeremote-plugins.git"
