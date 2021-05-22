@@ -17,8 +17,8 @@ Server: [/packages/server](/packages/server)
 * `yarn build`
 * `yarn validate`
 * commit changes (lib dirs should eventually be in git ignore)
-* optionally: `lerna changed`
-* `lerna publish`
+* optionally: `yarn lerna changed`
+* `yarn lerna publish`
 * on each push to the main branch, CI builds and publishes storybook, see .github/workflows
 
 ## Running
