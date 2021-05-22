@@ -1,6 +1,6 @@
 {
     "name": "@mdworld/homeremote-dockerlist",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "main": "./src/DockerList.bs.js",
     "types": "./src/DockerList.gen.tsx",
     "repository": {
