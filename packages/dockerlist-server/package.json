@@ -1,6 +1,6 @@
 {
   "name": "@mdworld/homeremote-dockerlist-server",
-  "version": "1.0.0",
+  "version": "1.7.0",
   "dependencies": {
     "express": "^4.17.1",
     "got": "^11.8.0"
