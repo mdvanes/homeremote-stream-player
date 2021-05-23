@@ -29,8 +29,6 @@ See https://github.com/mdvanes/homeremote/issues/9
 
 ## TODO
 
-- Fix building, exclude "dist" from the build?
-- Add DockerList to the Example app
 - For now XHR works in Rescript, but Fetch only works in Reason files. Mainly decoding the JSON fails, even with "@glennsl/bs-json"
 - Material UI bindings seem very unstable: https://jsiebern.github.io/bs-material-ui Adding it breaks the build sometimes
 - Clean up old Elm deps from package.json
