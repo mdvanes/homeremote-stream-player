@@ -1,0 +1,18 @@
+{
+    "status": "received",
+    "containers": [
+        {
+            "Id": "245425425245afafaffaaafaffaaffaa43542524524524524542542444452532",
+            "Names": ["/determined_edison"],
+            "State": "running",
+            "Status": "Up 11 days"
+        },
+        
+        {
+            "Id": "245425425245afafaffaaafaffaaffaa43542524524524524542542444452531",
+            "Names": ["/hello_world"],
+            "State": "exited",
+            "Status": "Exited (0) 42 hours ago"
+        }
+    ]
+}

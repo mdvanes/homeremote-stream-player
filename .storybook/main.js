@@ -32,7 +32,7 @@ module.exports = {
     webpackFinal: (config) => {
         const {
             module: {
-                rules: [, , , , , , { oneOf }],
+                rules: [, , , , , { oneOf }],
             },
         } = config;
         const babelLoader = oneOf.find(({ test }) =>

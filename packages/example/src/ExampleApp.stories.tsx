@@ -1,8 +1,11 @@
 import React, { FC, ReactNode } from "react";
 // NOTE only use compiled versions, i.e. from lib! To get a good idea of what use of the modules looks like
 import StreamPlayer from "@mdworld/homeremote-stream-player";
+import { DockerListMod } from "@mdworld/homeremote-dockerlist";
 import { Meta } from "@storybook/react";
 import "./storybookStyles.css";
+
+const DockerList = DockerListMod.make;
 
 export default {
     title: `ExampleApp`,
@@ -46,5 +49,13 @@ export const Default = (): ReactNode => (
             from this monorepo.
         </p>
         <StreamPlayer url={url} />
+        <DockerList
+            url="http://localhost:3100"
+            onError={(err) => alert("some error has occurred" + err)}
+            confirmButtonStyle={{
+                backgroundColor: "#1a237e",
+                color: "white",
+            }}
+        />
     </Wrapper>
 );

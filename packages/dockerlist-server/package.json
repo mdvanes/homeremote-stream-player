@@ -1,0 +1,21 @@
+{
+  "name": "@mdworld/homeremote-dockerlist-server",
+  "version": "1.7.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "got": "^11.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdvanes/homeremote-plugins.git"
+  },
+  "main": "./lib/DockerListAPI.js",
+  "types": "./lib/DockerListAPI.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc src/DockerListAPI.ts --outDir lib -d"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

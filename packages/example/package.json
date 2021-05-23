@@ -1,9 +1,10 @@
 {
   "name": "example",
-  "version": "1.6.3",
+  "version": "1.7.1",
   "private": true,
   "dependencies": {
-    "@mdworld/homeremote-stream-player": "^1.6.3"
+    "@mdworld/homeremote-dockerlist": "^1.7.1",
+    "@mdworld/homeremote-stream-player": "^1.7.0"
   },
   "scripts": {
     "start": "node server.js",

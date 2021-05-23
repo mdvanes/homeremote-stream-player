@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DockerList client can stop running container 1`] = `
+<button
+  class="  "
+>
+  <h1>
+    determined_edison
+  </h1>
+  <p>
+    Up 2 days
+  </p>
+</button>
+`;
+
+exports[`DockerList client can stop running container 2`] = `
+<div>
+  <div>
+    <div>
+      <button
+        class="  "
+      >
+        <h1>
+          determined_edison
+        </h1>
+        <p>
+          Up 2 days
+        </p>
+      </button>
+      <dialog>
+        <p>
+          Do you want to stop determined_edison?
+        </p>
+        <div>
+          <button>
+            cancel
+          </button>
+          <button
+            style="background-color: darkblue; color: white;"
+          >
+            OK
+          </button>
+        </div>
+      </dialog>
+      <button
+        class=" "
+      >
+        <h1>
+          tinycors
+        </h1>
+        <p>
+          Exited (2) 13 hours ago
+        </p>
+      </button>
+      <dialog>
+        <p>
+          Do you want to start tinycors?
+        </p>
+        <div>
+          <button>
+            cancel
+          </button>
+          <button
+            style="background-color: darkblue; color: white;"
+          >
+            OK
+          </button>
+        </div>
+      </dialog>
+      <button
+        class=" "
+      >
+        <h1>
+          hello_world
+        </h1>
+        <p>
+          Exited (0) 17 hours ago
+        </p>
+      </button>
+      <dialog>
+        <p>
+          Do you want to start hello_world?
+        </p>
+        <div>
+          <button>
+            cancel
+          </button>
+          <button
+            style="background-color: darkblue; color: white;"
+          >
+            OK
+          </button>
+        </div>
+      </dialog>
+    </div>
+  </div>
+</div>
+`;

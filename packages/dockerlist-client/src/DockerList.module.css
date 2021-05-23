@@ -1,0 +1,84 @@
+.root {
+    background-color: white;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+h1 {
+    font-family: sans-serif;
+}
+
+.mui-button {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+        0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+    font-size: 0.93rem;
+    padding: 8px 22px;
+    transition: background-color 200ms;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #e0e0e0;
+}
+
+.mui-button:hover {
+    background-color: #777;
+    transition: background-color 500ms;
+}
+
+.button-success {
+    color: #fff;
+    background-color: #4caf50; /*   #1976d2; */
+}
+
+.button-success:hover {
+    background-color: #357a38;
+}
+
+.button-error {
+    /* color: rgba(0, 0, 0, 0.87); */
+    background-color: #f44336; /* #aa2e25 */
+}
+
+.button-list {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.button-list-item {
+    flex-grow: 1;
+    font-size: 0.7rem;
+}
+
+.button-list-item > h1 {
+    font-size: 0.8rem;
+}
+
+/* .off {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #e0e0e0;
+} */
+
+.image {
+    height: 200px;
+}
+
+dialog {
+    border: none;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.87);
+}
+
+dialog p {
+    font-family: sans-serif;
+}
+
+dialog .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
