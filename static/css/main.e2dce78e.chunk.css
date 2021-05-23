@@ -1,3 +1,94 @@
+.DockerList_root__14b0B {
+    background-color: white;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+h1 {
+    font-family: sans-serif;
+}
+
+.DockerList_mui-button__ZqsmO {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+        0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+    font-size: 0.93rem;
+    padding: 8px 22px;
+    transition: background-color 200ms;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #e0e0e0;
+}
+
+.DockerList_mui-button__ZqsmO:hover {
+    background-color: #777;
+    transition: background-color 500ms;
+}
+
+.DockerList_button-success__yJcNF {
+    color: #fff;
+    background-color: #4caf50; /*   #1976d2; */
+}
+
+.DockerList_button-success__yJcNF:hover {
+    background-color: #357a38;
+}
+
+.DockerList_button-error__bzI28 {
+    /* color: rgba(0, 0, 0, 0.87); */
+    background-color: #f44336; /* #aa2e25 */
+}
+
+.DockerList_button-list__3NyPF {
+    display: flex;
+    grid-gap: 0.5rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.DockerList_button-list-item__1qmSp {
+    flex-grow: 1;
+    font-size: 0.7rem;
+}
+
+.DockerList_button-list-item__1qmSp > h1 {
+    font-size: 0.8rem;
+}
+
+/* .off {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #e0e0e0;
+} */
+
+.DockerList_image__1hO-L {
+    height: 200px;
+}
+
+dialog {
+    border: none;
+}
+
+dialog::-webkit-backdrop {
+    background: rgba(0, 0, 0, 0.87);
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.87);
+}
+
+dialog p {
+    font-family: sans-serif;
+}
+
+dialog .DockerList_dialog-actions__sqipT {
+    display: flex;
+    justify-content: flex-end;
+    grid-gap: 0.5rem;
+    gap: 0.5rem;
+}
+
 /* NOTE these styles are loaded by all Storybook stories */
 
 html,
@@ -150,4 +241,4 @@ select {
 }
 
 
-/*# sourceMappingURL=main.2ad64526.chunk.css.map*/
+/*# sourceMappingURL=main.e2dce78e.chunk.css.map*/
