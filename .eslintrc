@@ -9,6 +9,7 @@
         "prettier/react",
         "plugin:jest/recommended"
     ],
+    "ignorePatterns": ["packages/**/src/**/*.bs.js", "packages/**/src/**/*.gen.tsx"],
     "plugins": ["@typescript-eslint", "prettier", "react", "jest"],
     "env": {
         "browser": true,

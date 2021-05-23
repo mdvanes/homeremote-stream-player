@@ -8,8 +8,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build": "echo '\n\nBUILD DISABLED FOR PACKAGE \"Example\"\n\n'",
-    "build1": "echo 'used to be: react-scripts build'"
+    "build": "echo '\n\nBUILD DISABLED FOR PACKAGE \"Example\"\n\n'"
   },
   "eslintConfig": {
     "extends": "react-app"
