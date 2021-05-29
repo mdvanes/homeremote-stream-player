@@ -89,11 +89,11 @@
         "access": "public"
     },
     "devDependencies": {
-        "gentype": "^3.50.0",
-        "rescript": "^9.1.2"
+        "gentype": "^3.50.0"
     },
     "dependencies": {
         "@rescript/react": "^0.10.3",
-        "bs-fetch": "^0.6.2"
+        "bs-fetch": "^0.6.2",
+        "rescript": "^9.1.2"
     }
 }
