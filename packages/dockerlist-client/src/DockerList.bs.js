@@ -6,6 +6,7 @@ var React = require("react");
 var Caml_option = require("rescript/lib/js/caml_option.js");
 var DockerListModuleCss = require("./DockerList.module.css");
 var DockerApi$MdworldHomeremoteDockerlist = require("./DockerApi.bs.js");
+var DockerUtil$MdworldHomeremoteDockerlist = require("./DockerUtil.bs.js");
 var DockerListItem$MdworldHomeremoteDockerlist = require("./DockerListItem.bs.js");
 
 var styles = DockerListModuleCss;
@@ -39,7 +40,7 @@ function DockerList$DockerListMod(Props) {
                     
                   });
         }), []);
-  var dockerContainersElems = match[0].map(function (dockerContainer) {
+  var dockerContainersElems = match[0].sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).map(function (dockerContainer) {
         return React.createElement(DockerListItem$MdworldHomeremoteDockerlist.make, {
                     url: url,
                     container: dockerContainer,
@@ -51,9 +52,9 @@ function DockerList$DockerListMod(Props) {
       });
   return React.createElement("div", {
               className: styles.root
-            }, React.createElement("div", {
+            }, React.createElement("table", {
                   className: styles["button-list"]
-                }, dockerContainersElems));
+                }, React.createElement("thead", undefined, React.createElement("tr", undefined, React.createElement("th", undefined, "State"), React.createElement("th", undefined, "Name"), React.createElement("th", undefined, "Status"))), React.createElement("tbody", undefined, dockerContainersElems)));
 }
 
 var DockerListMod = {

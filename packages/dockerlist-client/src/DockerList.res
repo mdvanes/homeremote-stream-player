@@ -7,7 +7,7 @@
 
 // Workaround: when ReactDom.Style.ts is used directly, it will create an import in Dockerlist.gen.tsx that can't be resolved. It might be fixible with shims, but I don't know how.
 @genType.opaque
-type rdStyleT = ReactDOM.Style.t;
+type rdStyleT = ReactDOM.Style.t
 
 module DockerListMod = {
   @genType @react.component
@@ -49,6 +49,7 @@ module DockerListMod = {
 
     let dockerContainersElems =
       containers
+      ->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)
       ->Js.Array2.map(dockerContainer =>
         <DockerListItem
           key={dockerContainer["Id"]}
@@ -62,7 +63,16 @@ module DockerListMod = {
       ->React.array
 
     <div className={styles["root"]}>
-      <div className={styles["button-list"]}> dockerContainersElems </div>
+      <table className={styles["button-list"]}>
+        <thead>
+          <tr>
+            <th> {"State"->React.string} </th>
+            <th> {"Name"->React.string} </th>
+            <th> {"Status"->React.string} </th>
+          </tr>
+        </thead>
+        <tbody> dockerContainersElems </tbody>
+      </table>
     </div>
   }
 }

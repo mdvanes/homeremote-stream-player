@@ -44,36 +44,36 @@ function DockerListItem(Props) {
   var name = container.Names.map(function (name) {
           return name.slice(1);
         }).join(" ");
-  return React.createElement(ButtonWithConfirm$MdworldHomeremoteDockerlist.make, {
-              onClick: isRunning ? (function (param) {
-                    DockerApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
-                            return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
-                          }).then(function (containerList) {
-                          Curry._1(setContainers, (function (_prev) {
-                                  return containerList;
-                                }));
-                          return Promise.resolve(containerList);
-                        });
-                    
-                  }) : (function (param) {
-                    var __x = DockerApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError);
-                    var __x$1 = __x.then(function (_response) {
-                          return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
-                        });
-                    __x$1.then(function (containerList) {
-                          Curry._1(setContainers, (function (_prev) {
-                                  return containerList;
-                                }));
-                          return Promise.resolve(containerList);
-                        });
-                    
-                  }),
-              question: isRunning ? "Do you want to stop " + name + "?" : "Do you want to start " + name + "?",
-              className: className,
-              confirmButtonStyle: confirmButtonStyle,
-              children: null,
-              key: id
-            }, React.createElement("h1", undefined, name), React.createElement("p", undefined, container.Status));
+  return React.createElement("tr", undefined, React.createElement("td", undefined, React.createElement(ButtonWithConfirm$MdworldHomeremoteDockerlist.make, {
+                      onClick: isRunning ? (function (param) {
+                            DockerApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
+                                    return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+                                  }).then(function (containerList) {
+                                  Curry._1(setContainers, (function (_prev) {
+                                          return containerList;
+                                        }));
+                                  return Promise.resolve(containerList);
+                                });
+                            
+                          }) : (function (param) {
+                            var __x = DockerApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError);
+                            var __x$1 = __x.then(function (_response) {
+                                  return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+                                });
+                            __x$1.then(function (containerList) {
+                                  Curry._1(setContainers, (function (_prev) {
+                                          return containerList;
+                                        }));
+                                  return Promise.resolve(containerList);
+                                });
+                            
+                          }),
+                      question: isRunning ? "Do you want to stop " + name + "?" : "Do you want to start " + name + "?",
+                      className: className,
+                      confirmButtonStyle: confirmButtonStyle,
+                      children: container.State,
+                      key: id
+                    })), React.createElement("td", undefined, name), React.createElement("td", undefined, container.Status));
 }
 
 var make = DockerListItem;

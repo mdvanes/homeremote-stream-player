@@ -41,12 +41,9 @@ let make = (
     // -> Js.Promise.then_(_response => {
     //   DockerApi.getDockerList(url, onError)
     // }, _)```
-    let _ =
-      DockerApi.startContainer(url, id, onError)
-      -> Js.Promise.then_(_response => {
+    let _ = DockerApi.startContainer(url, id, onError)->Js.Promise.then_(_response => {
         DockerApi.getDockerList(url, onError)
-      }, _)
-      -> Js.Promise.then_(containerList => {
+      }, _)->Js.Promise.then_(containerList => {
         setContainers(_prev => containerList)
         Js.Promise.resolve(containerList)
       }, _)
@@ -69,20 +66,28 @@ let make = (
     ->Js.Array2.map(name => Js.String2.sliceToEnd(name, ~from=1))
     ->Js.Array2.joinWith(" ")
 
-  <ButtonWithConfirm
-    key={id}
-    onClick={if isRunning {
-      stopContainerAndUpdate(id)
-    } else {
-      startContainerAndUpdate(id)
-    }}
-    className={className}
-    question={if isRunning {
-      `Do you want to stop ${name}?`
-    } else {
-      `Do you want to start ${name}?`
-    }}
-    confirmButtonStyle={confirmButtonStyle}>
-    <h1> {name->React.string} </h1> <p> {container["Status"]} </p>
-  </ButtonWithConfirm>
+  <tr>
+    <td>
+      <ButtonWithConfirm
+        key={id}
+        onClick={if isRunning {
+          stopContainerAndUpdate(id)
+        } else {
+          startContainerAndUpdate(id)
+        }}
+        className={className}
+        question={if isRunning {
+          `Do you want to stop ${name}?`
+        } else {
+          `Do you want to start ${name}?`
+        }}
+        confirmButtonStyle={confirmButtonStyle}>
+        {container["State"]->React.string}
+      </ButtonWithConfirm>
+    </td>
+    <td>
+      {name->React.string}
+    </td>
+    <td> {container["Status"]} </td>
+  </tr>
 }
