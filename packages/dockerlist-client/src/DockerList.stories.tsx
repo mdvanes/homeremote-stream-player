@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { action } from "@storybook/addon-actions";
-import { DockerListMod } from "./DockerList.gen";
+import { DockerListMod, rdStyleT } from "./DockerList.gen";
 import packageJson from "../package.json";
 import { BreakpointWrapper } from "../../../helpers";
 
@@ -11,6 +11,17 @@ export default {
     component: DockerList,
 };
 
+class RdStyleT extends rdStyleT {
+    backgroundColor: string;
+    color: string;
+    opaque: null;
+}
+
+const confirmButtonStyle = new RdStyleT();
+
+confirmButtonStyle.backgroundColor = "#1a237e";
+confirmButtonStyle.color = "white";
+
 const url =
     process.env.STORYBOOK_MODE === "PROD"
         ? `https://${window.location.host}/${window.top.location.pathname}`
@@ -18,11 +29,18 @@ const url =
 
 export const Default = ({ width }: { width: number }): ReactNode => (
     <BreakpointWrapper width={width}>
-        <DockerList
-            url={url}
-            onError={action("some error has occurred")}
-            confirmButtonStyle={{ backgroundColor: "#1a237e", color: "white" }}
-        />
+        <div
+            style={{
+                backgroundColor: "white",
+                borderRadius: 4,
+            }}
+        >
+            <DockerList
+                url={url}
+                onError={action("some error has occurred")}
+                confirmButtonStyle={confirmButtonStyle}
+            />
+        </div>
     </BreakpointWrapper>
 );
 

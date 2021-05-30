@@ -1,7 +1,4 @@
 .root {
-    /* TODO move card like styles to storybook?____ */
-    background-color: white;
-    border-radius: 4px; 
     font-family: "Roboto";
     padding: 0.5rem 0;
 }
