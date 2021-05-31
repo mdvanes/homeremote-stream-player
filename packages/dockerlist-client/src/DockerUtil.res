@@ -36,7 +36,7 @@ type dockerContainer = {
   "Id": string,
   "Names": Js.Array2.t<Js.String2.t>,
   "State": string,
-  "Status": React.element
+  "Status": React.element,
 }
 
 type dockerListResponse = {
@@ -73,8 +73,8 @@ let toClassName = (input: array<classNameItem>): string =>
 /* Compare function for objects of type dockerContainer */
 
 let compareDockerContainer = (c1: dockerContainer, c2: dockerContainer) => {
-  let name1 = c1["Names"][0];
-  let name2 = c2["Names"][0];
+  let name1 = c1["Names"][0]
+  let name2 = c2["Names"][0]
   if name1 < name2 {
     -1
   } else if name1 > name2 {

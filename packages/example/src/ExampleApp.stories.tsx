@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from "react";
 import { action } from "@storybook/addon-actions";
 // NOTE only use compiled versions, i.e. from lib! To get a good idea of what use of the modules looks like
 import StreamPlayer from "@mdworld/homeremote-stream-player";
-import { DockerListMod } from "@mdworld/homeremote-dockerlist";
+import { DockerListMod, reactDomStyleT } from "@mdworld/homeremote-dockerlist";
 import { Meta } from "@storybook/react";
 import "./storybookStyles.css";
 
@@ -42,6 +42,13 @@ const url =
         ? `https://${window.location.host}/${window.top.location.pathname}`
         : "http://localhost:3100";
 
+type SomeStyle = Record<string, string>; // Alternatively, use a type from Material UI
+
+const style: SomeStyle = {
+    backgroundColor: "#1a237e",
+    color: "white",
+};
+
 export const Default = (): ReactNode => (
     <Wrapper>
         <h1 className="reset">Example App</h1>
@@ -53,10 +60,7 @@ export const Default = (): ReactNode => (
         <DockerList
             url={url}
             onError={action("some error has occurred")}
-            confirmButtonStyle={{
-                backgroundColor: "#1a237e",
-                color: "white",
-            }}
+            confirmButtonStyle={(style as unknown) as reactDomStyleT}
         />
     </Wrapper>
 );

@@ -7,14 +7,14 @@
 
 // Workaround: when ReactDom.Style.ts is used directly, it will create an import in Dockerlist.gen.tsx that can't be resolved. It might be fixible with shims, but I don't know how.
 @genType.opaque
-type rdStyleT = ReactDOM.Style.t
+type reactDomStyleT = ReactDOM.Style.t
 
 module DockerListMod = {
   @genType @react.component
   let make = (
     ~url: string,
     ~onError: string => unit,
-    ~confirmButtonStyle: rdStyleT=ReactDOM.Style.make(
+    ~confirmButtonStyle: reactDomStyleT=ReactDOM.Style.make(
       ~backgroundColor="darkblue",
       ~color="white",
       (),
