@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { DockerListMod } from "./DockerList.bs";
 
 // TODO convert to bs-jest?
@@ -42,25 +42,22 @@ global.fetch = jest.fn().mockResolvedValue({
 describe("DockerList client", () => {
     it("renders buttons for each docker container", async () => {
         render(<DockerList url={"some_url"} />);
-        await waitFor(() => {
-            screen.getByText("determined_edison");
-        });
+        await screen.findByText("determined_edison");
         expect(screen.getAllByRole("button").length).toBe(3);
     });
 
     it("can stop running container", async () => {
         const { container } = render(<DockerList url={"some_url"} />);
 
-        await waitFor(() => {
-            screen.getByText("determined_edison");
-        });
+        // Note: find instead of waitFor(await getByText("determined_edison"))
+        await screen.findByText("determined_edison");
 
         expect(
             screen.getByRole("button", {
-                name: /determined_edison up 2 days/i,
-            })
-        ).toMatchSnapshot();
+                name: "running",
+            }).parentNode
+        ).toMatchSnapshot("button wrapper");
 
-        expect(container).toMatchSnapshot();
+        expect(container).toMatchSnapshot("container");
     });
 });

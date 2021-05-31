@@ -1,98 +1,140 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DockerList client can stop running container 1`] = `
-<button
-  class="  "
->
-  <h1>
-    determined_edison
-  </h1>
-  <p>
-    Up 2 days
-  </p>
-</button>
+exports[`DockerList client can stop running container: button wrapper 1`] = `
+<td>
+  <button
+    class="  "
+  >
+    running
+  </button>
+  <dialog>
+    <p>
+      Do you want to stop determined_edison?
+    </p>
+    <div>
+      <button>
+        cancel
+      </button>
+      <button
+        style="background-color: darkblue; color: white;"
+      >
+        OK
+      </button>
+    </div>
+  </dialog>
+</td>
 `;
 
-exports[`DockerList client can stop running container 2`] = `
+exports[`DockerList client can stop running container: container 1`] = `
 <div>
   <div>
-    <div>
-      <button
-        class="  "
-      >
-        <h1>
-          determined_edison
-        </h1>
-        <p>
-          Up 2 days
-        </p>
-      </button>
-      <dialog>
-        <p>
-          Do you want to stop determined_edison?
-        </p>
-        <div>
-          <button>
-            cancel
-          </button>
-          <button
-            style="background-color: darkblue; color: white;"
-          >
-            OK
-          </button>
-        </div>
-      </dialog>
-      <button
-        class=" "
-      >
-        <h1>
-          tinycors
-        </h1>
-        <p>
-          Exited (2) 13 hours ago
-        </p>
-      </button>
-      <dialog>
-        <p>
-          Do you want to start tinycors?
-        </p>
-        <div>
-          <button>
-            cancel
-          </button>
-          <button
-            style="background-color: darkblue; color: white;"
-          >
-            OK
-          </button>
-        </div>
-      </dialog>
-      <button
-        class=" "
-      >
-        <h1>
-          hello_world
-        </h1>
-        <p>
-          Exited (0) 17 hours ago
-        </p>
-      </button>
-      <dialog>
-        <p>
-          Do you want to start hello_world?
-        </p>
-        <div>
-          <button>
-            cancel
-          </button>
-          <button
-            style="background-color: darkblue; color: white;"
-          >
-            OK
-          </button>
-        </div>
-      </dialog>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>
+            State
+          </th>
+          <th>
+            Name
+          </th>
+          <th>
+            Status
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <button
+              class="  "
+            >
+              running
+            </button>
+            <dialog>
+              <p>
+                Do you want to stop determined_edison?
+              </p>
+              <div>
+                <button>
+                  cancel
+                </button>
+                <button
+                  style="background-color: darkblue; color: white;"
+                >
+                  OK
+                </button>
+              </div>
+            </dialog>
+          </td>
+          <td>
+            determined_edison
+          </td>
+          <td>
+            Up 2 days
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button
+              class=" "
+            >
+              exited
+            </button>
+            <dialog>
+              <p>
+                Do you want to start hello_world?
+              </p>
+              <div>
+                <button>
+                  cancel
+                </button>
+                <button
+                  style="background-color: darkblue; color: white;"
+                >
+                  OK
+                </button>
+              </div>
+            </dialog>
+          </td>
+          <td>
+            hello_world
+          </td>
+          <td>
+            Exited (0) 17 hours ago
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button
+              class=" "
+            >
+              exited
+            </button>
+            <dialog>
+              <p>
+                Do you want to start tinycors?
+              </p>
+              <div>
+                <button>
+                  cancel
+                </button>
+                <button
+                  style="background-color: darkblue; color: white;"
+                >
+                  OK
+                </button>
+              </div>
+            </dialog>
+          </td>
+          <td>
+            tinycors
+          </td>
+          <td>
+            Exited (2) 13 hours ago
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 `;
