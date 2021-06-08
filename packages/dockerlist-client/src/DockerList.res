@@ -16,13 +16,17 @@ let renderAsItem = (setSelectedContainer, dockerContainer) =>
     onSelect={c => setSelectedContainer(_prev => c)}
   />
 
-let renderListCreator = (setSelectedContainer, arr: array<DockerUtil.dockerContainer>): React.element => arr->Js.Array2.map(renderAsItem(setSelectedContainer))->React.array
+let renderListCreator = (
+  setSelectedContainer,
+  arr: array<DockerUtil.dockerContainer>,
+): React.element => arr->Js.Array2.map(renderAsItem(setSelectedContainer))->React.array
 
 module DockerListMod = {
   @genType @react.component
   let make = (~url: string, ~onError: string => unit) => {
     let update_interval_ms = 60000
 
+    let (isLoading, setIsLoading) = React.useState(_ => false)
     let (containers, setContainers) = React.useState(_ => [])
     let (selectedContainer, setSelectedContainer) = React.useState(_ => DockerUtil.NoContainer)
 
@@ -30,12 +34,14 @@ module DockerListMod = {
     React.useEffect0(() => {
       open Js.Promise
       let update = () => {
-        DockerApi.getDockerList(url, onError)
-        -> then_(containerList => {
+        setIsLoading(_prev => true)
+        DockerApi.getDockerList(url, onError)->then_(containerList => {
           setContainers(_prev => containerList)
           resolve(containerList)
-        }, _)
-        -> ignore
+        }, _)->then_(containerList => {
+          setIsLoading(_prev => false)
+          resolve(containerList)
+        }, _)->ignore
       }
 
       update()
@@ -64,11 +70,18 @@ module DockerListMod = {
 
     let renderList = renderListCreator(setSelectedContainer)
 
+    let progressSpacer = <MaterialUi_Box height={MaterialUi_Box.Value.string("4px")} />
+
+    let progress = if isLoading {
+      <MaterialUi_LinearProgress />
+    } else {
+      progressSpacer
+    }
+
     <div className={styles["root"]}>
+      <MaterialUi_List> {progress} {containersFirstHalf->renderList} </MaterialUi_List>
       <MaterialUi_List>
-        {containersFirstHalf->renderList}
-      </MaterialUi_List>
-      <MaterialUi_List>
+        {progressSpacer}
         {containersSecondHalf->renderList}
       </MaterialUi_List>
       <Dialog

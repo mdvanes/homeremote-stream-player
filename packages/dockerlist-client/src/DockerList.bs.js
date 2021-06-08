@@ -3,6 +3,7 @@
 
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
+var MaterialUi_Box = require("@jsiebern/bs-material-ui/src/MaterialUi_Box.bs.js");
 var Core = require("@material-ui/core");
 var DockerListModuleCss = require("./DockerList.module.css");
 var Dialog$MdworldHomeremoteDockerlist = require("./Dialog.bs.js");
@@ -34,20 +35,33 @@ function DockerList$DockerListMod(Props) {
   var url = Props.url;
   var onError = Props.onError;
   var match = React.useState(function () {
+        return false;
+      });
+  var setIsLoading = match[1];
+  var match$1 = React.useState(function () {
         return [];
       });
-  var setContainers = match[1];
-  var containers = match[0];
-  var match$1 = React.useState(function () {
+  var setContainers = match$1[1];
+  var containers = match$1[0];
+  var match$2 = React.useState(function () {
         return /* NoContainer */0;
       });
-  var setSelectedContainer = match$1[1];
+  var setSelectedContainer = match$2[1];
   React.useEffect((function () {
           var update = function (param) {
+            Curry._1(setIsLoading, (function (_prev) {
+                    return true;
+                  }));
             var __x = DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
-            __x.then(function (containerList) {
+            var __x$1 = __x.then(function (containerList) {
                   Curry._1(setContainers, (function (_prev) {
                           return containerList;
+                        }));
+                  return Promise.resolve(containerList);
+                });
+            __x$1.then(function (containerList) {
+                  Curry._1(setIsLoading, (function (_prev) {
+                          return false;
                         }));
                   return Promise.resolve(containerList);
                 });
@@ -64,14 +78,18 @@ function DockerList$DockerListMod(Props) {
   var middleIndex = nrOfContainers / 2 | 0;
   var containersFirstHalf = containers.sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).slice(0, middleIndex);
   var containersSecondHalf = containers.sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).slice(middleIndex);
+  var progressSpacer = React.createElement(Core.Box, {
+        height: MaterialUi_Box.Value.string("4px")
+      });
+  var progress = match[0] ? React.createElement(Core.LinearProgress, {}) : progressSpacer;
   return React.createElement("div", {
               className: styles.root
             }, React.createElement(Core.List, {
-                  children: renderListCreator(setSelectedContainer, containersFirstHalf)
-                }), React.createElement(Core.List, {
-                  children: renderListCreator(setSelectedContainer, containersSecondHalf)
-                }), React.createElement(Dialog$MdworldHomeremoteDockerlist.make, {
-                  container: match$1[0],
+                  children: null
+                }, progress, renderListCreator(setSelectedContainer, containersFirstHalf)), React.createElement(Core.List, {
+                  children: null
+                }, progressSpacer, renderListCreator(setSelectedContainer, containersSecondHalf)), React.createElement(Dialog$MdworldHomeremoteDockerlist.make, {
+                  container: match$2[0],
                   toggleContainerState: DockerApi$MdworldHomeremoteDockerlist.toggleContainerStateCreator(setContainers, url, onError),
                   close: (function (param) {
                       return Curry._1(setSelectedContainer, (function (_prev) {
