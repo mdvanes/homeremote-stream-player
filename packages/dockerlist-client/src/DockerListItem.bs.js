@@ -4,6 +4,8 @@
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
 var DockerListModuleCss = require("./DockerList.module.css");
+var SVGCheck$MdworldHomeremoteDockerlist = require("./Svgs/SVGCheck.bs.js");
+var SVGCross$MdworldHomeremoteDockerlist = require("./Svgs/SVGCross.bs.js");
 var DockerApi$MdworldHomeremoteDockerlist = require("./DockerApi.bs.js");
 var DockerUtil$MdworldHomeremoteDockerlist = require("./DockerUtil.bs.js");
 var ButtonWithConfirm$MdworldHomeremoteDockerlist = require("./ButtonWithConfirm.bs.js");
@@ -32,11 +34,6 @@ function DockerListItem(Props) {
         },
         {
           TAG: /* NameOn */1,
-          _0: styles["button-success"],
-          _1: isRunning
-        },
-        {
-          TAG: /* NameOn */1,
           _0: styles["button-error"],
           _1: isUnexpected
         }
@@ -44,6 +41,14 @@ function DockerListItem(Props) {
   var name = container.Names.map(function (name) {
           return name.slice(1);
         }).join(" ");
+  var prefix = isRunning ? "" : React.createElement(SVGCross$MdworldHomeremoteDockerlist.make, {
+          width: "30",
+          fill: "#f44336"
+        });
+  var suffix = isRunning ? React.createElement(SVGCheck$MdworldHomeremoteDockerlist.make, {
+          width: "30",
+          fill: "#4caf50"
+        }) : "";
   return React.createElement("tr", undefined, React.createElement("td", undefined, React.createElement(ButtonWithConfirm$MdworldHomeremoteDockerlist.make, {
                       onClick: isRunning ? (function (param) {
                             DockerApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
@@ -68,12 +73,13 @@ function DockerListItem(Props) {
                                 });
                             
                           }),
+                      status: name + ": " + container.State + ". " + container.Status,
                       question: isRunning ? "Do you want to stop " + name + "?" : "Do you want to start " + name + "?",
                       className: className,
                       confirmButtonStyle: confirmButtonStyle,
-                      children: container.State,
+                      children: null,
                       key: id
-                    })), React.createElement("td", undefined, name), React.createElement("td", undefined, container.Status));
+                    }, prefix, React.createElement("span", undefined, container.State), suffix)), React.createElement("td", undefined, name));
 }
 
 var make = DockerListItem;

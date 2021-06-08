@@ -23,7 +23,7 @@ let make = (
   let className = DockerUtil.toClassName([
     Name(styles["button-list-item"]),
     Name(styles["mui-button"]),
-    NameOn(styles["button-success"], isRunning),
+    // NameOn(styles["button-success"], isRunning),
     NameOn(styles["button-error"], isUnexpected),
   ])
 
@@ -66,6 +66,18 @@ let make = (
     ->Js.Array2.map(name => Js.String2.sliceToEnd(name, ~from=1))
     ->Js.Array2.joinWith(" ")
 
+  let prefix = if isRunning {
+    ""->React.string
+  } else {
+    <SVGCross fill="#f44336" width="30" />
+  }
+
+  let suffix = if isRunning {
+    <SVGCheck fill="#4caf50" width="30" />
+  } else {
+    ""->React.string
+  }
+
   <tr>
     <td>
       <ButtonWithConfirm
@@ -76,18 +88,18 @@ let make = (
           startContainerAndUpdate(id)
         }}
         className={className}
+        status={`${name}: ${container["State"]}. ${container["Status"]}`}
         question={if isRunning {
+          // TODO use Status instead of State. Fix breakline
           `Do you want to stop ${name}?`
         } else {
           `Do you want to start ${name}?`
         }}
         confirmButtonStyle={confirmButtonStyle}>
-        {container["State"]->React.string}
+        {prefix} <span> {container["State"]->React.string} </span> {suffix}
       </ButtonWithConfirm>
     </td>
-    <td>
-      {name->React.string}
-    </td>
-    <td> {container["Status"]} </td>
+    <td> {name->React.string} </td>
+    // <td> {container["Status"]} </td>
   </tr>
 }

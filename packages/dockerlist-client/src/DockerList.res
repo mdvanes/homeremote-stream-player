@@ -47,31 +47,80 @@ module DockerListMod = {
       )
     })
 
-    let dockerContainersElems =
+    // let dockerContainersElems =
+    //   containers
+    //   ->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)
+    //   ->Js.Array2.map(dockerContainer =>
+    //     <DockerListItem
+    //       key={dockerContainer["Id"]}
+    //       url={url}
+    //       container={dockerContainer}
+    //       setContainers={setContainers}
+    //       confirmButtonStyle={confirmButtonStyle}
+    //       onError={onError}
+    //     />
+    //   )
+    //   ->React.array
+
+    let nrOfContainers =
+      containers->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)->Belt.Array.length
+    let middleIndex = nrOfContainers / 2
+    let containersFirstHalf =
       containers
       ->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)
-      ->Js.Array2.map(dockerContainer =>
-        <DockerListItem
-          key={dockerContainer["Id"]}
-          url={url}
-          container={dockerContainer}
-          setContainers={setContainers}
-          confirmButtonStyle={confirmButtonStyle}
-          onError={onError}
-        />
-      )
-      ->React.array
+      ->Js.Array2.slice(~start=0, ~end_=middleIndex)
+    let containersSecondHalf =
+      containers
+      ->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)
+      ->Js.Array2.sliceFrom(middleIndex)
 
     <div className={styles["root"]}>
+      <MaterialUi_Typography> {"Some example text"->React.string} </MaterialUi_Typography>
       <table className={styles["button-list"]}>
         <thead>
           <tr>
             <th> {"State"->React.string} </th>
             <th> {"Name"->React.string} </th>
-            <th> {"Status"->React.string} </th>
+            // <th> {"Status"->React.string} </th>
           </tr>
         </thead>
-        <tbody> dockerContainersElems </tbody>
+        <tbody>
+          {containersFirstHalf
+          ->Js.Array2.map(dockerContainer =>
+            <DockerListItem
+              key={dockerContainer["Id"]}
+              url={url}
+              container={dockerContainer}
+              setContainers={setContainers}
+              confirmButtonStyle={confirmButtonStyle}
+              onError={onError}
+            />
+          )
+          ->React.array}
+        </tbody>
+      </table>
+      <table className={styles["button-list"]}>
+        <thead>
+          <tr>
+            <th> {"State"->React.string} </th>
+            <th> {"Name"->React.string} </th>
+            // <th> {"Status"->React.string} </th>
+          </tr>
+        </thead>
+        <tbody>
+          {containersSecondHalf
+          ->Js.Array2.map(dockerContainer =>
+            <DockerListItem
+              key={dockerContainer["Id"]}
+              url={url}
+              container={dockerContainer}
+              setContainers={setContainers}
+              confirmButtonStyle={confirmButtonStyle}
+              onError={onError}
+            />
+          )
+          ->React.array}
+        </tbody>
       </table>
     </div>
   }

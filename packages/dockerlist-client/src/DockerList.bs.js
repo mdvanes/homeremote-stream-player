@@ -4,6 +4,7 @@
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
 var Caml_option = require("rescript/lib/js/caml_option.js");
+var Core = require("@material-ui/core");
 var DockerListModuleCss = require("./DockerList.module.css");
 var DockerApi$MdworldHomeremoteDockerlist = require("./DockerApi.bs.js");
 var DockerUtil$MdworldHomeremoteDockerlist = require("./DockerUtil.bs.js");
@@ -23,6 +24,7 @@ function DockerList$DockerListMod(Props) {
         return [];
       });
   var setContainers = match[1];
+  var containers = match[0];
   React.useEffect((function () {
           var update = function (param) {
             DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError).then(function (containerList) {
@@ -40,21 +42,37 @@ function DockerList$DockerListMod(Props) {
                     
                   });
         }), []);
-  var dockerContainersElems = match[0].sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).map(function (dockerContainer) {
-        return React.createElement(DockerListItem$MdworldHomeremoteDockerlist.make, {
-                    url: url,
-                    container: dockerContainer,
-                    setContainers: setContainers,
-                    confirmButtonStyle: confirmButtonStyle,
-                    onError: onError,
-                    key: dockerContainer.Id
-                  });
-      });
+  var nrOfContainers = containers.sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).length;
+  var middleIndex = nrOfContainers / 2 | 0;
+  var containersFirstHalf = containers.sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).slice(0, middleIndex);
+  var containersSecondHalf = containers.sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).slice(middleIndex);
   return React.createElement("div", {
               className: styles.root
-            }, React.createElement("table", {
+            }, React.createElement(Core.Typography, {
+                  children: "Some example text"
+                }), React.createElement("table", {
                   className: styles["button-list"]
-                }, React.createElement("thead", undefined, React.createElement("tr", undefined, React.createElement("th", undefined, "State"), React.createElement("th", undefined, "Name"), React.createElement("th", undefined, "Status"))), React.createElement("tbody", undefined, dockerContainersElems)));
+                }, React.createElement("thead", undefined, React.createElement("tr", undefined, React.createElement("th", undefined, "State"), React.createElement("th", undefined, "Name"))), React.createElement("tbody", undefined, containersFirstHalf.map(function (dockerContainer) {
+                          return React.createElement(DockerListItem$MdworldHomeremoteDockerlist.make, {
+                                      url: url,
+                                      container: dockerContainer,
+                                      setContainers: setContainers,
+                                      confirmButtonStyle: confirmButtonStyle,
+                                      onError: onError,
+                                      key: dockerContainer.Id
+                                    });
+                        }))), React.createElement("table", {
+                  className: styles["button-list"]
+                }, React.createElement("thead", undefined, React.createElement("tr", undefined, React.createElement("th", undefined, "State"), React.createElement("th", undefined, "Name"))), React.createElement("tbody", undefined, containersSecondHalf.map(function (dockerContainer) {
+                          return React.createElement(DockerListItem$MdworldHomeremoteDockerlist.make, {
+                                      url: url,
+                                      container: dockerContainer,
+                                      setContainers: setContainers,
+                                      confirmButtonStyle: confirmButtonStyle,
+                                      onError: onError,
+                                      key: dockerContainer.Id
+                                    });
+                        }))));
 }
 
 var DockerListMod = {
