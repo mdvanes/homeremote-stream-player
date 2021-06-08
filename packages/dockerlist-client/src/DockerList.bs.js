@@ -44,7 +44,8 @@ function DockerList$DockerListMod(Props) {
   var setSelectedContainer = match$1[1];
   React.useEffect((function () {
           var update = function (param) {
-            DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError).then(function (containerList) {
+            var __x = DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+            __x.then(function (containerList) {
                   Curry._1(setContainers, (function (_prev) {
                           return containerList;
                         }));

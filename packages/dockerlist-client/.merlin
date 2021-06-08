@@ -13,6 +13,4 @@ S /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@jsiebern/bs-mate
 B /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@jsiebern/bs-material-ui/lib/ocaml
 S src
 B lib/bs/src
-S src/Svgs
-B lib/bs/src/Svgs
 ####BSB GENERATED: NO EDIT}

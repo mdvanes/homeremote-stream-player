@@ -32,7 +32,7 @@ let make = (
     ->Js.Array2.joinWith(" ")
 
   <div>
-    <ListItem button={true} onClick={_ev => onSelect(DockerContainer(container))}>
+    <ListItem button={true} dense={true} onClick={_ev => onSelect(DockerContainer(container))}>
       <ListItemIcon>
         <Checkbox
           edge={Checkbox.Edge.start} checked={isRunning} inputProps={{"aria-labelledby": id}}

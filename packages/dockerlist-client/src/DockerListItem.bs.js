@@ -28,6 +28,7 @@ function DockerListItem(Props) {
   return React.createElement("div", undefined, React.createElement(Core.ListItem, {
                   button: true,
                   children: null,
+                  dense: true,
                   onClick: (function (_ev) {
                       return Curry._1(onSelect, /* DockerContainer */{
                                   _0: container
