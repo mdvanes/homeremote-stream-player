@@ -13,20 +13,8 @@ const DockerListBS: any = DockerListBS__Es6Import;
 export abstract class reactDomStyleT { protected opaque!: any }; /* simulate opaque types */
 
 // tslint:disable-next-line:interface-over-type-literal
-export type Props = {
-  readonly confirmButtonStyle?: reactDomStyleT; 
-  readonly onError: (_1:string) => void; 
-  readonly url: string
-};
+export type Props = { readonly onError: (_1:string) => void; readonly url: string };
 
-export const DockerListMod_make: React.ComponentType<{
-  readonly confirmButtonStyle?: reactDomStyleT; 
-  readonly onError: (_1:string) => void; 
-  readonly url: string
-}> = DockerListBS.DockerListMod.make;
+export const DockerListMod_make: React.ComponentType<{ readonly onError: (_1:string) => void; readonly url: string }> = DockerListBS.DockerListMod.make;
 
-export const DockerListMod: { make: React.ComponentType<{
-  readonly confirmButtonStyle?: reactDomStyleT; 
-  readonly onError: (_1:string) => void; 
-  readonly url: string
-}> } = DockerListBS.DockerListMod
+export const DockerListMod: { make: React.ComponentType<{ readonly onError: (_1:string) => void; readonly url: string }> } = DockerListBS.DockerListMod

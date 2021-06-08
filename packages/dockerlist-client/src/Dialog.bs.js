@@ -10,7 +10,7 @@ var styles = DockerListModuleCss;
 
 var ErrorIcon = {};
 
-function getDialog(close, c) {
+function getDialog(toggleContainerState, onClose, c) {
   if (!c) {
     return React.createElement(Core.Dialog, {
                 aria_labelledby: "dockerlist-dialog-title",
@@ -18,11 +18,14 @@ function getDialog(close, c) {
               });
   }
   var container = c._0;
+  var id = container.Id;
   var state = container.State;
+  var isRunning = state === "running";
   var status = container.Status;
   var name = container.Names.map(function (name) {
           return name.slice(1);
         }).join(" ");
+  var questionPrefix = "Do you want to";
   return React.createElement(Core.Dialog, {
               aria_labelledby: "dockerlist-dialog-title",
               children: null,
@@ -31,25 +34,30 @@ function getDialog(close, c) {
                   children: name + " (" + state + ")",
                   id: "dockerlist-dialog-title"
                 }), React.createElement(Core.DialogContent, {
-                  children: React.createElement(Core.Typography, {
-                        children: status
-                      })
-                }), React.createElement(Core.DialogActions, {
+                  children: null
+                }, React.createElement(Core.Typography, {
+                      children: status
+                    }), React.createElement(Core.Typography, {
+                      children: isRunning ? questionPrefix + " stop " + name + "?" : questionPrefix + " start " + name + "?"
+                    })), React.createElement(Core.DialogActions, {
                   children: null
                 }, React.createElement(Core.Button, {
                       onClick: (function (_ev) {
-                          return Curry._1(close, undefined);
+                          return Curry._1(onClose, undefined);
                         }),
                       children: "cancel",
                       color: "secondary"
                     }), React.createElement(Core.Button, {
+                      onClick: (function (_ev) {
+                          return Curry._2(toggleContainerState, container, id);
+                        }),
                       children: "OK",
                       color: "primary"
                     })));
 }
 
 function Dialog(Props) {
-  return getDialog(Props.close, Props.container);
+  return getDialog(Props.toggleContainerState, Props.close, Props.container);
 }
 
 var make = Dialog;

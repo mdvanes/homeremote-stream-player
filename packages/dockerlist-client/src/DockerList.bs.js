@@ -3,28 +3,27 @@
 
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
-var Caml_option = require("rescript/lib/js/caml_option.js");
 var Core = require("@material-ui/core");
 var DockerListModuleCss = require("./DockerList.module.css");
+var Dialog$MdworldHomeremoteDockerlist = require("./Dialog.bs.js");
 var DockerApi$MdworldHomeremoteDockerlist = require("./DockerApi.bs.js");
 var DockerUtil$MdworldHomeremoteDockerlist = require("./DockerUtil.bs.js");
-var DockerListItem$MdworldHomeremoteDockerlist = require("./DockerListItem.bs.js");
+var DockerListItem2$MdworldHomeremoteDockerlist = require("./DockerListItem2.bs.js");
 
 var styles = DockerListModuleCss;
 
 function DockerList$DockerListMod(Props) {
   var url = Props.url;
   var onError = Props.onError;
-  var confirmButtonStyleOpt = Props.confirmButtonStyle;
-  var confirmButtonStyle = confirmButtonStyleOpt !== undefined ? Caml_option.valFromOption(confirmButtonStyleOpt) : ({
-        backgroundColor: "darkblue",
-        color: "white"
-      });
   var match = React.useState(function () {
         return [];
       });
   var setContainers = match[1];
   var containers = match[0];
+  var match$1 = React.useState(function () {
+        return /* NoContainer */0;
+      });
+  var setSelectedContainer = match$1[1];
   React.useEffect((function () {
           var update = function (param) {
             DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError).then(function (containerList) {
@@ -46,33 +45,71 @@ function DockerList$DockerListMod(Props) {
   var middleIndex = nrOfContainers / 2 | 0;
   var containersFirstHalf = containers.sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).slice(0, middleIndex);
   var containersSecondHalf = containers.sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).slice(middleIndex);
+  var toggleContainerState = function (c) {
+    var state = c.State;
+    var id = c.Id;
+    var isRunning = state === "running";
+    return function (_x) {
+      if (isRunning) {
+        DockerApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
+                return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+              }).then(function (containerList) {
+              Curry._1(setContainers, (function (_prev) {
+                      return containerList;
+                    }));
+              return Promise.resolve(containerList);
+            });
+        return ;
+      } else {
+        var __x = DockerApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError);
+        var __x$1 = __x.then(function (_response) {
+              return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+            });
+        __x$1.then(function (containerList) {
+              Curry._1(setContainers, (function (_prev) {
+                      return containerList;
+                    }));
+              return Promise.resolve(containerList);
+            });
+        return ;
+      }
+    };
+  };
   return React.createElement("div", {
               className: styles.root
-            }, React.createElement(Core.Typography, {
-                  children: "Some example text"
-                }), React.createElement("table", {
-                  className: styles["button-list"]
-                }, React.createElement("thead", undefined, React.createElement("tr", undefined, React.createElement("th", undefined, "State"), React.createElement("th", undefined, "Name"))), React.createElement("tbody", undefined, containersFirstHalf.map(function (dockerContainer) {
-                          return React.createElement(DockerListItem$MdworldHomeremoteDockerlist.make, {
-                                      url: url,
-                                      container: dockerContainer,
-                                      setContainers: setContainers,
-                                      confirmButtonStyle: confirmButtonStyle,
-                                      onError: onError,
-                                      key: dockerContainer.Id
-                                    });
-                        }))), React.createElement("table", {
-                  className: styles["button-list"]
-                }, React.createElement("thead", undefined, React.createElement("tr", undefined, React.createElement("th", undefined, "State"), React.createElement("th", undefined, "Name"))), React.createElement("tbody", undefined, containersSecondHalf.map(function (dockerContainer) {
-                          return React.createElement(DockerListItem$MdworldHomeremoteDockerlist.make, {
-                                      url: url,
-                                      container: dockerContainer,
-                                      setContainers: setContainers,
-                                      confirmButtonStyle: confirmButtonStyle,
-                                      onError: onError,
-                                      key: dockerContainer.Id
-                                    });
-                        }))));
+            }, React.createElement(Core.List, {
+                  children: containersFirstHalf.map(function (dockerContainer) {
+                        return React.createElement(DockerListItem2$MdworldHomeremoteDockerlist.make, {
+                                    container: dockerContainer,
+                                    onSelect: (function (c) {
+                                        return Curry._1(setSelectedContainer, (function (_prev) {
+                                                      return c;
+                                                    }));
+                                      }),
+                                    key: dockerContainer.Id
+                                  });
+                      })
+                }), React.createElement(Core.List, {
+                  children: containersSecondHalf.map(function (dockerContainer) {
+                        return React.createElement(DockerListItem2$MdworldHomeremoteDockerlist.make, {
+                                    container: dockerContainer,
+                                    onSelect: (function (c) {
+                                        return Curry._1(setSelectedContainer, (function (_prev) {
+                                                      return c;
+                                                    }));
+                                      }),
+                                    key: dockerContainer.Id
+                                  });
+                      })
+                }), React.createElement(Dialog$MdworldHomeremoteDockerlist.make, {
+                  container: match$1[0],
+                  toggleContainerState: toggleContainerState,
+                  close: (function (param) {
+                      return Curry._1(setSelectedContainer, (function (_prev) {
+                                    return /* NoContainer */0;
+                                  }));
+                    })
+                }));
 }
 
 var DockerListMod = {

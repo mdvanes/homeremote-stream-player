@@ -20,10 +20,6 @@ function DockerListItem2(Props) {
   var state = container.State;
   var status = container.Status;
   var isRunning = state === "running";
-  var match = React.useState(function () {
-        return false;
-      });
-  var setIsOpen = match[1];
   var name = container.Names.map(function (name) {
           return name.slice(1);
         }).join(" ");
@@ -54,31 +50,7 @@ function DockerListItem2(Props) {
                                 }),
                             edge: MaterialUi_IconButton.Edge._end
                           })
-                    })), React.createElement(Core.Dialog, {
-                  aria_labelledby: "dockerlist-dialog-title",
-                  children: null,
-                  open: match[0]
-                }, React.createElement(Core.DialogTitle, {
-                      children: name + " (" + state + ")",
-                      id: "dockerlist-dialog-title"
-                    }), React.createElement(Core.DialogContent, {
-                      children: React.createElement(Core.Typography, {
-                            children: status
-                          })
-                    }), React.createElement(Core.DialogActions, {
-                      children: null
-                    }, React.createElement(Core.Button, {
-                          onClick: (function (_ev) {
-                              return Curry._1(setIsOpen, (function (_prev) {
-                                            return false;
-                                          }));
-                            }),
-                          children: "cancel",
-                          color: "secondary"
-                        }), React.createElement(Core.Button, {
-                          children: "OK",
-                          color: "primary"
-                        }))));
+                    })));
 }
 
 var make = DockerListItem2;
