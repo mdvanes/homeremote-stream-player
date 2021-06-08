@@ -6,100 +6,44 @@ external styles: {
   "button-error": string,
 } = "./DockerList.module.css"
 
+// See https://github.com/cca-io/rescript-material-ui/blob/3ff6bdac3f01c9868ce3a9f903a22ac027f86682/examples/src/examples/ExampleIcons.res
+module ErrorIcon = {
+  @react.component @module("@material-ui/icons/Error")
+  external make: (~color: string=?) => React.element = "default"
+}
+
 @react.component
 let make = (
-  ~url: string,
   ~container: DockerUtil.dockerContainer,
-  ~setContainers: DockerUtil.setContainersType,
-  ~confirmButtonStyle: ReactDOM.Style.t,
-  ~onError: string => unit,
+  ~onSelect: DockerUtil.setSelectedContainer,
 ) => {
+  open MaterialUi
   let id = container["Id"]
   // https://stackoverflow.com/a/32428199: created, restarting, running, paused, exited, dead
   let state = container["State"]
+  let status = container["Status"]
   let isRunning = state == "running"
   let isExited = state == "exited"
   let isUnexpected = !isRunning && !isExited
-  let className = DockerUtil.toClassName([
-    Name(styles["button-list-item"]),
-    Name(styles["mui-button"]),
-    // NameOn(styles["button-success"], isRunning),
-    NameOn(styles["button-error"], isUnexpected),
-  ])
-
-  let startContainerAndUpdate = (id: string, _event) => {
-    // Note: |> is deprecated in favor of ->, however `a |> fn(b)` converts to `fn(b, a)`
-    // where `a -> fn(b)` converts to `fn(a, b)` and `Js.Promise.then_` has not been optimized
-    // for this order, e.g. like how Js.Array2 has been optimized for -> while Js.Array is optimized for |>
-    // This can be remedied by using the _ pipe placeholder. With the placeholder it is possible to write
-    // ```DockerApi.startContainer(url, id, onError)
-    // |> Js.Promise.then_(_response => {
-    //   DockerApi.getDockerList(url, onError)
-    // })```
-    // Like:
-    // ```DockerApi.startContainer(url, id, onError)
-    // -> Js.Promise.then_(_response => {
-    //   DockerApi.getDockerList(url, onError)
-    // }, _)```
-    let _ = DockerApi.startContainer(url, id, onError)->Js.Promise.then_(_response => {
-        DockerApi.getDockerList(url, onError)
-      }, _)->Js.Promise.then_(containerList => {
-        setContainers(_prev => containerList)
-        Js.Promise.resolve(containerList)
-      }, _)
-  }
-
-  let stopContainerAndUpdate = (id: string, _event) => {
-    let _ =
-      DockerApi.stopContainer(url, id, onError)
-      |> Js.Promise.then_(_response => {
-        DockerApi.getDockerList(url, onError)
-      })
-      |> Js.Promise.then_(containerList => {
-        setContainers(_prev => containerList)
-        Js.Promise.resolve(containerList)
-      })
-  }
 
   let name =
     container["Names"]
     ->Js.Array2.map(name => Js.String2.sliceToEnd(name, ~from=1))
     ->Js.Array2.joinWith(" ")
 
-  let prefix = if isRunning {
-    ""->React.string
-  } else {
-    <SVGCross fill="#f44336" width="30" />
-  }
-
-  let suffix = if isRunning {
-    <SVGCheck fill="#4caf50" width="30" />
-  } else {
-    ""->React.string
-  }
-
-  <tr>
-    <td>
-      <ButtonWithConfirm
-        key={id}
-        onClick={if isRunning {
-          stopContainerAndUpdate(id)
-        } else {
-          startContainerAndUpdate(id)
-        }}
-        className={className}
-        status={`${name}: ${container["State"]}. ${container["Status"]}`}
-        question={if isRunning {
-          // TODO use Status instead of State. Fix breakline
-          `Do you want to stop ${name}?`
-        } else {
-          `Do you want to start ${name}?`
-        }}
-        confirmButtonStyle={confirmButtonStyle}>
-        {prefix} <span> {container["State"]->React.string} </span> {suffix}
-      </ButtonWithConfirm>
-    </td>
-    <td> {name->React.string} </td>
-    // <td> {container["Status"]} </td>
-  </tr>
+  <div>
+    <ListItem button={true} onClick={_ev => onSelect(DockerContainer(container))}>
+      <ListItemIcon>
+        <Checkbox
+          edge={Checkbox.Edge.start} checked={isRunning} inputProps={{"aria-labelledby": id}}
+        />
+      </ListItemIcon>
+      <ListItemText id={id} primary={name->React.string} secondary={status->React.string} />
+      <ListItemIcon>
+      {if isUnexpected {
+        <IconButton edge={IconButton.Edge._end}> <ErrorIcon color="error" /> </IconButton>
+      } else { <></>}}
+      </ListItemIcon>
+    </ListItem>
+  </div>
 }

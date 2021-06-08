@@ -9,6 +9,15 @@
 @genType.opaque
 type reactDomStyleT = ReactDOM.Style.t
 
+let renderAsItem = (setSelectedContainer, dockerContainer) =>
+  <DockerListItem
+    key={dockerContainer["Id"]}
+    container={dockerContainer}
+    onSelect={c => setSelectedContainer(_prev => c)}
+  />
+
+let renderListCreator = (setSelectedContainer, arr: array<DockerUtil.dockerContainer>): React.element => arr->Js.Array2.map(renderAsItem(setSelectedContainer))->React.array
+
 module DockerListMod = {
   @genType @react.component
   let make = (~url: string, ~onError: string => unit) => {
@@ -52,40 +61,14 @@ module DockerListMod = {
       ->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)
       ->Js.Array2.sliceFrom(middleIndex)
 
+    let renderList = renderListCreator(setSelectedContainer)
+
     <div className={styles["root"]}>
-      // {selectedContainer->React.string}
       <MaterialUi_List>
-        {containersFirstHalf
-        ->Js.Array2.map(dockerContainer =>
-          <DockerListItem2
-            key={dockerContainer["Id"]}
-            // url={url}
-            container={dockerContainer}
-            // setContainers={setContainers}
-            // confirmButtonStyle={confirmButtonStyle}
-            // onError={onError}
-            onSelect={c => setSelectedContainer(_prev => c)}
-          />
-        )
-        ->React.array}
+        {containersFirstHalf->renderList}
       </MaterialUi_List>
       <MaterialUi_List>
-        {
-          // TODO deduplicate the two halfs
-          containersSecondHalf
-          ->Js.Array2.map(dockerContainer =>
-            <DockerListItem2
-              key={dockerContainer["Id"]}
-              // url={url}
-              container={dockerContainer}
-              // setContainers={setContainers}
-              // confirmButtonStyle={confirmButtonStyle}
-              // onError={onError}
-              onSelect={c => setSelectedContainer(_prev => c)}
-            />
-          )
-          ->React.array
-        }
+        {containersSecondHalf->renderList}
       </MaterialUi_List>
       <Dialog
         container={selectedContainer}

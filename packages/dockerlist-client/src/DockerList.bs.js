@@ -8,9 +8,27 @@ var DockerListModuleCss = require("./DockerList.module.css");
 var Dialog$MdworldHomeremoteDockerlist = require("./Dialog.bs.js");
 var DockerApi$MdworldHomeremoteDockerlist = require("./DockerApi.bs.js");
 var DockerUtil$MdworldHomeremoteDockerlist = require("./DockerUtil.bs.js");
-var DockerListItem2$MdworldHomeremoteDockerlist = require("./DockerListItem2.bs.js");
+var DockerListItem$MdworldHomeremoteDockerlist = require("./DockerListItem.bs.js");
 
 var styles = DockerListModuleCss;
+
+function renderAsItem(setSelectedContainer, dockerContainer) {
+  return React.createElement(DockerListItem$MdworldHomeremoteDockerlist.make, {
+              container: dockerContainer,
+              onSelect: (function (c) {
+                  return Curry._1(setSelectedContainer, (function (_prev) {
+                                return c;
+                              }));
+                }),
+              key: dockerContainer.Id
+            });
+}
+
+function renderListCreator(setSelectedContainer, arr) {
+  return arr.map(function (param) {
+              return renderAsItem(setSelectedContainer, param);
+            });
+}
 
 function DockerList$DockerListMod(Props) {
   var url = Props.url;
@@ -48,29 +66,9 @@ function DockerList$DockerListMod(Props) {
   return React.createElement("div", {
               className: styles.root
             }, React.createElement(Core.List, {
-                  children: containersFirstHalf.map(function (dockerContainer) {
-                        return React.createElement(DockerListItem2$MdworldHomeremoteDockerlist.make, {
-                                    container: dockerContainer,
-                                    onSelect: (function (c) {
-                                        return Curry._1(setSelectedContainer, (function (_prev) {
-                                                      return c;
-                                                    }));
-                                      }),
-                                    key: dockerContainer.Id
-                                  });
-                      })
+                  children: renderListCreator(setSelectedContainer, containersFirstHalf)
                 }), React.createElement(Core.List, {
-                  children: containersSecondHalf.map(function (dockerContainer) {
-                        return React.createElement(DockerListItem2$MdworldHomeremoteDockerlist.make, {
-                                    container: dockerContainer,
-                                    onSelect: (function (c) {
-                                        return Curry._1(setSelectedContainer, (function (_prev) {
-                                                      return c;
-                                                    }));
-                                      }),
-                                    key: dockerContainer.Id
-                                  });
-                      })
+                  children: renderListCreator(setSelectedContainer, containersSecondHalf)
                 }), React.createElement(Dialog$MdworldHomeremoteDockerlist.make, {
                   container: match$1[0],
                   toggleContainerState: DockerApi$MdworldHomeremoteDockerlist.toggleContainerStateCreator(setContainers, url, onError),
@@ -87,5 +85,7 @@ var DockerListMod = {
 };
 
 exports.styles = styles;
+exports.renderAsItem = renderAsItem;
+exports.renderListCreator = renderListCreator;
 exports.DockerListMod = DockerListMod;
 /* styles Not a pure module */

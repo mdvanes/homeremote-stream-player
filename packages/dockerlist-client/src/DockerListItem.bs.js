@@ -3,87 +3,61 @@
 
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
+var Core = require("@material-ui/core");
+var MaterialUi_Checkbox = require("@jsiebern/bs-material-ui/src/MaterialUi_Checkbox.bs.js");
+var MaterialUi_IconButton = require("@jsiebern/bs-material-ui/src/MaterialUi_IconButton.bs.js");
 var DockerListModuleCss = require("./DockerList.module.css");
-var SVGCheck$MdworldHomeremoteDockerlist = require("./Svgs/SVGCheck.bs.js");
-var SVGCross$MdworldHomeremoteDockerlist = require("./Svgs/SVGCross.bs.js");
-var DockerApi$MdworldHomeremoteDockerlist = require("./DockerApi.bs.js");
-var DockerUtil$MdworldHomeremoteDockerlist = require("./DockerUtil.bs.js");
-var ButtonWithConfirm$MdworldHomeremoteDockerlist = require("./ButtonWithConfirm.bs.js");
+var $$Error = require("@material-ui/icons/Error").default;
 
 var styles = DockerListModuleCss;
 
+var ErrorIcon = {};
+
 function DockerListItem(Props) {
-  var url = Props.url;
   var container = Props.container;
-  var setContainers = Props.setContainers;
-  var confirmButtonStyle = Props.confirmButtonStyle;
-  var onError = Props.onError;
+  var onSelect = Props.onSelect;
   var id = container.Id;
   var state = container.State;
+  var status = container.Status;
   var isRunning = state === "running";
   var isExited = state === "exited";
   var isUnexpected = !isRunning && !isExited;
-  var className = DockerUtil$MdworldHomeremoteDockerlist.toClassName([
-        {
-          TAG: /* Name */0,
-          _0: styles["button-list-item"]
-        },
-        {
-          TAG: /* Name */0,
-          _0: styles["mui-button"]
-        },
-        {
-          TAG: /* NameOn */1,
-          _0: styles["button-error"],
-          _1: isUnexpected
-        }
-      ]);
   var name = container.Names.map(function (name) {
           return name.slice(1);
         }).join(" ");
-  var prefix = isRunning ? "" : React.createElement(SVGCross$MdworldHomeremoteDockerlist.make, {
-          width: "30",
-          fill: "#f44336"
-        });
-  var suffix = isRunning ? React.createElement(SVGCheck$MdworldHomeremoteDockerlist.make, {
-          width: "30",
-          fill: "#4caf50"
-        }) : "";
-  return React.createElement("tr", undefined, React.createElement("td", undefined, React.createElement(ButtonWithConfirm$MdworldHomeremoteDockerlist.make, {
-                      onClick: isRunning ? (function (param) {
-                            DockerApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
-                                    return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
-                                  }).then(function (containerList) {
-                                  Curry._1(setContainers, (function (_prev) {
-                                          return containerList;
-                                        }));
-                                  return Promise.resolve(containerList);
+  return React.createElement("div", undefined, React.createElement(Core.ListItem, {
+                  button: true,
+                  children: null,
+                  onClick: (function (_ev) {
+                      return Curry._1(onSelect, /* DockerContainer */{
+                                  _0: container
                                 });
-                            
-                          }) : (function (param) {
-                            var __x = DockerApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError);
-                            var __x$1 = __x.then(function (_response) {
-                                  return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
-                                });
-                            __x$1.then(function (containerList) {
-                                  Curry._1(setContainers, (function (_prev) {
-                                          return containerList;
-                                        }));
-                                  return Promise.resolve(containerList);
-                                });
-                            
-                          }),
-                      status: name + ": " + container.State + ". " + container.Status,
-                      question: isRunning ? "Do you want to stop " + name + "?" : "Do you want to start " + name + "?",
-                      className: className,
-                      confirmButtonStyle: confirmButtonStyle,
-                      children: null,
-                      key: id
-                    }, prefix, React.createElement("span", undefined, container.State), suffix)), React.createElement("td", undefined, name));
+                    })
+                }, React.createElement(Core.ListItemIcon, {
+                      children: React.createElement(Core.Checkbox, {
+                            edge: MaterialUi_Checkbox.Edge.start,
+                            checked: isRunning,
+                            inputProps: {
+                              "aria-labelledby": id
+                            }
+                          })
+                    }), React.createElement(Core.ListItemText, {
+                      primary: name,
+                      secondary: status,
+                      id: id
+                    }), React.createElement(Core.ListItemIcon, {
+                      children: isUnexpected ? React.createElement(Core.IconButton, {
+                              children: React.createElement($$Error, {
+                                    color: "error"
+                                  }),
+                              edge: MaterialUi_IconButton.Edge._end
+                            }) : React.createElement(React.Fragment, undefined)
+                    })));
 }
 
 var make = DockerListItem;
 
 exports.styles = styles;
+exports.ErrorIcon = ErrorIcon;
 exports.make = make;
 /* styles Not a pure module */
