@@ -41,8 +41,38 @@ function stopContainer(url, id, onError) {
                 }), onError, "error in stopContainer");
 }
 
+function toggleContainerStateCreator(setContainers, url, onError) {
+  return function (c) {
+    var state = c.State;
+    var id = c.Id;
+    var isRunning = state === "running";
+    if (isRunning) {
+      return stopContainer(url, id, onError).then(function (_response) {
+                    return getDockerList(url, onError);
+                  }).then(function (containerList) {
+                  Curry._1(setContainers, (function (_prev) {
+                          return containerList;
+                        }));
+                  return Promise.resolve(containerList);
+                });
+    } else {
+      var __x = startContainer(url, id, onError);
+      var __x$1 = __x.then(function (_response) {
+            return getDockerList(url, onError);
+          });
+      return __x$1.then(function (containerList) {
+                  Curry._1(setContainers, (function (_prev) {
+                          return containerList;
+                        }));
+                  return Promise.resolve(containerList);
+                });
+    }
+  };
+}
+
 exports.handleResponse = handleResponse;
 exports.getDockerList = getDockerList;
 exports.startContainer = startContainer;
 exports.stopContainer = stopContainer;
+exports.toggleContainerStateCreator = toggleContainerStateCreator;
 /* No side effect */
