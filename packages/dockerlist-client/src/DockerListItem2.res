@@ -6,6 +6,12 @@ external styles: {
   "button-error": string,
 } = "./DockerList.module.css"
 
+// See https://github.com/cca-io/rescript-material-ui/blob/3ff6bdac3f01c9868ce3a9f903a22ac027f86682/examples/src/examples/ExampleIcons.res
+module ErrorIcon = {
+  @react.component @module("@material-ui/icons/Error")
+  external make: (~color: string=?) => React.element = "default"
+}
+
 @react.component
 let make = (
   ~url: string,
@@ -14,6 +20,7 @@ let make = (
   ~confirmButtonStyle: ReactDOM.Style.t,
   ~onError: string => unit,
 ) => {
+  open MaterialUi
   let id = container["Id"]
   // https://stackoverflow.com/a/32428199: created, restarting, running, paused, exited, dead
   let state = container["State"]
@@ -30,39 +37,39 @@ let make = (
 
   let (isOpen, setIsOpen) = React.useState(_ => false)
 
-  let startContainerAndUpdate = (id: string, _event) => {
-    // Note: |> is deprecated in favor of ->, however `a |> fn(b)` converts to `fn(b, a)`
-    // where `a -> fn(b)` converts to `fn(a, b)` and `Js.Promise.then_` has not been optimized
-    // for this order, e.g. like how Js.Array2 has been optimized for -> while Js.Array is optimized for |>
-    // This can be remedied by using the _ pipe placeholder. With the placeholder it is possible to write
-    // ```DockerApi.startContainer(url, id, onError)
-    // |> Js.Promise.then_(_response => {
-    //   DockerApi.getDockerList(url, onError)
-    // })```
-    // Like:
-    // ```DockerApi.startContainer(url, id, onError)
-    // -> Js.Promise.then_(_response => {
-    //   DockerApi.getDockerList(url, onError)
-    // }, _)```
-    let _ = DockerApi.startContainer(url, id, onError)->Js.Promise.then_(_response => {
-        DockerApi.getDockerList(url, onError)
-      }, _)->Js.Promise.then_(containerList => {
-        setContainers(_prev => containerList)
-        Js.Promise.resolve(containerList)
-      }, _)
-  }
+  //   let startContainerAndUpdate = (id: string, _event) => {
+  //     // Note: |> is deprecated in favor of ->, however `a |> fn(b)` converts to `fn(b, a)`
+  //     // where `a -> fn(b)` converts to `fn(a, b)` and `Js.Promise.then_` has not been optimized
+  //     // for this order, e.g. like how Js.Array2 has been optimized for -> while Js.Array is optimized for |>
+  //     // This can be remedied by using the _ pipe placeholder. With the placeholder it is possible to write
+  //     // ```DockerApi.startContainer(url, id, onError)
+  //     // |> Js.Promise.then_(_response => {
+  //     //   DockerApi.getDockerList(url, onError)
+  //     // })```
+  //     // Like:
+  //     // ```DockerApi.startContainer(url, id, onError)
+  //     // -> Js.Promise.then_(_response => {
+  //     //   DockerApi.getDockerList(url, onError)
+  //     // }, _)```
+  //     let _ = DockerApi.startContainer(url, id, onError)->Js.Promise.then_(_response => {
+  //         DockerApi.getDockerList(url, onError)
+  //       }, _)->Js.Promise.then_(containerList => {
+  //         setContainers(_prev => containerList)
+  //         Js.Promise.resolve(containerList)
+  //       }, _)
+  //   }
 
-  let stopContainerAndUpdate = (id: string, _event) => {
-    let _ =
-      DockerApi.stopContainer(url, id, onError)
-      |> Js.Promise.then_(_response => {
-        DockerApi.getDockerList(url, onError)
-      })
-      |> Js.Promise.then_(containerList => {
-        setContainers(_prev => containerList)
-        Js.Promise.resolve(containerList)
-      })
-  }
+  //   let stopContainerAndUpdate = (id: string, _event) => {
+  //     let _ =
+  //       DockerApi.stopContainer(url, id, onError)
+  //       |> Js.Promise.then_(_response => {
+  //         DockerApi.getDockerList(url, onError)
+  //       })
+  //       |> Js.Promise.then_(containerList => {
+  //         setContainers(_prev => containerList)
+  //         Js.Promise.resolve(containerList)
+  //       })
+  //   }
 
   let name =
     container["Names"]
@@ -83,28 +90,23 @@ let make = (
   //     ""->React.string
   //   }
 
-  <MaterialUi_ListItem button={true} onClick={_ev => setIsOpen(_prev => true)}>
-    <MaterialUi_ListItemIcon>
-      <MaterialUi_Checkbox
-        edge={MaterialUi_Checkbox.Edge.start}
-        checked={isRunning}
-        inputProps={{"aria-labelledby": id}}
-      />
-    </MaterialUi_ListItemIcon>
-    <MaterialUi_ListItemText
-      id={id} primary={name->React.string} secondary={status->React.string}
-    />
-    <MaterialUi_ListItemIcon>
-      <MaterialUi_IconButton edge={MaterialUi_IconButton.Edge._end}>
-        {"x"->React.string}
-      </MaterialUi_IconButton> // <MaterialUi_DeleteIcon />
-    </MaterialUi_ListItemIcon>
+  <div>
+    <ListItem button={true} onClick={_ev => setIsOpen(_prev => true)}>
+      <ListItemIcon>
+        <Checkbox
+          edge={Checkbox.Edge.start} checked={isRunning} inputProps={{"aria-labelledby": id}}
+        />
+      </ListItemIcon>
+      <ListItemText id={id} primary={name->React.string} secondary={status->React.string} />
+      <ListItemIcon>
+        <IconButton edge={IconButton.Edge._end}> <ErrorIcon color="error" /> </IconButton>
+      </ListItemIcon>
+    </ListItem>
     <MaterialUi_Dialog aria_labelledby="simple-dialog-title" _open={isOpen}>
       <MaterialUi_DialogTitle id="simple-dialog-title">
-        {name->React.string}
+        {`${name} (${state})`->React.string}
       </MaterialUi_DialogTitle>
       <MaterialUi_DialogContent>
-        <MaterialUi_Typography> {state->React.string} </MaterialUi_Typography>
         <MaterialUi_Typography> {status->React.string} </MaterialUi_Typography>
       </MaterialUi_DialogContent>
       <MaterialUi_DialogActions>
@@ -114,5 +116,5 @@ let make = (
         <MaterialUi_Button color=#Primary> {"OK"->React.string} </MaterialUi_Button>
       </MaterialUi_DialogActions>
     </MaterialUi_Dialog>
-  </MaterialUi_ListItem>
+  </div>
 }
