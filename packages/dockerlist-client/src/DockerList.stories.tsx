@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { action } from "@storybook/addon-actions";
-import { DockerListMod, reactDomStyleT } from "./DockerList.gen";
+import { DockerListMod } from "./DockerList.gen";
 import packageJson from "../package.json";
 import { BreakpointWrapper } from "../../../helpers";
 import { ThemeProvider } from "@material-ui/styles";
@@ -15,17 +15,17 @@ export default {
 };
 
 // Force type to reactDomStyleT without any type. Alternative is (style as unknown) as reactDomStyleT
-const makeStyle = (styleRules: Record<string, string>) => {
-    class RdStyleT extends reactDomStyleT {
-        opaque: null;
-    }
+// const makeStyle = (styleRules: Record<string, string>) => {
+//     class RdStyleT extends reactDomStyleT {
+//         opaque: null;
+//     }
 
-    const confirmButtonStyle = new RdStyleT();
-    for (const styleRule in styleRules) {
-        confirmButtonStyle[styleRule] = styleRules[styleRule];
-    }
-    return confirmButtonStyle;
-};
+//     const confirmButtonStyle = new RdStyleT();
+//     for (const styleRule in styleRules) {
+//         confirmButtonStyle[styleRule] = styleRules[styleRule];
+//     }
+//     return confirmButtonStyle;
+// };
 
 const url =
     process.env.STORYBOOK_MODE === "PROD"
@@ -55,10 +55,6 @@ export const Default = ({ width }: { width: number }): ReactNode => (
                 <DockerList
                     url={url}
                     onError={action("some error has occurred")}
-                    confirmButtonStyle={makeStyle({
-                        backgroundColor: "#1a237e",
-                        color: "white",
-                    })}
                 />
             </div>
         </BreakpointWrapper>

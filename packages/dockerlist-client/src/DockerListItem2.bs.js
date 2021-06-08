@@ -20,6 +20,8 @@ function DockerListItem2(Props) {
   var state = container.State;
   var status = container.Status;
   var isRunning = state === "running";
+  var isExited = state === "exited";
+  var isUnexpected = !isRunning && !isExited;
   var name = container.Names.map(function (name) {
           return name.slice(1);
         }).join(" ");
@@ -44,12 +46,12 @@ function DockerListItem2(Props) {
                       secondary: status,
                       id: id
                     }), React.createElement(Core.ListItemIcon, {
-                      children: React.createElement(Core.IconButton, {
-                            children: React.createElement($$Error, {
-                                  color: "error"
-                                }),
-                            edge: MaterialUi_IconButton.Edge._end
-                          })
+                      children: isUnexpected ? React.createElement(Core.IconButton, {
+                              children: React.createElement($$Error, {
+                                    color: "error"
+                                  }),
+                              edge: MaterialUi_IconButton.Edge._end
+                            }) : React.createElement(React.Fragment, undefined)
                     })));
 }
 
