@@ -8,8 +8,6 @@ var DockerListModuleCss = require("./DockerList.module.css");
 
 var styles = DockerListModuleCss;
 
-var ErrorIcon = {};
-
 function getDialog(toggleContainerState, onClose, c) {
   if (!c) {
     return React.createElement(Core.Dialog, {
@@ -18,7 +16,6 @@ function getDialog(toggleContainerState, onClose, c) {
               });
   }
   var container = c._0;
-  var id = container.Id;
   var state = container.State;
   var isRunning = state === "running";
   var status = container.Status;
@@ -49,7 +46,12 @@ function getDialog(toggleContainerState, onClose, c) {
                       color: "secondary"
                     }), React.createElement(Core.Button, {
                       onClick: (function (_ev) {
-                          return Curry._2(toggleContainerState, container, id);
+                          var __x = Curry._1(toggleContainerState, container);
+                          __x.then(function (_containers) {
+                                Curry._1(onClose, undefined);
+                                return Promise.resolve(undefined);
+                              });
+                          
                         }),
                       children: "OK",
                       color: "primary"
@@ -63,7 +65,6 @@ function Dialog(Props) {
 var make = Dialog;
 
 exports.styles = styles;
-exports.ErrorIcon = ErrorIcon;
 exports.getDialog = getDialog;
 exports.make = make;
 /* styles Not a pure module */

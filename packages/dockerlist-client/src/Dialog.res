@@ -6,16 +6,10 @@ external styles: {
   "button-error": string,
 } = "./DockerList.module.css"
 
-// See https://github.com/cca-io/rescript-material-ui/blob/3ff6bdac3f01c9868ce3a9f903a22ac027f86682/examples/src/examples/ExampleIcons.res
-module ErrorIcon = {
-  @react.component @module("@material-ui/icons/Error")
-  external make: (~color: string=?) => React.element = "default"
-}
-
-
-
 let getDialog = (
-  toggleContainerState: DockerUtil.dockerContainer => (string=> unit),
+  toggleContainerState: (
+    DockerUtil.dockerContainer
+  ) => Js.Promise.t<array<DockerUtil.dockerContainer>>,
   onClose: unit => unit,
   c: DockerUtil.selectedContainerType,
 ): React.element => {
@@ -24,7 +18,6 @@ let getDialog = (
   switch c {
   | NoContainer => <MaterialUi_Dialog aria_labelledby="dockerlist-dialog-title" _open={false} />
   | DockerContainer(container) => {
-      let id = container["Id"]
       let state = container["State"]
       let isRunning = state == "running"
       let status = container["Status"]
@@ -33,8 +26,6 @@ let getDialog = (
         ->Js.Array2.map(name => Js.String2.sliceToEnd(name, ~from=1))
         ->Js.Array2.joinWith(" ")
       let questionPrefix = "Do you want to"
-
-    //   let onContinue = toggleContainerState(container)
 
       <MaterialUi_Dialog aria_labelledby="dockerlist-dialog-title" _open={true}>
         <DialogTitle id="dockerlist-dialog-title">
@@ -52,7 +43,16 @@ let getDialog = (
         </MaterialUi_DialogContent>
         <DialogActions>
           <Button color=#Secondary onClick={_ev => onClose()}> {"cancel"->React.string} </Button>
-          <Button color=#Primary onClick={_ev => toggleContainerState(container)(id)}> {"OK"->React.string} </Button>
+          <Button
+            color=#Primary
+            onClick={_ev => {
+              let _ = toggleContainerState(container)->Js.Promise.then_(_containers => {
+                onClose()
+                Js.Promise.resolve()
+              }, _)
+            }}>
+            {"OK"->React.string}
+          </Button>
         </DialogActions>
       </MaterialUi_Dialog>
     }
@@ -62,12 +62,10 @@ let getDialog = (
 @react.component
 let make = (
   ~container: DockerUtil.selectedContainerType,
-  ~toggleContainerState: DockerUtil.dockerContainer => (string=> unit),
+  ~toggleContainerState: (
+    DockerUtil.dockerContainer
+  ) => Js.Promise.t<array<DockerUtil.dockerContainer>>,
   ~close: unit => unit,
 ) => {
-  //   ~confirmButtonStyle: ReactDOM.Style.t,
-  //   ~onError: string => unit, // TODO?
-  //   ~onSelect: DockerUtil.setSelectedContainer,
-
   getDialog(toggleContainerState, close, container)
 }

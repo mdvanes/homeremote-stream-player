@@ -9,6 +9,58 @@
 @genType.opaque
 type reactDomStyleT = ReactDOM.Style.t
 
+let toggleContainerStateCreator = (setContainers: DockerUtil.setContainersType, url: string, onError: (string => unit)): (
+  DockerUtil.dockerContainer => Js.Promise.t<array<DockerUtil.dockerContainer>>
+) => {
+  // TODO deduplicate startContainerAndUpdate and stopContainerAndUpdate
+  let startContainerAndUpdate = (id: string): Js.Promise.t<array<DockerUtil.dockerContainer>> => {
+    // Note: |> is deprecated in favor of ->, however `a |> fn(b)` converts to `fn(b, a)`
+    // where `a -> fn(b)` converts to `fn(a, b)` and `Js.Promise.then_` has not been optimized
+    // for this order, e.g. like how Js.Array2 has been optimized for -> while Js.Array is optimized for |>
+    // This can be remedied by using the _ pipe placeholder. With the placeholder it is possible to write
+    // ```DockerApi.startContainer(url, id, onError)
+    // |> Js.Promise.then_(_response => {
+    //   DockerApi.getDockerList(url, onError)
+    // })```
+    // Like:
+    // ```DockerApi.startContainer(url, id, onError)
+    // -> Js.Promise.then_(_response => {
+    //   DockerApi.getDockerList(url, onError)
+    // }, _)```
+    DockerApi.startContainer(url, id, onError)->Js.Promise.then_(_response => {
+      DockerApi.getDockerList(url, onError)
+    }, _)->Js.Promise.then_(containerList => {
+      setContainers(_prev => containerList)
+      Js.Promise.resolve(containerList)
+    }, _)
+  }
+
+  let stopContainerAndUpdate = (id: string): Js.Promise.t<array<DockerUtil.dockerContainer>> => {
+    DockerApi.stopContainer(url, id, onError)
+    |> Js.Promise.then_(_response => {
+      DockerApi.getDockerList(url, onError)
+    })
+    |> Js.Promise.then_(containerList => {
+      setContainers(_prev => containerList)
+      Js.Promise.resolve(containerList)
+    })
+  }
+
+  let toggleFn = c => {
+    let state = c["State"]
+    let id = c["Id"]
+    let isRunning = state == "running"
+
+    if isRunning {
+      stopContainerAndUpdate(id)
+    } else {
+      startContainerAndUpdate(id)
+    }
+  }
+
+  toggleFn
+}
+
 module DockerListMod = {
   @genType @react.component
   let make = (~url: string, ~onError: string => unit) => {
@@ -58,55 +110,6 @@ module DockerListMod = {
       ->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)
       ->Js.Array2.sliceFrom(middleIndex)
 
-    let toggleContainerState = (c: DockerUtil.dockerContainer): (string => unit) => {
-      let state = c["State"]
-      let id = c["Id"]
-      let isRunning = state == "running"
-
-      let startContainerAndUpdate = (id: string) => {
-        // Note: |> is deprecated in favor of ->, however `a |> fn(b)` converts to `fn(b, a)`
-        // where `a -> fn(b)` converts to `fn(a, b)` and `Js.Promise.then_` has not been optimized
-        // for this order, e.g. like how Js.Array2 has been optimized for -> while Js.Array is optimized for |>
-        // This can be remedied by using the _ pipe placeholder. With the placeholder it is possible to write
-        // ```DockerApi.startContainer(url, id, onError)
-        // |> Js.Promise.then_(_response => {
-        //   DockerApi.getDockerList(url, onError)
-        // })```
-        // Like:
-        // ```DockerApi.startContainer(url, id, onError)
-        // -> Js.Promise.then_(_response => {
-        //   DockerApi.getDockerList(url, onError)
-        // }, _)```
-        let _ = DockerApi.startContainer(url, id, onError)->Js.Promise.then_(_response => {
-            DockerApi.getDockerList(url, onError)
-          }, _)->Js.Promise.then_(containerList => {
-            setContainers(_prev => containerList)
-            Js.Promise.resolve(containerList)
-          }, _)
-      }
-
-      let stopContainerAndUpdate = (id: string) => {
-        let _ =
-          DockerApi.stopContainer(url, id, onError)
-          |> Js.Promise.then_(_response => {
-            DockerApi.getDockerList(url, onError)
-          })
-          |> Js.Promise.then_(containerList => {
-            setContainers(_prev => containerList)
-            Js.Promise.resolve(containerList)
-          })
-      }
-
-      let foo = (_x) =>
-        if isRunning {
-          stopContainerAndUpdate(id)
-        } else {
-          startContainerAndUpdate(id)
-        }
-
-      foo
-    }
-
     <div className={styles["root"]}>
       // {selectedContainer->React.string}
       <MaterialUi_List>
@@ -144,7 +147,7 @@ module DockerListMod = {
       </MaterialUi_List>
       <Dialog
         container={selectedContainer}
-        toggleContainerState={toggleContainerState}
+        toggleContainerState={toggleContainerStateCreator(setContainers, url, onError)}
         close={() => setSelectedContainer(_prev => DockerUtil.NoContainer)}
       />
     </div>

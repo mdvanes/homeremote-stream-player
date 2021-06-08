@@ -12,6 +12,35 @@ var DockerListItem2$MdworldHomeremoteDockerlist = require("./DockerListItem2.bs.
 
 var styles = DockerListModuleCss;
 
+function toggleContainerStateCreator(setContainers, url, onError) {
+  return function (c) {
+    var state = c.State;
+    var id = c.Id;
+    var isRunning = state === "running";
+    if (isRunning) {
+      return DockerApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
+                    return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+                  }).then(function (containerList) {
+                  Curry._1(setContainers, (function (_prev) {
+                          return containerList;
+                        }));
+                  return Promise.resolve(containerList);
+                });
+    } else {
+      var __x = DockerApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError);
+      var __x$1 = __x.then(function (_response) {
+            return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
+          });
+      return __x$1.then(function (containerList) {
+                  Curry._1(setContainers, (function (_prev) {
+                          return containerList;
+                        }));
+                  return Promise.resolve(containerList);
+                });
+    }
+  };
+}
+
 function DockerList$DockerListMod(Props) {
   var url = Props.url;
   var onError = Props.onError;
@@ -45,36 +74,6 @@ function DockerList$DockerListMod(Props) {
   var middleIndex = nrOfContainers / 2 | 0;
   var containersFirstHalf = containers.sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).slice(0, middleIndex);
   var containersSecondHalf = containers.sort(DockerUtil$MdworldHomeremoteDockerlist.compareDockerContainer).slice(middleIndex);
-  var toggleContainerState = function (c) {
-    var state = c.State;
-    var id = c.Id;
-    var isRunning = state === "running";
-    return function (_x) {
-      if (isRunning) {
-        DockerApi$MdworldHomeremoteDockerlist.stopContainer(url, id, onError).then(function (_response) {
-                return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
-              }).then(function (containerList) {
-              Curry._1(setContainers, (function (_prev) {
-                      return containerList;
-                    }));
-              return Promise.resolve(containerList);
-            });
-        return ;
-      } else {
-        var __x = DockerApi$MdworldHomeremoteDockerlist.startContainer(url, id, onError);
-        var __x$1 = __x.then(function (_response) {
-              return DockerApi$MdworldHomeremoteDockerlist.getDockerList(url, onError);
-            });
-        __x$1.then(function (containerList) {
-              Curry._1(setContainers, (function (_prev) {
-                      return containerList;
-                    }));
-              return Promise.resolve(containerList);
-            });
-        return ;
-      }
-    };
-  };
   return React.createElement("div", {
               className: styles.root
             }, React.createElement(Core.List, {
@@ -103,7 +102,7 @@ function DockerList$DockerListMod(Props) {
                       })
                 }), React.createElement(Dialog$MdworldHomeremoteDockerlist.make, {
                   container: match$1[0],
-                  toggleContainerState: toggleContainerState,
+                  toggleContainerState: toggleContainerStateCreator(setContainers, url, onError),
                   close: (function (param) {
                       return Curry._1(setSelectedContainer, (function (_prev) {
                                     return /* NoContainer */0;
@@ -117,5 +116,6 @@ var DockerListMod = {
 };
 
 exports.styles = styles;
+exports.toggleContainerStateCreator = toggleContainerStateCreator;
 exports.DockerListMod = DockerListMod;
 /* styles Not a pure module */
