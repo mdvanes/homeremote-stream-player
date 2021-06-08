@@ -9,6 +9,10 @@ S /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@rescript/react/l
 B /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@rescript/react/lib/ocaml
 S /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/bs-fetch/lib/ocaml
 B /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/bs-fetch/lib/ocaml
+S /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@jsiebern/bs-material-ui/lib/ocaml
+B /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@jsiebern/bs-material-ui/lib/ocaml
 S src
 B lib/bs/src
+S src/Svgs
+B lib/bs/src/Svgs
 ####BSB GENERATED: NO EDIT}
