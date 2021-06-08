@@ -14,11 +14,12 @@ module ErrorIcon = {
 
 @react.component
 let make = (
-  ~url: string,
+//   ~url: string,
   ~container: DockerUtil.dockerContainer,
-  ~setContainers: DockerUtil.setContainersType,
-  ~confirmButtonStyle: ReactDOM.Style.t,
-  ~onError: string => unit,
+//   ~setContainers: DockerUtil.setContainersType,
+//   ~confirmButtonStyle: ReactDOM.Style.t,
+//   ~onError: string => unit,
+  ~onSelect: DockerUtil.setSelectedContainer,
 ) => {
   open MaterialUi
   let id = container["Id"]
@@ -26,14 +27,14 @@ let make = (
   let state = container["State"]
   let status = container["Status"]
   let isRunning = state == "running"
-  let isExited = state == "exited"
-  let isUnexpected = !isRunning && !isExited
-  let className = DockerUtil.toClassName([
-    Name(styles["button-list-item"]),
-    Name(styles["mui-button"]),
-    // NameOn(styles["button-success"], isRunning),
-    NameOn(styles["button-error"], isUnexpected),
-  ])
+//   let isExited = state == "exited"
+//   let isUnexpected = !isRunning && !isExited
+//   let className = DockerUtil.toClassName([
+//     Name(styles["button-list-item"]),
+//     Name(styles["mui-button"]),
+//     // NameOn(styles["button-success"], isRunning),
+//     NameOn(styles["button-error"], isUnexpected),
+//   ])
 
   let (isOpen, setIsOpen) = React.useState(_ => false)
 
@@ -76,22 +77,9 @@ let make = (
     ->Js.Array2.map(name => Js.String2.sliceToEnd(name, ~from=1))
     ->Js.Array2.joinWith(" ")
 
-  //   let prefix = if isRunning {
-  //     ""->React.string
-  //   } else {
-  //     ""->React.string
-  //     // <SVGCross fill="#f44336" width="30" />
-  //   }
-
-  //   let suffix = if isRunning {
-  //     ""->React.string
-  //     // <SVGCheck fill="#4caf50" width="30" />
-  //   } else {
-  //     ""->React.string
-  //   }
-
   <div>
-    <ListItem button={true} onClick={_ev => setIsOpen(_prev => true)}>
+    // <ListItem button={true} onClick={_ev => setIsOpen(_prev => true)}>
+    <ListItem button={true} onClick={_ev => onSelect(DockerContainer(container))}>
       <ListItemIcon>
         <Checkbox
           edge={Checkbox.Edge.start} checked={isRunning} inputProps={{"aria-labelledby": id}}
@@ -102,8 +90,8 @@ let make = (
         <IconButton edge={IconButton.Edge._end}> <ErrorIcon color="error" /> </IconButton>
       </ListItemIcon>
     </ListItem>
-    <MaterialUi_Dialog aria_labelledby="simple-dialog-title" _open={isOpen}>
-      <MaterialUi_DialogTitle id="simple-dialog-title">
+    <MaterialUi_Dialog aria_labelledby="dockerlist-dialog-title" _open={isOpen}>
+      <MaterialUi_DialogTitle id="dockerlist-dialog-title">
         {`${name} (${state})`->React.string}
       </MaterialUi_DialogTitle>
       <MaterialUi_DialogContent>

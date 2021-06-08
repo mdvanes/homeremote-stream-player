@@ -8,7 +8,6 @@ var MaterialUi_Checkbox = require("@jsiebern/bs-material-ui/src/MaterialUi_Check
 var MaterialUi_IconButton = require("@jsiebern/bs-material-ui/src/MaterialUi_IconButton.bs.js");
 var DockerListModuleCss = require("./DockerList.module.css");
 var $$Error = require("@material-ui/icons/Error").default;
-var DockerUtil$MdworldHomeremoteDockerlist = require("./DockerUtil.bs.js");
 
 var styles = DockerListModuleCss;
 
@@ -16,27 +15,11 @@ var ErrorIcon = {};
 
 function DockerListItem2(Props) {
   var container = Props.container;
+  var onSelect = Props.onSelect;
   var id = container.Id;
   var state = container.State;
   var status = container.Status;
   var isRunning = state === "running";
-  var isExited = state === "exited";
-  var isUnexpected = !isRunning && !isExited;
-  DockerUtil$MdworldHomeremoteDockerlist.toClassName([
-        {
-          TAG: /* Name */0,
-          _0: styles["button-list-item"]
-        },
-        {
-          TAG: /* Name */0,
-          _0: styles["mui-button"]
-        },
-        {
-          TAG: /* NameOn */1,
-          _0: styles["button-error"],
-          _1: isUnexpected
-        }
-      ]);
   var match = React.useState(function () {
         return false;
       });
@@ -48,9 +31,9 @@ function DockerListItem2(Props) {
                   button: true,
                   children: null,
                   onClick: (function (_ev) {
-                      return Curry._1(setIsOpen, (function (_prev) {
-                                    return true;
-                                  }));
+                      return Curry._1(onSelect, /* DockerContainer */{
+                                  _0: container
+                                });
                     })
                 }, React.createElement(Core.ListItemIcon, {
                       children: React.createElement(Core.Checkbox, {
@@ -72,12 +55,12 @@ function DockerListItem2(Props) {
                             edge: MaterialUi_IconButton.Edge._end
                           })
                     })), React.createElement(Core.Dialog, {
-                  aria_labelledby: "simple-dialog-title",
+                  aria_labelledby: "dockerlist-dialog-title",
                   children: null,
                   open: match[0]
                 }, React.createElement(Core.DialogTitle, {
                       children: name + " (" + state + ")",
-                      id: "simple-dialog-title"
+                      id: "dockerlist-dialog-title"
                     }), React.createElement(Core.DialogContent, {
                       children: React.createElement(Core.Typography, {
                             children: status

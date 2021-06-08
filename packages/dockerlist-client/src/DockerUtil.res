@@ -46,6 +46,12 @@ type dockerListResponse = {
 
 type setContainersType = (array<dockerContainer> => array<dockerContainer>) => unit
 
+
+type noContainer = NoContainer;
+type selectedContainerType = NoContainer | DockerContainer(dockerContainer)
+
+type setSelectedContainer = selectedContainerType => unit
+
 // Variant classNameItem with the cases "Name" and "NameOn" with contructor arguments
 type classNameItem = Name(string) | NameOn(string, bool)
 
@@ -69,6 +75,14 @@ let toClassName = (input: array<classNameItem>): string =>
     }
   })
   ->Js.Array2.joinWith(" ")
+
+// Example:
+//   let className = DockerUtil.toClassName([
+//     Name(styles["button-list-item"]),
+//     Name(styles["mui-button"]),
+//     // NameOn(styles["button-success"], isRunning),
+//     NameOn(styles["button-error"], isUnexpected),
+//   ])
 
 /* Compare function for objects of type dockerContainer */
 

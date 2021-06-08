@@ -14,15 +14,16 @@ module DockerListMod = {
   let make = (
     ~url: string,
     ~onError: string => unit,
-    ~confirmButtonStyle: reactDomStyleT=ReactDOM.Style.make(
-      ~backgroundColor="darkblue",
-      ~color="white",
-      (),
-    ),
+    // ~confirmButtonStyle: reactDomStyleT=ReactDOM.Style.make(
+    //   ~backgroundColor="darkblue",
+    //   ~color="white",
+    //   (),
+    // ),
   ) => {
     let update_interval_ms = 60000
 
     let (containers, setContainers) = React.useState(_ => [])
+    let (selectedContainer, setSelectedContainer) = React.useState(_ => DockerUtil.NoContainer)
 
     // Runs only once right after mounting the component
     React.useEffect0(() => {
@@ -47,21 +48,6 @@ module DockerListMod = {
       )
     })
 
-    // let dockerContainersElems =
-    //   containers
-    //   ->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)
-    //   ->Js.Array2.map(dockerContainer =>
-    //     <DockerListItem
-    //       key={dockerContainer["Id"]}
-    //       url={url}
-    //       container={dockerContainer}
-    //       setContainers={setContainers}
-    //       confirmButtonStyle={confirmButtonStyle}
-    //       onError={onError}
-    //     />
-    //   )
-    //   ->React.array
-
     let nrOfContainers =
       containers->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)->Belt.Array.length
     let middleIndex = nrOfContainers / 2
@@ -74,54 +60,45 @@ module DockerListMod = {
       ->Js.Array2.sortInPlaceWith(DockerUtil.compareDockerContainer)
       ->Js.Array2.sliceFrom(middleIndex)
 
+      
+
     <div className={styles["root"]}>
-      <MaterialUi_Typography> {"Some example text"->React.string} </MaterialUi_Typography>
-      <table className={styles["button-list"]}>
-        <thead>
-          <tr>
-            <th> {"State"->React.string} </th>
-            <th> {"Name"->React.string} </th>
-            // <th> {"Status"->React.string} </th>
-          </tr>
-        </thead>
-        <tbody>
-          {containersFirstHalf
+      // {selectedContainer->React.string}
+      <MaterialUi_List>
+        {containersFirstHalf
+        ->Js.Array2.map(dockerContainer =>
+          <DockerListItem2
+            key={dockerContainer["Id"]}
+            // url={url}
+            container={dockerContainer}
+            // setContainers={setContainers}
+            // confirmButtonStyle={confirmButtonStyle}
+            // onError={onError}
+            onSelect={c => setSelectedContainer(_prev => c)}
+          />
+        )
+        ->React.array}
+      </MaterialUi_List>
+      <MaterialUi_List>
+        {
+          // TODO deduplicate
+          containersSecondHalf
           ->Js.Array2.map(dockerContainer =>
-            <DockerListItem
+            <DockerListItem2
               key={dockerContainer["Id"]}
-              url={url}
+              // url={url}
               container={dockerContainer}
-              setContainers={setContainers}
-              confirmButtonStyle={confirmButtonStyle}
-              onError={onError}
+              // setContainers={setContainers}
+              // confirmButtonStyle={confirmButtonStyle}
+              // onError={onError}
+              onSelect={c => setSelectedContainer(_prev => c)}
             />
           )
-          ->React.array}
-        </tbody>
-      </table>
-      <table className={styles["button-list"]}>
-        <thead>
-          <tr>
-            <th> {"State"->React.string} </th>
-            <th> {"Name"->React.string} </th>
-            // <th> {"Status"->React.string} </th>
-          </tr>
-        </thead>
-        <tbody>
-          {containersSecondHalf
-          ->Js.Array2.map(dockerContainer =>
-            <DockerListItem
-              key={dockerContainer["Id"]}
-              url={url}
-              container={dockerContainer}
-              setContainers={setContainers}
-              confirmButtonStyle={confirmButtonStyle}
-              onError={onError}
-            />
-          )
-          ->React.array}
-        </tbody>
-      </table>
+          ->React.array
+        }
+      </MaterialUi_List>
+      <Dialog container={selectedContainer} close=(() => setSelectedContainer(_prev => DockerUtil.NoContainer)) />
+      
     </div>
   }
 }
