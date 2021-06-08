@@ -11,6 +11,7 @@ var styles = DockerListModuleCss;
 
 function ButtonWithConfirm(Props) {
   var onClick = Props.onClick;
+  var status = Props.status;
   var question = Props.question;
   var classNameOpt = Props.className;
   var confirmButtonStyle = Props.confirmButtonStyle;
@@ -34,7 +35,7 @@ function ButtonWithConfirm(Props) {
                   onClick: openDialog
                 }, children), React.createElement("dialog", {
                   ref: dialogEl
-                }, React.createElement("p", undefined, question), React.createElement("div", {
+                }, React.createElement("p", undefined, status), React.createElement("p", undefined, question), React.createElement("div", {
                       className: styles["dialog-actions"]
                     }, React.createElement("button", {
                           className: styles["mui-button"],

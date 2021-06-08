@@ -7,6 +7,7 @@ external styles: {"dialog-actions": string, "mui-button": string} = "./DockerLis
 @react.component
 let make = (
   ~onClick: ReactEvent.Mouse.t => unit,
+  ~status: string,
   ~question: string,
   ~className: string="",
   ~confirmButtonStyle: ReactDOM.Style.t,
@@ -25,6 +26,7 @@ let make = (
   <>
     <button className={className} onClick={openDialog}> children </button>
     <dialog ref={ReactDOM.Ref.domRef(dialogEl)}>
+      <p> {status->React.string} </p>
       <p> {question->React.string} </p>
       <div className={styles["dialog-actions"]}>
         <button className={styles["mui-button"]} onClick={closeDialog}>
