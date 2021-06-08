@@ -36,7 +36,7 @@ type dockerContainer = {
   "Id": string,
   "Names": Js.Array2.t<Js.String2.t>,
   "State": string,
-  "Status": React.element,
+  "Status": string,
 }
 
 type dockerListResponse = {
