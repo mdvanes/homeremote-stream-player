@@ -86,7 +86,7 @@ module DockerListMod = {
       </MaterialUi_List>
       <Dialog
         container={selectedContainer}
-        toggleContainerState={DockerApi.toggleContainerStateCreator(setContainers, url, onError)}
+        toggleContainerState={DockerApi.toggleContainerStateCreator(setContainers, url, onError, setIsLoading)}
         close={() => setSelectedContainer(_prev => DockerUtil.NoContainer)}
       />
     </div>

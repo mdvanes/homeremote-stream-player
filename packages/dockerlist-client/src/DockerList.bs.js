@@ -90,7 +90,7 @@ function DockerList$DockerListMod(Props) {
                   children: null
                 }, progressSpacer, renderListCreator(setSelectedContainer, containersSecondHalf)), React.createElement(Dialog$MdworldHomeremoteDockerlist.make, {
                   container: match$2[0],
-                  toggleContainerState: DockerApi$MdworldHomeremoteDockerlist.toggleContainerStateCreator(setContainers, url, onError),
+                  toggleContainerState: DockerApi$MdworldHomeremoteDockerlist.toggleContainerStateCreator(setContainers, url, onError, setIsLoading),
                   close: (function (param) {
                       return Curry._1(setSelectedContainer, (function (_prev) {
                                     return /* NoContainer */0;

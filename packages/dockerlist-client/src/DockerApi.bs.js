@@ -41,32 +41,34 @@ function stopContainer(url, id, onError) {
                 }), onError, "error in stopContainer");
 }
 
-function toggleContainerStateCreator(setContainers, url, onError) {
-  return function (c) {
-    var state = c.State;
-    var id = c.Id;
+function toggleContainerStateCreator(setContainers, url, onError, setIsLoading) {
+  var startContainerWithJustId = function (__x) {
+    return startContainer(url, __x, onError);
+  };
+  var stopContainerWithJustId = function (__x) {
+    return stopContainer(url, __x, onError);
+  };
+  return function (container) {
+    Curry._1(setIsLoading, (function (_prev) {
+            return true;
+          }));
+    var state = container.State;
+    var id = container.Id;
     var isRunning = state === "running";
-    if (isRunning) {
-      return stopContainer(url, id, onError).then(function (_response) {
-                    return getDockerList(url, onError);
-                  }).then(function (containerList) {
-                  Curry._1(setContainers, (function (_prev) {
-                          return containerList;
-                        }));
-                  return Promise.resolve(containerList);
-                });
-    } else {
-      var __x = startContainer(url, id, onError);
-      var __x$1 = __x.then(function (_response) {
-            return getDockerList(url, onError);
-          });
-      return __x$1.then(function (containerList) {
-                  Curry._1(setContainers, (function (_prev) {
-                          return containerList;
-                        }));
-                  return Promise.resolve(containerList);
-                });
-    }
+    var action = isRunning ? stopContainerWithJustId : startContainerWithJustId;
+    var __x = Curry._1(action, id);
+    var __x$1 = __x.then(function (_response) {
+          return getDockerList(url, onError);
+        });
+    return __x$1.then(function (containerList) {
+                Curry._1(setContainers, (function (_prev) {
+                        return containerList;
+                      }));
+                Curry._1(setIsLoading, (function (_prev) {
+                        return false;
+                      }));
+                return Promise.resolve(containerList);
+              });
   };
 }
 
