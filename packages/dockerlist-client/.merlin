@@ -11,6 +11,10 @@ S /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/bs-fetch/lib/ocam
 B /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/bs-fetch/lib/ocaml
 S /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@jsiebern/bs-material-ui/lib/ocaml
 B /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@jsiebern/bs-material-ui/lib/ocaml
+S /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@glennsl/bs-jest/lib/ocaml
+B /home/martin/ZNoBackup/repos/homeremote-plugins/node_modules/@glennsl/bs-jest/lib/ocaml
+S __tests__
+B lib/bs/__tests__
 S src
 B lib/bs/src
 ####BSB GENERATED: NO EDIT}

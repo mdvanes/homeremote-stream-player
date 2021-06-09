@@ -89,7 +89,8 @@
         "access": "public"
     },
     "devDependencies": {
-        "gentype": "^3.50.0"
+        "gentype": "^3.50.0",
+        "@glennsl/bs-jest": "^0.7.0"
     },
     "dependencies": {
         "@jsiebern/bs-material-ui": "^2.1.0",
