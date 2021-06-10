@@ -2,8 +2,9 @@ const elmloader = require("../webpack.elmloader.js");
 
 module.exports = {
     stories: [
-        "../*.stories.@(js|jsx|ts|tsx|mdx)",
-        "../packages/**/*.stories.@(js|jsx|ts|tsx)",
+        // Loading stories from the project root puts Storybook webpack in a build loop
+        // "../*.stories.@(js|jsx|ts|tsx|mdx)",
+        "../packages/**/*.stories.@(ts|tsx|mdx)",
     ],
     addons: [
         "@storybook/addon-links",
