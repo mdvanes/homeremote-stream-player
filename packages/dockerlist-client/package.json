@@ -1,6 +1,6 @@
 {
     "name": "@mdworld/homeremote-dockerlist",
-    "version": "1.7.3",
+    "version": "1.8.0",
     "main": "./src/DockerList.bs.js",
     "types": "./src/DockerList.gen.tsx",
     "repository": {
@@ -89,8 +89,8 @@
         "access": "public"
     },
     "devDependencies": {
-        "gentype": "^3.50.0",
-        "@glennsl/bs-jest": "^0.7.0"
+        "@glennsl/bs-jest": "^0.7.0",
+        "gentype": "^3.50.0"
     },
     "dependencies": {
         "@jsiebern/bs-material-ui": "^2.1.0",
