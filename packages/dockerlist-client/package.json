@@ -1,15 +1,15 @@
 {
     "name": "@mdworld/homeremote-dockerlist",
     "version": "1.8.0",
-    "main": "./src/DockerList.bs.js",
-    "types": "./src/DockerList.gen.tsx",
+    "main": "./lib/DockerList.gen.js",
+    "types": "./lib/DockerList.gen.d.ts",
     "repository": {
         "type": "git",
         "url": "https://github.com/mdvanes/homeremote-plugins.git"
     },
     "scripts": {
         "clean": "rm src/*.bs.js && rm src/*.gen.tsx",
-        "build": "yarn re:build",
+        "build": "yarn re:build && webpack-cli --config webpack.config.prod.js && tsc src/DockerList.gen.tsx --outDir lib -d",
         "re:build": "rescript",
         "re:start": "rescript build -w"
     },
