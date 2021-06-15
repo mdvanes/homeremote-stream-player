@@ -1,6 +1,8 @@
 // {..} means we are handling a JS object with an unknown
 // set of attributes
-@module external styles: {..} = "./DockerList.module.css"
+// Use styles like this: <div className={styles["root"]}>
+// Note: loading a style this way works in local Storybook, but when published it strips the class name "root" from the tag, even though the CSS is included?
+// @module external styles: {..} = "./DockerList.module.css"
 
 @send external showModal: Dom.element => unit = "showModal"
 @send external close: Dom.element => unit = "close"
@@ -78,7 +80,7 @@ module DockerListMod = {
       progressSpacer
     }
 
-    <div className={styles["root"]}>
+    <MaterialUi_Box display={MaterialUi_Box.Value.string("flex")} flexWrap={MaterialUi_Box.Value.string("wrap")}>
       <MaterialUi_List> {progress} {containersFirstHalf->renderList} </MaterialUi_List>
       <MaterialUi_List>
         {progressSpacer}
@@ -89,6 +91,6 @@ module DockerListMod = {
         toggleContainerState={DockerApi.toggleContainerStateCreator(setContainers, url, onError, setIsLoading)}
         close={() => setSelectedContainer(_prev => DockerUtil.NoContainer)}
       />
-    </div>
+    </MaterialUi_Box>
   }
 }

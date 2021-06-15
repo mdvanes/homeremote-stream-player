@@ -4,7 +4,7 @@ import { DockerListMod } from "./DockerList.gen";
 import packageJson from "../package.json";
 import { BreakpointWrapper } from "../../../helpers";
 import { ThemeProvider } from "@material-ui/styles";
-import { Card, createMuiTheme } from "@material-ui/core";
+import { Card, createMuiTheme, CssBaseline } from "@material-ui/core";
 import { green, purple } from "@material-ui/core/colors";
 
 const DockerList = DockerListMod.make;
@@ -52,8 +52,9 @@ interface Props {
 
 export const Default = ({ width, isDarkMode }: Props): ReactNode => (
     <ThemeProvider theme={theme(isDarkMode)}>
+        <CssBaseline />
         <BreakpointWrapper width={width}>
-            <Card>
+            <Card elevation={5}>
                 <DockerList
                     url={url}
                     onError={action("some error has occurred")}
@@ -64,7 +65,7 @@ export const Default = ({ width, isDarkMode }: Props): ReactNode => (
 );
 
 // See https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#knobs-to-manually-configured-args
-Default.args = { width: 775, isDarkMode: true };
+Default.args = { width: 590, isDarkMode: true };
 Default.argTypes = {
     width: { control: { type: "range", min: 375, max: 775, step: "100" } },
     isDarkMode: { control: { type: "boolean" } },

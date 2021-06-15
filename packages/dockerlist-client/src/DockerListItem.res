@@ -13,10 +13,7 @@ module ErrorIcon = {
 }
 
 @react.component
-let make = (
-  ~container: DockerUtil.dockerContainer,
-  ~onSelect: DockerUtil.setSelectedContainer,
-) => {
+let make = (~container: DockerUtil.dockerContainer, ~onSelect: DockerUtil.setSelectedContainer) => {
   open MaterialUi
   let id = container["Id"]
   // https://stackoverflow.com/a/32428199: created, restarting, running, paused, exited, dead
@@ -34,16 +31,17 @@ let make = (
   <div>
     <ListItem button={true} dense={true} onClick={_ev => onSelect(DockerContainer(container))}>
       <ListItemIcon>
-        <Checkbox
-          edge={Checkbox.Edge.start} checked={isRunning} inputProps={{"aria-labelledby": id}}
-        />
+        {if isUnexpected {
+          <ListItemIcon>
+            <IconButton edge={IconButton.Edge.start}> <ErrorIcon color="error" /> </IconButton>
+          </ListItemIcon>
+        } else {
+          <Checkbox
+            edge={Checkbox.Edge.start} checked={isRunning} inputProps={{"aria-labelledby": id}}
+          />
+        }}
       </ListItemIcon>
       <ListItemText id={id} primary={name->React.string} secondary={status->React.string} />
-      <ListItemIcon>
-      {if isUnexpected {
-        <IconButton edge={IconButton.Edge._end}> <ErrorIcon color="error" /> </IconButton>
-      } else { <></>}}
-      </ListItemIcon>
     </ListItem>
   </div>
 }

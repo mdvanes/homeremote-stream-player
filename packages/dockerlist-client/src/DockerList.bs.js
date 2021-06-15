@@ -5,13 +5,10 @@ var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
 var MaterialUi_Box = require("@jsiebern/bs-material-ui/src/MaterialUi_Box.bs.js");
 var Core = require("@material-ui/core");
-var DockerListModuleCss = require("./DockerList.module.css");
 var Dialog$MdworldHomeremoteDockerlist = require("./Dialog.bs.js");
 var DockerApi$MdworldHomeremoteDockerlist = require("./DockerApi.bs.js");
 var DockerUtil$MdworldHomeremoteDockerlist = require("./DockerUtil.bs.js");
 var DockerListItem$MdworldHomeremoteDockerlist = require("./DockerListItem.bs.js");
-
-var styles = DockerListModuleCss;
 
 function renderAsItem(setSelectedContainer, dockerContainer) {
   return React.createElement(DockerListItem$MdworldHomeremoteDockerlist.make, {
@@ -82,8 +79,10 @@ function DockerList$DockerListMod(Props) {
         height: MaterialUi_Box.Value.string("4px")
       });
   var progress = match[0] ? React.createElement(Core.LinearProgress, {}) : progressSpacer;
-  return React.createElement("div", {
-              className: styles.root
+  return React.createElement(Core.Box, {
+              children: null,
+              display: MaterialUi_Box.Value.string("flex"),
+              flexWrap: MaterialUi_Box.Value.string("wrap")
             }, React.createElement(Core.List, {
                   children: null
                 }, progress, renderListCreator(setSelectedContainer, containersFirstHalf)), React.createElement(Core.List, {
@@ -103,8 +102,7 @@ var DockerListMod = {
   make: DockerList$DockerListMod
 };
 
-exports.styles = styles;
 exports.renderAsItem = renderAsItem;
 exports.renderListCreator = renderListCreator;
 exports.DockerListMod = DockerListMod;
-/* styles Not a pure module */
+/* react Not a pure module */

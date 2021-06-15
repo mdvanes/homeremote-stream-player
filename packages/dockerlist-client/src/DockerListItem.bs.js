@@ -35,24 +35,24 @@ function DockerListItem(Props) {
                                 });
                     })
                 }, React.createElement(Core.ListItemIcon, {
-                      children: React.createElement(Core.Checkbox, {
-                            edge: MaterialUi_Checkbox.Edge.start,
-                            checked: isRunning,
-                            inputProps: {
-                              "aria-labelledby": id
-                            }
-                          })
+                      children: isUnexpected ? React.createElement(Core.ListItemIcon, {
+                              children: React.createElement(Core.IconButton, {
+                                    children: React.createElement($$Error, {
+                                          color: "error"
+                                        }),
+                                    edge: MaterialUi_IconButton.Edge.start
+                                  })
+                            }) : React.createElement(Core.Checkbox, {
+                              edge: MaterialUi_Checkbox.Edge.start,
+                              checked: isRunning,
+                              inputProps: {
+                                "aria-labelledby": id
+                              }
+                            })
                     }), React.createElement(Core.ListItemText, {
                       primary: name,
                       secondary: status,
                       id: id
-                    }), React.createElement(Core.ListItemIcon, {
-                      children: isUnexpected ? React.createElement(Core.IconButton, {
-                              children: React.createElement($$Error, {
-                                    color: "error"
-                                  }),
-                              edge: MaterialUi_IconButton.Edge._end
-                            }) : React.createElement(React.Fragment, undefined)
                     })));
 }
 
