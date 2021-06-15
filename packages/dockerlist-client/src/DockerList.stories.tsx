@@ -4,7 +4,7 @@ import { DockerListMod } from "./DockerList.gen";
 import packageJson from "../package.json";
 import { BreakpointWrapper } from "../../../helpers";
 import { ThemeProvider } from "@material-ui/styles";
-import { createMuiTheme } from "@material-ui/core";
+import { Card, createMuiTheme } from "@material-ui/core";
 import { green, purple } from "@material-ui/core/colors";
 
 const DockerList = DockerListMod.make;
@@ -32,7 +32,7 @@ const url =
         ? `https://${window.location.host}/${window.top.location.pathname}`
         : "http://localhost:3100";
 
-const theme = createMuiTheme({
+const theme = (isDarkMode: boolean) => createMuiTheme({
     palette: {
         primary: {
             main: purple[500],
@@ -40,23 +40,24 @@ const theme = createMuiTheme({
         secondary: {
             main: green.A700,
         },
+        type: isDarkMode ? "dark" : "light",
     },
 });
 
-export const Default = ({ width }: { width: number }): ReactNode => (
-    <ThemeProvider theme={theme}>
+interface Props {
+    width: number,
+    isDarkMode: boolean,
+}
+
+export const Default = ({ width, isDarkMode }: Props): ReactNode => (
+    <ThemeProvider theme={theme(isDarkMode)}>
         <BreakpointWrapper width={width}>
-            <div
-                style={{
-                    backgroundColor: "white",
-                    borderRadius: 4,
-                }}
-            >
+            <Card>
                 <DockerList
                     url={url}
                     onError={action("some error has occurred")}
                 />
-            </div>
+            </Card>
         </BreakpointWrapper>
     </ThemeProvider>
 );
@@ -65,4 +66,5 @@ export const Default = ({ width }: { width: number }): ReactNode => (
 Default.args = { width: 775 };
 Default.argTypes = {
     width: { control: { type: "range", min: 375, max: 775, step: "100" } },
+    isDarkMode: { control: {type: "boolean", default: true}}
 };
