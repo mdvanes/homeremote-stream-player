@@ -32,21 +32,22 @@ const url =
         ? `https://${window.location.host}/${window.top.location.pathname}`
         : "http://localhost:3100";
 
-const theme = (isDarkMode: boolean) => createMuiTheme({
-    palette: {
-        primary: {
-            main: purple[500],
+const theme = (isDarkMode: boolean) =>
+    createMuiTheme({
+        palette: {
+            primary: {
+                main: purple[500],
+            },
+            secondary: {
+                main: green.A700,
+            },
+            type: isDarkMode ? "dark" : "light",
         },
-        secondary: {
-            main: green.A700,
-        },
-        type: isDarkMode ? "dark" : "light",
-    },
-});
+    });
 
 interface Props {
-    width: number,
-    isDarkMode: boolean,
+    width: number;
+    isDarkMode: boolean;
 }
 
 export const Default = ({ width, isDarkMode }: Props): ReactNode => (
@@ -66,5 +67,5 @@ export const Default = ({ width, isDarkMode }: Props): ReactNode => (
 Default.args = { width: 775, isDarkMode: true };
 Default.argTypes = {
     width: { control: { type: "range", min: 375, max: 775, step: "100" } },
-    isDarkMode: { control: {type: "boolean" }}
+    isDarkMode: { control: { type: "boolean" } },
 };
