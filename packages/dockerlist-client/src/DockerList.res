@@ -80,17 +80,23 @@ module DockerListMod = {
       progressSpacer
     }
 
-    <MaterialUi_Box display={MaterialUi_Box.Value.string("flex")} flexWrap={MaterialUi_Box.Value.string("wrap")}>
-      <MaterialUi_List> {progress} {containersFirstHalf->renderList} </MaterialUi_List>
-      <MaterialUi_List>
-        {progressSpacer}
-        {containersSecondHalf->renderList}
-      </MaterialUi_List>
+    <MaterialUi_Grid container={true}>
+      <MaterialUi_Grid item={true} xs={MaterialUi_Grid.Xs._true}>
+        <MaterialUi_List> {progress} {containersFirstHalf->renderList} </MaterialUi_List>
+      </MaterialUi_Grid>
+      <MaterialUi_Grid item={true} xs={MaterialUi_Grid.Xs._true}>
+        <MaterialUi_List> {progressSpacer} {containersSecondHalf->renderList} </MaterialUi_List>
+      </MaterialUi_Grid>
       <Dialog
         container={selectedContainer}
-        toggleContainerState={DockerApi.toggleContainerStateCreator(setContainers, url, onError, setIsLoading)}
+        toggleContainerState={DockerApi.toggleContainerStateCreator(
+          setContainers,
+          url,
+          onError,
+          setIsLoading,
+        )}
         close={() => setSelectedContainer(_prev => DockerUtil.NoContainer)}
       />
-    </MaterialUi_Box>
+    </MaterialUi_Grid>
   }
 }

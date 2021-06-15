@@ -4,6 +4,7 @@
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
 var MaterialUi_Box = require("@jsiebern/bs-material-ui/src/MaterialUi_Box.bs.js");
+var MaterialUi_Grid = require("@jsiebern/bs-material-ui/src/MaterialUi_Grid.bs.js");
 var Core = require("@material-ui/core");
 var Dialog$MdworldHomeremoteDockerlist = require("./Dialog.bs.js");
 var DockerApi$MdworldHomeremoteDockerlist = require("./DockerApi.bs.js");
@@ -79,15 +80,22 @@ function DockerList$DockerListMod(Props) {
         height: MaterialUi_Box.Value.string("4px")
       });
   var progress = match[0] ? React.createElement(Core.LinearProgress, {}) : progressSpacer;
-  return React.createElement(Core.Box, {
+  return React.createElement(Core.Grid, {
               children: null,
-              display: MaterialUi_Box.Value.string("flex"),
-              flexWrap: MaterialUi_Box.Value.string("wrap")
-            }, React.createElement(Core.List, {
-                  children: null
-                }, progress, renderListCreator(setSelectedContainer, containersFirstHalf)), React.createElement(Core.List, {
-                  children: null
-                }, progressSpacer, renderListCreator(setSelectedContainer, containersSecondHalf)), React.createElement(Dialog$MdworldHomeremoteDockerlist.make, {
+              container: true
+            }, React.createElement(Core.Grid, {
+                  children: React.createElement(Core.List, {
+                        children: null
+                      }, progress, renderListCreator(setSelectedContainer, containersFirstHalf)),
+                  item: true,
+                  xs: MaterialUi_Grid.Xs._true
+                }), React.createElement(Core.Grid, {
+                  children: React.createElement(Core.List, {
+                        children: null
+                      }, progressSpacer, renderListCreator(setSelectedContainer, containersSecondHalf)),
+                  item: true,
+                  xs: MaterialUi_Grid.Xs._true
+                }), React.createElement(Dialog$MdworldHomeremoteDockerlist.make, {
                   container: match$2[0],
                   toggleContainerState: DockerApi$MdworldHomeremoteDockerlist.toggleContainerStateCreator(setContainers, url, onError, setIsLoading),
                   close: (function (param) {
