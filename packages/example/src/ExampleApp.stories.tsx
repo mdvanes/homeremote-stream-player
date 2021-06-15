@@ -2,9 +2,16 @@ import React, { FC, ReactNode } from "react";
 import { action } from "@storybook/addon-actions";
 // NOTE only use compiled versions, i.e. from lib! To get a good idea of what use of the modules looks like
 import StreamPlayer from "@mdworld/homeremote-stream-player";
-import { DockerListMod, reactDomStyleT } from "@mdworld/homeremote-dockerlist";
+import { DockerListMod } from "@mdworld/homeremote-dockerlist";
 import { Meta } from "@storybook/react";
 import "./storybookStyles.css";
+import {
+    Card,
+    createMuiTheme,
+    CssBaseline,
+    Grid,
+    ThemeProvider,
+} from "@material-ui/core";
 
 const DockerList = DockerListMod.make;
 
@@ -26,10 +33,10 @@ const Wrapper: FC = ({ children }) => {
     return (
         <div
             style={{
-                backgroundColor: "#eceff1",
                 minWidth: "500px",
-                maxWidth: "600px",
+                maxWidth: "622px",
                 padding: "1rem",
+                height: "100%",
             }}
         >
             {children}
@@ -42,25 +49,55 @@ const url =
         ? `https://${window.location.host}/${window.top.location.pathname}`
         : "http://localhost:3100";
 
-type SomeStyle = Record<string, string>; // Alternatively, use a type from Material UI
+// type SomeStyle = Record<string, string>; // Alternatively, use a type from Material UI
 
-const style: SomeStyle = {
-    backgroundColor: "#1a237e",
-    color: "white",
-};
+// const style: SomeStyle = {
+//     backgroundColor: "#1a237e",
+//     color: "white",
+// };
 
-export const Default = (): ReactNode => (
-    <Wrapper>
-        <h1 className="reset">Example App</h1>
-        <p className="reset">
-            This is an example application that uses the (compiled) components
-            from this monorepo.
-        </p>
-        <StreamPlayer url={url} />
-        <DockerList
-            url={url}
-            onError={action("some error has occurred")}
-            confirmButtonStyle={(style as unknown) as reactDomStyleT}
-        />
-    </Wrapper>
+const theme = (isDarkMode: boolean) =>
+    createMuiTheme({
+        palette: {
+            type: isDarkMode ? "dark" : "light",
+        },
+    });
+
+interface Props {
+    width: number;
+    isDarkMode: boolean;
+}
+
+export const Default = ({ isDarkMode }: Props): ReactNode => (
+    <ThemeProvider theme={theme(isDarkMode)}>
+        <CssBaseline />
+        <Grid container>
+            <Grid item xs={6}>
+                <Wrapper>
+                    <h1 className="reset">Example App</h1>
+                    <p className="reset">
+                        This is an example application that uses the (compiled)
+                        components from this monorepo.
+                    </p>
+                    <StreamPlayer url={url} />
+                </Wrapper>
+            </Grid>
+            <Grid item xs={6}>
+                <Wrapper>
+                    <Card elevation={5}>
+                        <DockerList
+                            url={url}
+                            onError={action("some error has occurred")}
+                        />
+                    </Card>
+                </Wrapper>
+            </Grid>
+        </Grid>
+    </ThemeProvider>
 );
+
+// See https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#knobs-to-manually-configured-args
+Default.args = { isDarkMode: false };
+Default.argTypes = {
+    isDarkMode: { control: { type: "boolean" } },
+};

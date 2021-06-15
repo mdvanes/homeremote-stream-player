@@ -63,8 +63,8 @@ export const Default = ({ width, isDarkMode }: Props): ReactNode => (
 );
 
 // See https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#knobs-to-manually-configured-args
-Default.args = { width: 775 };
+Default.args = { width: 775, isDarkMode: true };
 Default.argTypes = {
     width: { control: { type: "range", min: 375, max: 775, step: "100" } },
-    isDarkMode: { control: {type: "boolean", default: true}}
+    isDarkMode: { control: {type: "boolean" }}
 };
