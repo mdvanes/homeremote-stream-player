@@ -6,15 +6,14 @@
 
 /* NOTE these styles are loaded by all Storybook stories */
 
-html,
+/* html,
 body {
-    /* background-color: #eceff1; */
+    background-color: #eceff1;
 }
 
 .reset {
     font-family: 'sans-serif';
-}
-
+} */
 
 :root {
     --primary-color: #1a237e;
@@ -156,4 +155,4 @@ select {
 }
 
 
-/*# sourceMappingURL=main.d886d924.chunk.css.map*/
+/*# sourceMappingURL=main.3d0087ee.chunk.css.map*/
