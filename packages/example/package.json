@@ -1,9 +1,9 @@
 {
   "name": "example",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "private": true,
   "dependencies": {
-    "@mdworld/homeremote-dockerlist": "^1.8.1",
+    "@mdworld/homeremote-dockerlist": "^1.8.2",
     "@mdworld/homeremote-stream-player": "^1.7.2"
   },
   "scripts": {
