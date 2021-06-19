@@ -9,7 +9,7 @@
     },
     "scripts": {
         "clean": "rm src/*.bs.js && rm src/*.gen.tsx",
-        "build": "yarn re:build && webpack-cli --config webpack.config.prod.js && tsc src/DockerList.gen.tsx --outDir lib -d",
+        "build": "yarn re:build",
         "re:build": "rescript",
         "re:start": "rescript build -w"
     },

@@ -2,211 +2,212 @@
 
 exports[`DockerList client renders buttons for each docker container: container 1`] = `
 <div>
-  <div>
-    <ul
-      class="MuiList-root MuiList-padding"
+  <div
+    class="MuiGrid-root MuiGrid-container"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
     >
-      <div
-        class="MuiBox-root MuiBox-root-7"
-      />
-      <div>
+      <ul
+        class="MuiList-root MuiList-padding"
+      >
         <div
-          aria-disabled="false"
-          class="MuiButtonBase-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiListItem-button"
-          role="button"
-          tabindex="0"
-        >
+          class="MuiBox-root MuiBox-root-7"
+        />
+        <div>
           <div
-            class="MuiListItemIcon-root"
+            aria-disabled="false"
+            class="MuiButtonBase-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiListItem-button"
+            role="button"
+            tabindex="0"
           >
-            <span
-              aria-disabled="false"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-3 MuiCheckbox-root MuiCheckbox-colorSecondary PrivateSwitchBase-checked-4 Mui-checked MuiIconButton-colorSecondary MuiIconButton-edgeStart"
+            <div
+              class="MuiListItemIcon-root"
             >
               <span
-                class="MuiIconButton-label"
+                aria-disabled="false"
+                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-3 MuiCheckbox-root MuiCheckbox-colorSecondary PrivateSwitchBase-checked-4 Mui-checked MuiIconButton-colorSecondary MuiIconButton-edgeStart"
               >
-                <input
-                  aria-labelledby="2757091519a2e227b40e6fae4f92b7f4c8b7b189037bda0bc3152ce2be96af9d"
-                  checked=""
-                  class="PrivateSwitchBase-input-6"
-                  data-indeterminate="false"
-                  type="checkbox"
-                  value=""
-                />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <span
+                  class="MuiIconButton-label"
                 >
-                  <path
-                    d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  <input
+                    aria-labelledby="2757091519a2e227b40e6fae4f92b7f4c8b7b189037bda0bc3152ce2be96af9d"
+                    checked=""
+                    class="PrivateSwitchBase-input-6"
+                    data-indeterminate="false"
+                    type="checkbox"
+                    value=""
                   />
-                </svg>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
               </span>
+            </div>
+            <div
+              class="MuiListItemText-root MuiListItemText-dense MuiListItemText-multiline"
+              id="2757091519a2e227b40e6fae4f92b7f4c8b7b189037bda0bc3152ce2be96af9d"
+            >
               <span
-                class="MuiTouchRipple-root"
-              />
-            </span>
-          </div>
-          <div
-            class="MuiListItemText-root MuiListItemText-dense MuiListItemText-multiline"
-            id="2757091519a2e227b40e6fae4f92b7f4c8b7b189037bda0bc3152ce2be96af9d"
-          >
+                class="MuiTypography-root MuiListItemText-primary MuiTypography-body2 MuiTypography-displayBlock"
+              >
+                determined_edison
+              </span>
+              <p
+                class="MuiTypography-root MuiListItemText-secondary MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+              >
+                Up 2 days
+              </p>
+            </div>
             <span
-              class="MuiTypography-root MuiListItemText-primary MuiTypography-body2 MuiTypography-displayBlock"
-            >
-              determined_edison
-            </span>
-            <p
-              class="MuiTypography-root MuiListItemText-secondary MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
-            >
-              Up 2 days
-            </p>
+              class="MuiTouchRipple-root"
+            />
           </div>
-          <div
-            class="MuiListItemIcon-root"
-          />
-          <span
-            class="MuiTouchRipple-root"
-          />
         </div>
-      </div>
-    </ul>
-    <ul
-      class="MuiList-root MuiList-padding"
+      </ul>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
     >
-      <div
-        class="MuiBox-root MuiBox-root-2"
-      />
-      <div>
+      <ul
+        class="MuiList-root MuiList-padding"
+      >
         <div
-          aria-disabled="false"
-          class="MuiButtonBase-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiListItem-button"
-          role="button"
-          tabindex="0"
-        >
+          class="MuiBox-root MuiBox-root-2"
+        />
+        <div>
           <div
-            class="MuiListItemIcon-root"
+            aria-disabled="false"
+            class="MuiButtonBase-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiListItem-button"
+            role="button"
+            tabindex="0"
           >
-            <span
-              aria-disabled="false"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-3 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary MuiIconButton-edgeStart"
+            <div
+              class="MuiListItemIcon-root"
             >
               <span
-                class="MuiIconButton-label"
+                aria-disabled="false"
+                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-3 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary MuiIconButton-edgeStart"
               >
-                <input
-                  aria-labelledby="c7f51601f9870180859a2feb981613b30e3fcd282830b398185aa4facff21be1"
-                  class="PrivateSwitchBase-input-6"
-                  data-indeterminate="false"
-                  type="checkbox"
-                  value=""
-                />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <span
+                  class="MuiIconButton-label"
                 >
-                  <path
-                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  <input
+                    aria-labelledby="c7f51601f9870180859a2feb981613b30e3fcd282830b398185aa4facff21be1"
+                    class="PrivateSwitchBase-input-6"
+                    data-indeterminate="false"
+                    type="checkbox"
+                    value=""
                   />
-                </svg>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
               </span>
-              <span
-                class="MuiTouchRipple-root"
-              />
-            </span>
-          </div>
-          <div
-            class="MuiListItemText-root MuiListItemText-dense MuiListItemText-multiline"
-            id="c7f51601f9870180859a2feb981613b30e3fcd282830b398185aa4facff21be1"
-          >
-            <span
-              class="MuiTypography-root MuiListItemText-primary MuiTypography-body2 MuiTypography-displayBlock"
-            >
-              hello_world
-            </span>
-            <p
-              class="MuiTypography-root MuiListItemText-secondary MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
-            >
-              Exited (0) 17 hours ago
-            </p>
-          </div>
-          <div
-            class="MuiListItemIcon-root"
-          />
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </div>
-      </div>
-      <div>
-        <div
-          aria-disabled="false"
-          class="MuiButtonBase-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiListItem-button"
-          role="button"
-          tabindex="0"
-        >
-          <div
-            class="MuiListItemIcon-root"
-          >
-            <span
-              aria-disabled="false"
-              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-3 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary MuiIconButton-edgeStart"
+            </div>
+            <div
+              class="MuiListItemText-root MuiListItemText-dense MuiListItemText-multiline"
+              id="c7f51601f9870180859a2feb981613b30e3fcd282830b398185aa4facff21be1"
             >
               <span
-                class="MuiIconButton-label"
+                class="MuiTypography-root MuiListItemText-primary MuiTypography-body2 MuiTypography-displayBlock"
               >
-                <input
-                  aria-labelledby="42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe"
-                  class="PrivateSwitchBase-input-6"
-                  data-indeterminate="false"
-                  type="checkbox"
-                  value=""
-                />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                  />
-                </svg>
+                hello_world
               </span>
-              <span
-                class="MuiTouchRipple-root"
-              />
-            </span>
-          </div>
-          <div
-            class="MuiListItemText-root MuiListItemText-dense MuiListItemText-multiline"
-            id="42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe"
-          >
+              <p
+                class="MuiTypography-root MuiListItemText-secondary MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+              >
+                Exited (0) 17 hours ago
+              </p>
+            </div>
             <span
-              class="MuiTypography-root MuiListItemText-primary MuiTypography-body2 MuiTypography-displayBlock"
-            >
-              tinycors
-            </span>
-            <p
-              class="MuiTypography-root MuiListItemText-secondary MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
-            >
-              Exited (2) 13 hours ago
-            </p>
+              class="MuiTouchRipple-root"
+            />
           </div>
-          <div
-            class="MuiListItemIcon-root"
-          />
-          <span
-            class="MuiTouchRipple-root"
-          />
         </div>
-      </div>
-    </ul>
+        <div>
+          <div
+            aria-disabled="false"
+            class="MuiButtonBase-root MuiListItem-root MuiListItem-dense MuiListItem-gutters MuiListItem-button"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="MuiListItemIcon-root"
+            >
+              <span
+                aria-disabled="false"
+                class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-3 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary MuiIconButton-edgeStart"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <input
+                    aria-labelledby="42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe"
+                    class="PrivateSwitchBase-input-6"
+                    data-indeterminate="false"
+                    type="checkbox"
+                    value=""
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </span>
+            </div>
+            <div
+              class="MuiListItemText-root MuiListItemText-dense MuiListItemText-multiline"
+              id="42aebf279f8c95488fab905d788f3caffee6afcaad240fc4aca68106c7173bfe"
+            >
+              <span
+                class="MuiTypography-root MuiListItemText-primary MuiTypography-body2 MuiTypography-displayBlock"
+              >
+                tinycors
+              </span>
+              <p
+                class="MuiTypography-root MuiListItemText-secondary MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-displayBlock"
+              >
+                Exited (2) 13 hours ago
+              </p>
+            </div>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </div>
+        </div>
+      </ul>
+    </div>
   </div>
 </div>
 `;
