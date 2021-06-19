@@ -4,7 +4,12 @@ import { DockerListMod } from "./DockerList.gen";
 import packageJson from "../package.json";
 import { BreakpointWrapper } from "../../../helpers";
 import { ThemeProvider } from "@material-ui/styles";
-import { Card, createMuiTheme, CssBaseline } from "@material-ui/core";
+import {
+    Card,
+    CardContent,
+    createMuiTheme,
+    CssBaseline,
+} from "@material-ui/core";
 import { green, purple } from "@material-ui/core/colors";
 
 const DockerList = DockerListMod.make;
@@ -55,10 +60,12 @@ export const Default = ({ width, isDarkMode }: Props): ReactNode => (
         <CssBaseline />
         <BreakpointWrapper width={width}>
             <Card elevation={5}>
-                <DockerList
-                    url={url}
-                    onError={action("some error has occurred")}
-                />
+                <CardContent>
+                    <DockerList
+                        url={url}
+                        onError={action("some error has occurred")}
+                    />
+                </CardContent>
             </Card>
         </BreakpointWrapper>
     </ThemeProvider>

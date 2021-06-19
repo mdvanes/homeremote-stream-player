@@ -2,16 +2,21 @@ import React, { FC, ReactNode } from "react";
 import { action } from "@storybook/addon-actions";
 // NOTE only use compiled versions, i.e. from lib! To get a good idea of what use of the modules looks like
 import StreamPlayer from "@mdworld/homeremote-stream-player";
-import { DockerListMod } from "@mdworld/homeremote-dockerlist";
+// TODO use this one: import { DockerListMod } from "@mdworld/homeremote-dockerlist";
+import { DockerListMod } from "../../dockerlist-client/src/DockerList.gen";
 import { Meta } from "@storybook/react";
 import "./storybookStyles.css";
 import {
+    Button,
     Card,
+    CardContent,
+    CardActions,
     createMuiTheme,
     CssBaseline,
     Grid,
     ThemeProvider,
 } from "@material-ui/core";
+import { green, yellow } from "@material-ui/core/colors";
 
 const DockerList = DockerListMod.make;
 
@@ -59,6 +64,8 @@ const url =
 const theme = (isDarkMode: boolean) =>
     createMuiTheme({
         palette: {
+            primary: green,
+            secondary: yellow,
             type: isDarkMode ? "dark" : "light",
         },
     });
@@ -85,10 +92,20 @@ export const Default = ({ isDarkMode }: Props): ReactNode => (
             <Grid item xs={6}>
                 <Wrapper>
                     <Card elevation={5}>
-                        <DockerList
-                            url={url}
-                            onError={action("some error has occurred")}
-                        />
+                        <CardContent>
+                            <DockerList
+                                url={url}
+                                onError={action("some error has occurred")}
+                            />
+                        </CardContent>
+                        <CardActions>
+                            <Button color="primary" variant="contained">
+                                primary
+                            </Button>
+                            <Button color="secondary" variant="contained">
+                                secondary
+                            </Button>
+                        </CardActions>
                     </Card>
                 </Wrapper>
             </Grid>
@@ -97,7 +114,7 @@ export const Default = ({ isDarkMode }: Props): ReactNode => (
 );
 
 // See https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#knobs-to-manually-configured-args
-Default.args = { isDarkMode: false };
+Default.args = { isDarkMode: true };
 Default.argTypes = {
     isDarkMode: { control: { type: "boolean" } },
 };
